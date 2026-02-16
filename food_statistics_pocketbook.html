@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<!--
+  Entity Visualization HTML Template
+  
+  Content Source:
+  UK Government Food Statistics Pocketbook - Food statistics in your pocket
+  https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket
+  
+  This file displays named entity recognition (NER) annotations for text content
+  from the UK Government Food Statistics Pocketbook, covering food chain statistics,
+  prices and expenditure, global supply, and food security data.
+  Entities are highlighted with color-coded backgrounds and labeled badges.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Food Statistics Pocketbook - Entity Visualization</title>
+<style>
+  /* CSS Custom Properties (Variables) for Entity Type Colors
+     Each entity type has a distinct color for visual differentiation:
+     - ORG: Organization (light blue)
+     - PER: Person (lighter blue)
+     - LOC: Location (teal)
+     - TIME: Time/Date (orange)
+     - MONEY: Monetary values (lavender)
+     - AMT: Amount/Quantity (light purple)
+     - PLANT: Plant-related entities (yellow)
+     - ANI: Animal-related entities (light blue)
+     - FOOD: Food items (blue)
+     - NUT: Nutrition/Nutrients (yellow)
+     - CHE: Chemical compounds (bright yellow)
+     - DIS: Disease/Disorder (orange-yellow)
+     - EVENT: Events (light green)
+     - PROC: Process (blue)
+     - ENV: Environment (blue-gray)
+     - LAW: Legal/Law (blue)
+     - MARK: Market (beige)
+     - TOOL: Tools/Instruments (lavender)
+     - DATA: Data/Datasets (pink-beige)
+  */
+  :root{
+    --ORG:#85C1E9; --PER:#AED6F1; --LOC:#76D7C4; --TIME:#F5B041; --MONEY:#D7BDE2; --AMT:#D1BAE2;
+	--PLANT:#F9E79F; --ANI:#AED6F1; --FOOD:#85C1E9; --NUT:#F7DC6F; --CHE:#F2DC2F; --DIS:#F8C471;
+	--EVENT:#82E0AA; --PROC:#85C1E9; --ENV:#7FB3D5; --LAW:#7FB4DD; --MARK:#D7BDA2; --TOOL:#E8DAEF; --DATA:#D4B2A2;
+  }
+
+  /* Base body styling - clean, readable typography */
+  body{
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: #000;
+    padding: 24px;
+    line-height: 1.8; /* increased line spacing for better readability */
+    background: #fff;
+  }
+
+  /* Document container - centered, max-width layout similar to displaCy visualization tool */
+  .doc {
+    max-width: 980px;
+    margin: 0 auto;
+    font-size: 16px;
+  }
+
+  /* Heading styles */
+  h2 { margin: 1.5em 0 0.6em 0; font-weight: 600; }
+  h3 { margin: 1.1em 0 0.4em 0; font-weight: 600; }
+
+  /* Entity base styling - inline-block elements with rounded corners
+     Entities are highlighted spans that wrap named entities in the text */
+  .ent {
+    display: inline-block;
+    position: relative;
+    padding: 2px 6px;
+    margin: 0 2px 0 0;
+    border-radius: 6px;
+    color: #000; /* black text for readability against colored backgrounds */
+    text-decoration: none;
+    white-space: pre-wrap; /* preserve whitespace and allow wrapping */
+  }
+  
+  /* Entity label badge - automatically appended after each entity
+     Uses the data-label attribute to display the entity type (e.g., "ORG", "LOC")
+     White background with bold text for clear identification */
+  .ent::after{
+    content: attr(data-label);
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 6px;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    border-radius: 6px;
+    font-size: 0.78em;
+    line-height: 1.8;
+    vertical-align: middle;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.02); /* subtle border effect */
+  }
+
+  /* Hover tooltip styling - entities with title attributes show tooltips on hover */
+  .ent[title] { cursor: default; }
+
+  /* Entity type color mappings - each entity class gets its background color
+     from the CSS custom properties defined in :root */
+  .ORG { background: var(--ORG); }
+  .PER { background: var(--PER); }
+  .LOC { background: var(--LOC); }
+  .TIME { background: var(--TIME); }
+  .MONEY { background: var(--MONEY); }
+  .AMT { background: var(--DATA); }
+  .PLANT { background: var(--PLANT); }
+  .ANI { background: var(--ANI); }
+  .FOOD { background: var(--FOOD); }
+  .NUT { background: var(--NUT); }
+  .CHE { background: var(--CHE); }
+  .DIS { background: var(--DIS); }
+  .EVENT { background: var(--EVENT); }
+  .PROC { background: var(--PROC); }
+  .ENV { background: var(--ENV); }
+  .LAW { background: var(--LAW); }
+  .MARK { background: var(--MARK); }
+  .TOOL { background: var(--TOOL); }
+  .DATA { background: var(--DATA); }
+
+  /* Responsive design - adjust padding and font size for smaller screens */
+  @media (max-width:600px){
+    body{padding:12px;}
+    .doc{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+<!-- 
+  Main Content Area
+  Source: UK Government Food Statistics Pocketbook
+  URL: https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket
+  
+  This section contains Food Statistics Pocketbook content with named entity recognition 
+  annotations. Each entity is wrapped in a <span> element with the appropriate entity 
+  class and data-label attribute.
+-->
+<div class="doc">
+<!-- Document Title - Food Statistics Pocketbook Overview -->
+<h2><span class="ent DATA" data-label="DATA" title="DATA">Food Statistics Pocketbook</span> — <span class="ent LOC" data-label="LOC" title="LOC">United Kingdom</span></h2>
+
+<!-- Key Statistics Overview -->
+<p>
+The <span class="ent MARK" data-label="MARK" title="MARK">agri-food sector</span> contributed <span class="ent MONEY" data-label="MONEY" title="MONEY">£146.7 billion</span> or 6.5% to national <span class="ent DATA" data-label="DATA" title="DATA">Gross Value Added</span> in <span class="ent TIME" data-label="TIME" title="TIME">2022</span>. This is equal to <span class="ent MONEY" data-label="MONEY" title="MONEY">£65</span> for every <span class="ent MONEY" data-label="MONEY" title="MONEY">£1,000</span> of value added in the <span class="ent LOC" data-label="LOC" title="LOC">UK</span> economy.
+</p>
+
+<p>
+<span class="ent AMT" data-label="AMT" title="AMT">4.2 million people</span> were employed in the <span class="ent MARK" data-label="MARK" title="MARK">agri-food sector</span> in <span class="ent TIME" data-label="TIME" title="TIME">2024</span>, representing 13% of <span class="ent LOC" data-label="LOC" title="LOC">Great Britain</span> employment.
+</p>
+
+<!-- Food Chain Section -->
+<h3>1. Food Chain</h3>
+
+<!-- Gross Value Added of UK Agri-food chain -->
+<p>
+The <span class="ent DATA" data-label="DATA" title="DATA">GVA of the food chain</span> (excluding <span class="ent PROC" data-label="PROC" title="PROC">agriculture</span> and <span class="ent PROC" data-label="PROC" title="PROC">fishing</span>) was <span class="ent MONEY" data-label="MONEY" title="MONEY">£132.9 billion</span> in <span class="ent TIME" data-label="TIME" title="TIME">2022</span>, increasing by 15.4% since <span class="ent TIME" data-label="TIME" title="TIME">2021</span>. <span class="ent DATA" data-label="DATA" title="DATA">GVA</span> for all <span class="ent FOOD" data-label="FOOD" title="FOOD">food and drink</span> sectors increased in this period with <span class="ent PROC" data-label="PROC" title="PROC">catering</span> increasing by 23.4%, <span class="ent PROC" data-label="PROC" title="PROC">manufacturing</span> by 15.2%, <span class="ent PROC" data-label="PROC" title="PROC">retail</span> by 2.3% and <span class="ent PROC" data-label="PROC" title="PROC">wholesale</span> by 31.3%.
+</p>
+
+<p>
+Longer term, the <span class="ent MARK" data-label="MARK" title="MARK">food chain GVA</span> (excluding <span class="ent PROC" data-label="PROC" title="PROC">agriculture</span> and <span class="ent PROC" data-label="PROC" title="PROC">fishing</span>) increased by 50.8% between <span class="ent TIME" data-label="TIME" title="TIME">2012</span> and <span class="ent TIME" data-label="TIME" title="TIME">2022</span> while the whole economy increased by 70.0%.
+</p>
+
+<!-- Total Factor Productivity -->
+<p>
+<span class="ent DATA" data-label="DATA" title="DATA">Total factor productivity</span> of the <span class="ent LOC" data-label="LOC" title="LOC">UK</span> <span class="ent MARK" data-label="MARK" title="MARK">food chain</span> beyond the <span class="ent PROC" data-label="PROC" title="PROC">farmgate</span> rose by 2.0% between <span class="ent TIME" data-label="TIME" title="TIME">2021</span> and <span class="ent TIME" data-label="TIME" title="TIME">2022</span>. <span class="ent DATA" data-label="DATA" title="DATA">Productivity</span> in the wider economy increased by 2.6%.
+</p>
+
+<p>
+In <span class="ent TIME" data-label="TIME" title="TIME">2022</span> three of the four <span class="ent MARK" data-label="MARK" title="MARK">food chain sectors</span> had a higher <span class="ent DATA" data-label="DATA" title="DATA">productivity</span> than in <span class="ent TIME" data-label="TIME" title="TIME">2021</span>. <span class="ent PROC" data-label="PROC" title="PROC">Manufacturing</span> increased by 2.7%, <span class="ent PROC" data-label="PROC" title="PROC">wholesale</span> increased by 2.4%, <span class="ent PROC" data-label="PROC" title="PROC">retail</span> decreased by 0.6% and <span class="ent PROC" data-label="PROC" title="PROC">catering</span> increased by 3.3%.
+</p>
+
+<!-- Prices and Expenditure Section -->
+<h3>2. Prices and Expenditure</h3>
+
+<p>
+<span class="ent FOOD" data-label="FOOD" title="FOOD">Food and non-alcoholic beverage</span> prices rose by 3.3% in the <span class="ent AMT" data-label="AMT" title="AMT">12 months</span> to <span class="ent TIME" data-label="TIME" title="TIME">February 2025</span> (<span class="ent DATA" data-label="DATA" title="DATA">CPIH inflation</span>).
+</p>
+
+<p>
+Total <span class="ent MARK" data-label="MARK" title="MARK">consumer expenditure</span> on <span class="ent FOOD" data-label="FOOD" title="FOOD">food and alcoholic drinks</span> in <span class="ent TIME" data-label="TIME" title="TIME">2023</span> was <span class="ent MONEY" data-label="MONEY" title="MONEY">£245.5 billion</span>.
+</p>
+
+<p>
+Average share of spend on <span class="ent FOOD" data-label="FOOD" title="FOOD">food and non-alcoholic drinks</span>, by <span class="ent DATA" data-label="DATA" title="DATA">equivalised disposable income quintile group</span>, in the <span class="ent LOC" data-label="LOC" title="LOC">UK</span>, from <span class="ent TIME" data-label="TIME" title="TIME">FYE 2005</span> to <span class="ent TIME" data-label="TIME" title="TIME">FYE 2023</span>.
+</p>
+
+<!-- Global and UK Supply Section -->
+<h3>3. Global and UK Supply</h3>
+
+<p>
+The value of <span class="ent FOOD" data-label="FOOD" title="FOOD">food and drink</span> exports in <span class="ent TIME" data-label="TIME" title="TIME">2023</span> was <span class="ent MONEY" data-label="MONEY" title="MONEY">£24.4 billion</span>.
+</p>
+
+<p>
+<span class="ent DATA" data-label="DATA" title="DATA">UK Food production to supply ratio</span> data shows trends from <span class="ent TIME" data-label="TIME" title="TIME">1956</span> to <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<p>
+Trends in <span class="ent LOC" data-label="LOC" title="LOC">UK</span> <span class="ent FOOD" data-label="FOOD" title="FOOD">food production</span> and for all <span class="ent PROC" data-label="PROC" title="PROC">agricultural output</span>, from <span class="ent TIME" data-label="TIME" title="TIME">2011</span> to <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<p>
+<span class="ent LOC" data-label="LOC" title="LOC">UK</span> trade in different <span class="ent FOOD" data-label="FOOD" title="FOOD">food groups</span> in <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<p>
+Trend in exports of <span class="ent FOOD" data-label="FOOD" title="FOOD">food, feed and drink</span> at <span class="ent TIME" data-label="TIME" title="TIME">2023 prices</span>, from <span class="ent TIME" data-label="TIME" title="TIME">2000</span> to <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<!-- Food Security Section -->
+<h3>4. Food Security</h3>
+
+<p>
+<span class="ent DATA" data-label="DATA" title="DATA">Global One Health Index – Food Security</span> data for <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<p>
+<span class="ent DATA" data-label="DATA" title="DATA">Global meat production</span> trends from <span class="ent TIME" data-label="TIME" title="TIME">1961</span> to <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<p>
+Origins of <span class="ent FOOD" data-label="FOOD" title="FOOD">fresh vegetables and fruit</span> consumed in the <span class="ent LOC" data-label="LOC" title="LOC">UK</span> in <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<p>
+<span class="ent DATA" data-label="DATA" title="DATA">Energy demand</span> by <span class="ent ENV" data-label="ENV" title="ENV">energy type</span> in <span class="ent PROC" data-label="PROC" title="PROC">agriculture</span> and the <span class="ent FOOD" data-label="FOOD" title="FOOD">food and drink manufacturing</span> sector in <span class="ent TIME" data-label="TIME" title="TIME">2023</span>.
+</p>
+
+<!-- Household Food Security -->
+<p>
+<span class="ent LOC" data-label="LOC" title="LOC">UK</span> <span class="ent DATA" data-label="DATA" title="DATA">household food security status</span>, from <span class="ent TIME" data-label="TIME" title="TIME">FYE 2020</span> to <span class="ent TIME" data-label="TIME" title="TIME">FYE 2024</span>.
+</p>
+
+<p>
+<span class="ent DATA" data-label="DATA" title="DATA">Household food bank usage</span> in the <span class="ent LOC" data-label="LOC" title="LOC">UK</span>, from <span class="ent TIME" data-label="TIME" title="TIME">FYE 2023</span> to <span class="ent TIME" data-label="TIME" title="TIME">FYE 2024</span>.
+</p>
+
+<!-- Food-Related Concerns -->
+<p>
+Most common prompted <span class="ent FOOD" data-label="FOOD" title="FOOD">food-related concerns</span> (<span class="ent DATA" data-label="DATA" title="DATA">Food and You 2, Wave 9</span>), from <span class="ent TIME" data-label="TIME" title="TIME">April 2024</span> to <span class="ent TIME" data-label="TIME" title="TIME">July 2024</span>. The most common concerns amongst consumers in <span class="ent LOC" data-label="LOC" title="LOC">England, Wales, and Northern Ireland</span> were <span class="ent MARK" data-label="MARK" title="MARK">food prices</span> (69%), <span class="ent ENV" data-label="ENV" title="ENV">food waste</span> (58%) and the <span class="ent FOOD" data-label="FOOD" title="FOOD">quality of food</span> (57%).
+</p>
+
+<p>
+Other concerns included the <span class="ent NUT" data-label="NUT" title="NUT">amount of sugar in food</span> (57%), the <span class="ent ENV" data-label="ENV" title="ENV">amount of food packaging</span> (55%), being able to <span class="ent FOOD" data-label="FOOD" title="FOOD">eat healthily</span> (52%), and <span class="ent ANI" data-label="ANI" title="ANI">animal welfare</span> (52%).
+</p>
+
+<!-- Sectoral Information -->
+<p>
+The <span class="ent LOC" data-label="LOC" title="LOC">UK</span> <span class="ent FOOD" data-label="FOOD" title="FOOD">food sector</span> is defined as <span class="ent PROC" data-label="PROC" title="PROC">food manufacturing</span>, <span class="ent PROC" data-label="PROC" title="PROC">food wholesale</span>, <span class="ent PROC" data-label="PROC" title="PROC">food retail</span> and <span class="ent PROC" data-label="PROC" title="PROC">non-residential catering</span>. In terms of the <span class="ent DATA" data-label="DATA" title="DATA">standard industrial classification (SIC 2007)</span>.
+</p>
+
+<p>
+<span class="ent PROC" data-label="PROC" title="PROC">Food and drink manufacturing</span> includes processing and preserving <span class="ent FOOD" data-label="FOOD" title="FOOD">meat</span>, <span class="ent FOOD" data-label="FOOD" title="FOOD">dairy</span>, <span class="ent FOOD" data-label="FOOD" title="FOOD">fruit and vegetables</span>, <span class="ent FOOD" data-label="FOOD" title="FOOD">oils</span>, <span class="ent FOOD" data-label="FOOD" title="FOOD">bread, biscuits and cakes</span>, and <span class="ent FOOD" data-label="FOOD" title="FOOD">confectionery</span>. <span class="ent FOOD" data-label="FOOD" title="FOOD">Animal feed manufacturing</span> is included, covering both <span class="ent ANI" data-label="ANI" title="ANI">farm animal feed</span> and <span class="ent FOOD" data-label="FOOD" title="FOOD">pet food</span>.
+</p>
+
+<p>
+<span class="ent PROC" data-label="PROC" title="PROC">Food and drink wholesale</span> consists of the buying, storage and reselling of <span class="ent FOOD" data-label="FOOD" title="FOOD">food</span> either manufactured or freshly produced.
+</p>
+
+<p>
+<span class="ent PROC" data-label="PROC" title="PROC">Food and drink retail</span> is defined as the sale of <span class="ent FOOD" data-label="FOOD" title="FOOD">food</span> within both <span class="ent MARK" data-label="MARK" title="MARK">non-specialised stores</span> (e.g. <span class="ent MARK" data-label="MARK" title="MARK">supermarkets</span>) and <span class="ent MARK" data-label="MARK" title="MARK">specialised stores</span> such as <span class="ent MARK" data-label="MARK" title="MARK">butchers and bakers</span>.
+</p>
+
+<p>
+<span class="ent PROC" data-label="PROC" title="PROC">Non-residential catering</span> consists of <span class="ent MARK" data-label="MARK" title="MARK">restaurants and bars</span> involved in preparation and serving of <span class="ent FOOD" data-label="FOOD" title="FOOD">food</span>, alongside <span class="ent MARK" data-label="MARK" title="MARK">canteens and catering services</span>. <span class="ent MARK" data-label="MARK" title="MARK">Hotels</span> are not included.
+</p>
+
+</div>
+</body></html>
+

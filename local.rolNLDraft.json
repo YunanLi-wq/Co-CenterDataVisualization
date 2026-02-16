@@ -1,0 +1,1625 @@
+[{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7249"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "Ireland",
+  "Indicator": "Adults: inadequate Ca, Mg, Vit D, folate, Zn, Vit C. \nAdults: Saturated fat ~13% energy; Free sugars ~9–10% energy; Fibre ~19 g/day (all below or above recommendations).",
+  "Title": "INANS 2008–2010; follow-ups to 2021",
+  "Url": "https://irp-cdn.multiscreensite.com/46a7ad27/files/uploaded/The%20National%20Adult%20Nutrition%20Survey%20Summary%20Report%20March%202011.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d724a"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "Northern Ireland",
+  "Indicator": "Saturated fat ~12% energy; Free sugars ~10%; Fibre ~16 g/day.",
+  "Title": "NDNS NI boost; FSA NI",
+  "Url": "https://www.food.gov.uk/research/national-diet-and-nutrition-survey/national-diet-and-nutrition-survey-ndns-report-for-northern-ireland",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d724b"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "United Kingdom",
+  "Indicator": "Saturated fat: ~12.5–12.6% energy (rec. ≤10%). Free sugars: ~10–10.5% energy (rec. ≤5%). Fibre: adults ~16–17 g/day; 11–18y ~15–16 g/day (rec. 30 g/day).",
+  "Title": "NDNS 2019–2023",
+  "Url": "https://www.gov.uk/government/statistics/national-diet-and-nutrition-survey-2019-to-2023/national-diet-and-nutrition-survey-2019-to-2023-report",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d724c"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "Ireland",
+  "Indicator": "Malnutrition in Ireland: 145,000 people\nGlobal Food Security Index-Prevalence of undernourishment 2.5%",
+  "Title": "Malnutrition in Ireland",
+  "Url": "https://www.hse.ie/eng/services/list/2/primarycare/community-funded-schemes/nutrition-supports/malnutrition-in-ireland/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d724d"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "Northern Ireland",
+  "Indicator": "malnutrition: 45% of population / 14% of individuals over 65y old",
+  "Title": "Food supply issues risk worsening malnutrition in Northern Ireland British Dietetic Association says",
+  "Url": "https://www.bda.uk.com/resource/food-supply-issues-risk-worsening-malnutrition-in-northern-ireland-british-dietetic-association-says.html",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d724e"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "United Kingdom",
+  "Indicator": "BAPEN’s Malnutrition and Nutritional Care Survey in Adults 2022 revealed that nearly half (45%) of all adults screened across health and care settings in the UK were found to be at risk of disease-related malnutrition – the highest figure since this screening begun in 2019 (2021, 39%; 2020; 40%, 2019; 42%).",
+  "Title": "What is the scale of malnutrition in the UK?",
+  "Url": "https://www.bapen.org.uk/malnutrition/introduction-to-malnutrition/what-is-the-scale-of-malnutrition-in-the-uk/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d724f"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "Ireland",
+  "Indicator": "Children live with underweight 8.7%",
+  "Title": "The Childhood Obesity\nSurveillance Initiative (COSI)\nin the Republic of Ireland",
+  "Url": "https://www.hse.ie/eng/about/who/healthwellbeing/our-priority-programmes/heal/childhood-obesity-surveillance-initiativecosi/the-childhood-obesity-surveillance-initiative-report-round-6.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7250"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "Northern Ireland",
+  "Indicator": "children classified of underweight in reception 0.7% , Year 8 1.6%",
+  "Title": "Children’s Health in\nNorthern Ireland\n2022/23",
+  "Url": "https://www.publichealth.hscni.net/sites/default/files/2024-05/RUAG%20Childrens%20Health%20in%20NI%20-%202022-23%20-%20REPORT.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7251"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Nutrient intake throughout life",
+  "Location": "United Kingdom",
+  "Indicator": "England children classified of underweight in reception 1.2%, Year 6 1.7%",
+  "Title": "National Child Measurement Programme, England",
+  "Url": "https://digital.nhs.uk/data-and-information/publications/statistical/national-child-measurement-programme/2023-24-school-year/age",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7252"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Healthy diets",
+  "Location": "Ireland",
+  "Indicator": "28% of adults meeting the recommended ‘5-a-day’\nDiet-related GHG: ~4.5–5 kg CO₂e/person/day.",
+  "Title": "Healthy Ireland Survey 2024",
+  "Url": "https://www.gov.ie/en/healthy-ireland/publications/healthy-ireland-survey-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7253"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Healthy diets",
+  "Location": "Northern Ireland",
+  "Indicator": "41% of adults meeting the recommended ‘5-a-day’",
+  "Title": "Health Survey Northern Ireland 2023/24",
+  "Url": "https://www.gov.ie/en/healthy-ireland/publications/healthy-ireland-survey-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7254"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food intake",
+  "Factor": "Healthy diets",
+  "Location": "United Kingdom",
+  "Indicator": "Adults: 17% met 5-a-day\nDiet-related GHG: ~4.7 kg CO₂e/person/day.",
+  "Title": "NDNS 2019–2023",
+  "Url": "https://www.gov.uk/government/statistics/national-diet-and-nutrition-survey-2019-to-2023/national-diet-and-nutrition-survey-2019-to-2023-report",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7255"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Population weight status",
+  "Location": "Ireland",
+  "Indicator": "55% of Adults classified as overweight and obese (Men: 63%  Women: 50%)",
+  "Title": "Healthy Ireland Survey 2024",
+  "Url": "https://www.gov.ie/en/healthy-ireland/publications/healthy-ireland-survey-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7256"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Population weight status",
+  "Location": "Northern Ireland",
+  "Indicator": "64% of adults overweight or obese; 28% obese.",
+  "Title": "Health Survey NI 2023/24 — First Results",
+  "Url": "https://www.health-ni.gov.uk/sites/default/files/2024-12/hsni-first-results-23-24-full-report.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7257"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Population weight status",
+  "Location": "United Kingdom",
+  "Indicator": "64% of adults overweight or obese; 26.2% obese.",
+  "Title": "Obesity Profile, England 2022-2023",
+  "Url": "https://www.gov.uk/government/statistics/update-to-the-obesity-profile-on-fingertips/obesity-profile-short-statistical-commentary-may-2024",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7258"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Population weight status",
+  "Location": "Ireland",
+  "Indicator": "Children live with overweight and obesity 17.7% (2022/23)",
+  "Title": "The Childhood Obesity\nSurveillance Initiative (COSI)\nin the Republic of Ireland",
+  "Url": "https://www.hse.ie/eng/about/who/healthwellbeing/our-priority-programmes/heal/childhood-obesity-surveillance-initiativecosi/the-childhood-obesity-surveillance-initiative-report-round-6.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7259"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Population weight status",
+  "Location": "Northern Ireland",
+  "Indicator": "children classified as overweight and obese 2022/23\nin reception 24.4% \nYear 8 35.40%",
+  "Title": "Children’s Health in\nNorthern Ireland\n2022/23",
+  "Url": "https://www.publichealth.hscni.net/sites/default/files/2024-05/RUAG%20Childrens%20Health%20in%20NI%20-%202022-23%20-%20REPORT.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d725a"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Population weight status",
+  "Location": "United Kingdom",
+  "Indicator": "children classified as overweight and obese 2023/24\nin reception-22%\nIn Year 6-35.9%",
+  "Title": "National Child Measurement Programme, England",
+  "Url": "https://digital.nhs.uk/data-and-information/publications/statistical/national-child-measurement-programme/2023-24-school-year/age",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d725b"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Diet-related chronic disease",
+  "Location": "Ireland",
+  "Indicator": "Diabetes: 5% of adults. High blood pressure: 8%.",
+  "Title": "Healthy Ireland Survey 2024",
+  "Url": "https://www.gov.ie/en/healthy-ireland/publications/healthy-ireland-survey-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d725c"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Diet-related chronic disease",
+  "Location": "Northern Ireland",
+  "Indicator": "Diabetes: 7.14% of adults. Hypertension: 14.5%.",
+  "Title": "Heart conditions and diabetes continue to affect thousands across Northern Ireland",
+  "Url": "https://www.nisra.gov.uk/news/heart-conditions-and-diabetes-continue-affect-thousands-across-northern-ireland",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d725d"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Diet-related chronic disease",
+  "Location": "United Kingdom",
+  "Indicator": "Diabetes: 10% of adults. Hypertension: 30 %.",
+  "Title": "HSE 2022 Adult health tables",
+  "Url": "https://files.digital.nhs.uk/34/0BBE3A/HSE-2022-Adult-health-tables.xlsx",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d725e"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Diet-related chronic disease",
+  "Location": "Ireland",
+  "Indicator": "Proportion of deaths related to CVD 26.5%",
+  "Title": "Primary prevention of cardiovascular disease. Best practices and lessons for Ireland.",
+  "Url": "https://www.drugsandalcohol.ie/39938/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d725f"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Diet-related chronic disease",
+  "Location": "Northern Ireland",
+  "Indicator": "Proportion of deaths related to CVD 24%",
+  "Title": "Cardiovascular Disease Factsheet",
+  "Url": "https://www.bhf.org.uk/-/media/files/for-professionals/research/heart-statistics/bhf-cvd-statistics-northern-ireland-factsheet.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7260"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Diet-related health conditions",
+  "Factor": "Diet-related chronic disease",
+  "Location": "United Kingdom",
+  "Indicator": "Proportion of deaths related to CVD 26%",
+  "Title": "UK Cardiovascular Disease Factsheet",
+  "Url": "https://www.bhf.org.uk/-/media/files/for-professionals/research/heart-statistics/bhf-cvd-statistics-uk-factsheet.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7261"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food safety and risk mitigation",
+  "Factor": "Foodborne microbiological, physical and chemical contaminants",
+  "Location": "Ireland",
+  "Indicator": "The overall rate of compliance remaining at an extremely high level of 99.9% ((bovine, ovine, caprine, porcine, equine, poultry, farmed game, wild game and aquaculture) as well as milk, eggs and honey).",
+  "Title": "Results from the National Residue Testing in 2022 show continued high levels of compliance",
+  "Url": "https://www.gov.ie/en/department-of-agriculture-food-and-the-marine/press-releases/results-from-the-national-residue-testing-in-2022-show-continued-high-levels-of-compliance/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7262"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food safety and risk mitigation",
+  "Factor": "Foodborne microbiological, physical and chemical contaminants",
+  "Location": "United Kingdom",
+  "Indicator": "Between 2020/21 and 2023/24, an average of 96.8% of food businesses inspected in England, Wales, and Northern Ireland achieved a satisfactory or better Food Hygiene Rating Scheme (FHRS) rating.",
+  "Title": "United Kingdom Food Security Report 2024",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-5-food-safety-and-consumer-confidence",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7263"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food safety and risk mitigation",
+  "Factor": "Foodborne microbiological, physical and chemical contaminants",
+  "Location": "Ireland",
+  "Indicator": "Campylobacteriosis: The crude incidence rate (CIR) increased to 70/100,000 in 2022.\nSalmonellosis: CIR 6.6/100,000",
+  "Title": "Gastroenteric and Zoonotic Diseases in Ireland, 2022",
+  "Url": "https://www.hpsc.ie/a-z/gastroenteric/gastroenteritisoriid/surveillancereports/Zoonotic%20and%20IID%20Slideset_Trends%20to%20the%20end%20of%202022_v0.4%20(002).pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7264"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food safety and risk mitigation",
+  "Factor": "Foodborne microbiological, physical and chemical contaminants",
+  "Location": "Northern Ireland",
+  "Indicator": "Campylobacter: Incidence rate 78.4 per 100,000 population",
+  "Title": "Gastrointestinal Infections in Northern Ireland 2018",
+  "Url": "https://www.publichealth.hscni.net/sites/default/files/2021-01/N%20Ireland%20Gastrointestinal%20Surveillance%20Report%202018.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7265"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food safety and risk mitigation",
+  "Factor": "Foodborne microbiological, physical and chemical contaminants",
+  "Location": "United Kingdom",
+  "Indicator": "Pathogenic micro-organisms 28%,  Allergens incidents 15%, Production errors 13%,  chemical contamination 11%.",
+  "Title": "FSA Annual Report 2022",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/Consolidated%20Annual%20Report%20and%20Accounts%202022-23.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7266"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food integrity",
+  "Factor": "Nutrition and health claims",
+  "Location": "Ireland",
+  "Indicator": "Up to 60% of Irish consumers say they want more sustainable products but only 30% say they are prepared to pay a higher price for it.",
+  "Title": "Irish consumers want more sustainable food but not to pay for it, UCC survey finds",
+  "Url": "https://www.irishtimes.com/business/2024/05/22/irish-consumers-want-more-sustainable-food-but-not-to-pay-for-it-ucc-survey-finds/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7267"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food integrity",
+  "Factor": "Nutrition and health claims",
+  "Location": "Northern Ireland",
+  "Indicator": "Almost a third (28%) of respondents often (i.e. always or most of the time) buy food which has a low environmental impact. Over half of respondents thought that eating less processed food (55%) contributed most to a sustainable diet, and around 4 in 10 respondents thought that minimising food waste (44%) and eating more fruit and/or vegetables (44%) contributed most to a sustainable diet. Most (60%) respondents thought that buying locally produced food or food that is in season or buying foods with minimal or no packaging (43%) contributed most to someone making sustainable food shopping choices. However, 10% of respondents reported that they did not know what contributed most to someone making sustainable food shopping choices.",
+  "Title": "Food and You 2 Wave 3-4 Northern Ireland Key findings reports",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/FY2_W3-4%20Northern%20Ireland%20Key%20Findings.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7268"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food integrity",
+  "Factor": "Nutrition and health claims",
+  "Location": "United Kingdom",
+  "Indicator": "Review of online retail (2021): 40% of green/sustainability claims were found to be potentially misleading.",
+  "Title": "Competition and Markets Authority (CMA) – Green Claims Code 2021; Review 2023",
+  "Url": "https://www.gov.uk/government/news/global-sweep-finds-40-of-firms-green-claims-could-be-misleading",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7269"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food integrity",
+  "Factor": "Food fraud",
+  "Location": "Ireland",
+  "Indicator": "2022: over 4,058 consumer complaints, covering hygiene (28%), unfit food (31%). A subset involved suspected food fraud (e.g. mislabelling, illegal alcohol).",
+  "Title": "FSAI Annual Report 2022",
+  "Url": "https://www.fsai.ie/getmedia/eb2cad74-47f5-4849-8da0-6e087bdbbb34/fsai-annual-report-2022_2.pdf?ext=.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d726a"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "Segment": "Food integrity",
+  "Factor": "Food fraud",
+  "Location": "United Kingdom",
+  "Indicator": "Food incidents: 2,038 food, feed and environmental contamination incidents\ninvestigated (down from 2,336 in 2021/22).The source of food incidents, Microbiological contamination 29%, Labelling and packaging errors 14%, Unauthorised ingredients 11%",
+  "Title": "FSA Annual Report 2022",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/Consolidated%20Annual%20Report%20and%20Accounts%202022-23.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d726b"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Innovative and transformative businesses",
+  "Factor": "Agrifood investment",
+  "Location": "Ireland",
+  "Indicator": "Total grant aid under the 2023 Thematic Call now stands at €46 m - the largest ever funding for a Department of Agriculture research call.",
+  "Title": "Minister Heydon announces €22.3 million in new research grants",
+  "Url": "https://www.gov.ie/en/department-of-agriculture-food-and-the-marine/press-releases/minister-heydon-announces-223-million-in-new-research-grants/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d726c"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Innovative and transformative businesses",
+  "Factor": "Agrifood investment",
+  "Location": "Northern Ireland",
+  "Indicator": "£46 million Agri-Food Investment Initiative to support local agri-food and drink processors",
+  "Title": "New £46million scheme",
+  "Url": "https://www.economy-ni.gov.uk/news/new-ps46million-scheme-launched-support-agri-food-and-drink-processors-improve-efficiency-and",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d726d"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Innovative and transformative businesses",
+  "Factor": "Agrifood investment",
+  "Location": "United Kingdom",
+  "Indicator": "£90 million is the total funding committed to help businesses, researchers and industry to transform food production.",
+  "Title": "Transforming food production challenge",
+  "Url": "https://www.ukri.org/what-we-do/browse-our-areas-of-investment-and-support/transforming-food-production-challenge/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d726e"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Innovative and transformative businesses",
+  "Factor": "Business practices and technology",
+  "Location": "Ireland",
+  "Indicator": "48% of farmers who responded to the survey were already using Smart Farming Technology on farm, with a further 37% indicating they will use SFT in the future however, 15% doubt they will ever use SFT.",
+  "Title": "DEMETER Project Conduct Survey on the Barriers and Drivers to Smart Farming Technology Adoption",
+  "Url": "https://www.ifa.ie/resources/demeter-project-conduct-survey-on-the-barriers-and-drivers-to-smart-farming-technology-adoption/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d726f"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Innovative and transformative businesses",
+  "Factor": "Business practices and technology",
+  "Location": "United Kingdom",
+  "Indicator": "England, DEFRA: the proportion of farms relying on yield maps increased from 7% to 17%; use of soil maps increased from 14% to 29%; use of variable rate technologies (VRT) increased from 13% to 25%; and telemetry … increased from 1% to 10%.",
+  "Title": "OECD, The digitalisation of agriculture (2022)",
+  "Url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2022/04/the-digitalisation-of-agriculture_dd2a1973/285cc27d-en.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7270"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Equal opportunities and equitable supports",
+  "Location": "Ireland",
+  "Indicator": "People employed in agri-food sector: 171,000, 7.1% of total workforce (RoI, 2023). The CSO’s Farm Structure Survey 2023 showed women account for 13.2% of the 133,174 farm holders in Ireland and 34% of the 299,725 total farm workers. The under-representation of women poses a challenge to achieving gender equality in sector where female participation can be impeded by farm holder status, or lack thereof.",
+  "Title": "Women in Agriculture",
+  "Url": "https://www.gov.ie/en/department-of-agriculture-food-and-the-marine/publications/women-in-agriculture/#2023-position",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7271"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Equal opportunities and equitable supports",
+  "Location": "Northern Ireland",
+  "Indicator": "People employed in agri-food sector: 32,000, 3.7% of total workforce(NI, 2022. Women comprise just 22% of the local agricultural workforce which is less than the UK-wide average\nOnly 5% of registered principal farmers in NI are women",
+  "Title": "“Breaking the Grass Ceiling” Challenges Women Experience in the Local Agriculture Sector",
+  "Url": "https://www.niassembly.gov.uk/assembly-business/committees/2017-2022/agriculture-environment-and-rural-affairs/reports/breaking-the-grass-ceiling--challenges-women-experience-in-the-local-agriculture-sector/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7272"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Equal opportunities and equitable supports",
+  "Location": "United Kingdom",
+  "Indicator": "88% of farm holders in England in 2023 were male and 12% female.",
+  "Title": "Farming evidence - key statistics (accessible version 2024)",
+  "Url": "https://www.gov.uk/government/publications/farming-evidence-pack-a-high-level-overview-of-the-uk-agricultural-industry/farming-evidence-key-statistics-accessible-version",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7273"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Equal opportunities and equitable supports",
+  "Location": "United Kingdom",
+  "Indicator": "",
+  "Title": "Food statistics in your pocket",
+  "Url": "https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket#gross-value-added-of-the-uk-agri-food-chain-2022",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7274"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Health (physical and mental), safety and wellbeing",
+  "Location": "Ireland",
+  "Indicator": "Agriculture, forestry and fishing accounted for 20 fatalities with farming accounting for 16 of these fatalities in 2023.",
+  "Title": "HSA Reports Significant Increase in Workplace Fatalities in 2023",
+  "Url": "https://niso.ie/hsa-statistics-for-2023/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7275"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Health (physical and mental), safety and wellbeing",
+  "Location": "Northern Ireland",
+  "Indicator": "Agriculture accounted for almost half of the fatalities with eight people losing their lives in the industry. Eight fatalities in the agriculture sector in the period with three incidents involving vehicles, thr",
+  "Title": "Annual Report and Accounts for the Health and Safety",
+  "Url": "https://www.hseni.gov.uk/files/hseni/hseni-annual-report-and-statement-of-accounts-2023-24.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7276"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Health (physical and mental), safety and wellbeing",
+  "Location": "United Kingdom",
+  "Indicator": "There were 27 deaths in agriculture in 2022/23, making it the sector with the highest fatal injury rate (7.87 per 100,000 workers), about 21 times higher than the all-industry average.",
+  "Title": "Fatal injuries in agriculture, forestry and fishing in Great Britain 2022/23",
+  "Url": "https://www.hse.gov.uk/agriculture/resources/fatal.htm",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7277"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Proportion of work force earning living wage",
+  "Location": "Ireland",
+  "Indicator": "The economic sector with the highest proportion of employments earning less than €400 per week was Accommodation and Food Services (51.2%)",
+  "Title": "Earnings Analysis using Administrative Data Sources 2024",
+  "Url": "https://www.cso.ie/en/releasesandpublications/ep/p-eaads/earningsanalysisusingadministrativedatasources2024/distributionofearnings/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7278"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Proportion of work force earning living wage",
+  "Location": "Northern Ireland",
+  "Indicator": "Northern Ireland had the highest proportion of jobs paid below the real Living\nWage in 2024 (20.6 per cent)",
+  "Title": "Employee jobs paid below the real Living Wage: 2024",
+  "Url": "https://www.livingwage.org.uk/sites/default/files/2025-02/employee-jobs-paid-below-real-living-wage-2024_LWF-Research_2025.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7279"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Proportion of work force earning living wage",
+  "Location": "United Kingdom",
+  "Indicator": "Over 1.2 million people working in the UK's food sector earn below the Real Living Wage.",
+  "Title": "THE STATE OF THE NATION’S\nFOOD INDUSTRY 2024",
+  "Url": "https://foodfoundation.org.uk/sites/default/files/2024-11/SofNFI_Report_FINAL_LIVE%202024.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d727a"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Dignified work environments",
+  "Factor": "Proportion of work force earning living wage",
+  "Location": "United Kingdom",
+  "Indicator": "The hospitality sector (accommodation and food services) had the highest proportion of jobs paid below the real Living Wage in 2024 (53.6 per cent)",
+  "Title": "Employee jobs paid below the real Living Wage: 2024",
+  "Url": "https://www.livingwage.org.uk/sites/default/files/2025-02/employee-jobs-paid-below-real-living-wage-2024_LWF-Research_2025.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d727b"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Value chain configuration",
+  "Location": "Ireland",
+  "Indicator": "The extra benefit to farmers and workers from the sales of Fairtrade products in Ireland in 2024 amounted to\napproximately €2 million the same as in 2023. Most of this extra Fairtrade premium is going to the producers of coffee,\nbananas and cocoa products.",
+  "Title": "IRISH FAIR TRADE Annual Report 2024",
+  "Url": "https://www.fairtrade.ie/wp-content/uploads/2025/09/IFTN-Audited-Accounts-2024.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d727c"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Value chain configuration",
+  "Location": "United Kingdom",
+  "Indicator": "In 2021 sales of Fairtrade products in the UK generated £25.2 million (€30m) for producers to invest. 78% of UK consumers care about Fairtrade.",
+  "Title": "25 Facts about Fairtrade",
+  "Url": "https://www.fairtrade.net/uk-en/get-involved/resources/blog/25-facts-about-fairtrade.html",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d727d"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Equity of value addition distribution",
+  "Location": "Ireland",
+  "Indicator": "57% of farms earned less than €20,000 in 2022.",
+  "Title": "57% of farms earned less than €20,000 in 2022",
+  "Url": "https://teagasc.ie/news--events/daily/57-of-farms-earned-less-than-20000-in-2022/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d727e"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Equity of value addition distribution",
+  "Location": "Northern Ireland",
+  "Indicator": "Farm Business Income measured across all farm types is expected to increase from an average £29,260 in 2023/24 to £60,622 in 2024/25, i.e. an increase of £31,361 or 107% per farm.",
+  "Title": "Northern Ireland agricultural incomes in 2024",
+  "Url": "https://www.daera-ni.gov.uk/news/northern-ireland-agricultural-incomes-2024",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d727f"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Equity of value addition distribution",
+  "Location": "United Kingdom",
+  "Indicator": "In 2023/24 across all farms types the average net payment received was approximately £18,300. This was 21% lower than 2022/23 and accounted for around 40% of Farm Business Income.",
+  "Title": "Farm Business Income by type of farm in England 2023/24",
+  "Url": "https://www.gov.uk/government/statistics/farm-business-income/farm-business-income-by-type-of-farm-in-england-202324",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7280"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Degree of structural reconfiguration",
+  "Location": "Ireland",
+  "Indicator": "Over 171,000 people were employed in the sector, representing 6.4% of the total workforce across more than 135,000 farms, 2,000 fishing vessels and aquaculture sites, and over 2,000 food production and drink enterprises.",
+  "Title": "Annual Review and Outlook for Agriculture, Food and the Marine 2024",
+  "Url": "https://www.gov.ie/en/department-of-agriculture-food-and-the-marine/publications/annual-review-and-outlook-for-agriculture-food-and-the-marine-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7281"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Degree of structural reconfiguration",
+  "Location": "Northern Ireland",
+  "Indicator": "The processing industry is the largest manufacturing industry in Northern Ireland, accounting for 37% of manufacturing sales. There are almost 25,000 direct employees (full-time equivalent) in the food and drinks processing sector. 29% of total sales from the food and drinks processing sector are to export markets. The largest subsectors are beef and sheepmeat, milk and milk products and poultry, which together account for 63% of the sector's turnover.",
+  "Title": "https://www.investni.com/international-business/our-sectors/food-and-drink",
+  "Url": "https://www.investni.com/international-business/our-sectors/food-and-drink",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7282"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Degree of structural reconfiguration",
+  "Location": "United Kingdom",
+  "Indicator": "The agri-food chain contributed £146.7 billion or 6.5% to national Gross Value Added in 2022. This is equal to £65 for every £1,000 of value added in the UK.",
+  "Title": "Food statistics in your pocket",
+  "Url": "https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket#gross-value-added-of-the-uk-agri-food-chain-2022",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7283"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Consumer buy-in",
+  "Location": "Ireland",
+  "Indicator": "When asked about factors affecting food purchases, Irish consumers ranked cost (63%) as the most important consideration, with taste (54%) and food safety (52%) following close behind. Strikingly, these results are higher overall than the average top concerns across the whole EU of cost (54%), taste (51%) and food safety (46%).",
+  "Title": "Cost the highest concern for Irish consumers when buying food",
+  "Url": "https://www.fsai.ie/news-and-alerts/latest-news/cost-the-highest-concern-for-irish-consumers-when",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7284"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Consumer buy-in",
+  "Location": "Northern Ireland",
+  "Indicator": "respondents were more likely to report confidence in farmers (88%), shops and supermarkets (84%), and restaurants (83%) than in takeaways (68%), and food delivery services for example, Just Eat, Deliveroo, Uber Eats (44%).",
+  "Title": "Food and You 2: Northern Ireland Wave 5-6 Key Findings",
+  "Url": "https://www.food.gov.uk/research/food-and-you-2/food-and-you-2-northern-ireland-wave-5-6-key-findings?print=1",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7285"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Value chain configuration",
+  "Factor": "Consumer buy-in",
+  "Location": "United Kingdom",
+  "Indicator": "The consumer trust study highlights that health is the top priority when consumers are choosing food (34%), followed by price/value for money at 20%. Both of these measures have reduced slightly this year, whilst selecting food for environmental reasons has increased by 5% showing that consumers are becoming more conscious within their decision making, as worries around cost of living begin to ease.",
+  "Title": "Environment and buying sustainably drives consumer focus",
+  "Url": "https://ahdb.org.uk/news/consumer-insight-environment-and-buying-sustainably-drives-consumer-focus",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7286"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Food self-sufficiency",
+  "Location": "Ireland",
+  "Indicator": "In 2023, Irish agri-food exports exceeded €18.1 billion, accounting for over 9% of Ireland’s exports.",
+  "Title": "Annual Review and Outlook for Agriculture, Food and the Marine 2024",
+  "Url": "https://www.gov.ie/en/department-of-agriculture-food-and-the-marine/publications/annual-review-and-outlook-for-agriculture-food-and-the-marine-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7287"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Food self-sufficiency",
+  "Location": "United Kingdom",
+  "Indicator": "The Food Production to Supply Ratio (commonly referred to as the “Self Sufficiency Ratio”), is calculated as the farmgate value of raw food production divided by the value of raw food for human consumption and is estimated to be 62% for all food in 2023 and 75% of indigenous type food. In 2022, this was 60% and 73% respectively.",
+  "Title": "Food statistics in your pocket",
+  "Url": "https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7288"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Commercial risk management",
+  "Location": "Ireland",
+  "Indicator": "During the calendar year 2023, Irish farmers received around €1.77 billion in direct payments, accounting for\n99% of NFS farms’\nFamily Farm Income on average.",
+  "Title": "Annual Review and Outlook for Agriculture, Food and the Marine 2024",
+  "Url": "https://assets.gov.ie/static/documents/annual-review-and-outlook-2024.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7289"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Commercial risk management",
+  "Location": "Northern Ireland",
+  "Indicator": "In 2024, the Northern Ireland agricultural support payments decreased by 5.9% to £381m",
+  "Title": "Agriculture in the United Kingdom 2024",
+  "Url": "https://assets.publishing.service.gov.uk/media/6881de3ff47abf78ca1d35b0/agriculture-in-the-uk-2024.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d728a"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Commercial risk management",
+  "Location": "United Kingdom",
+  "Indicator": "In 2024, the overall UK agricultural support payments increased by £144.1 million to £4,426m\n(+3.4%).",
+  "Title": "Agriculture in the United Kingdom 2024",
+  "Url": "https://assets.publishing.service.gov.uk/media/6881de3ff47abf78ca1d35b0/agriculture-in-the-uk-2024.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d728b"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Trading relationships",
+  "Location": "Ireland",
+  "Indicator": "In 2023, Irish agri-food exports reach 180 countries worldwide",
+  "Title": "Annual Review and Outlook for Agriculture, Food and the Marine 2024",
+  "Url": "https://www.gov.ie/en/department-of-agriculture-food-and-the-marine/publications/annual-review-and-outlook-for-agriculture-food-and-the-marine-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d728c"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Trading relationships",
+  "Location": "Northern Ireland",
+  "Indicator": "We sell food and drink products to over 70 countries worldwide.",
+  "Title": "https://www.investni.com/international-business/our-sectors/food-and-drink",
+  "Url": "https://www.investni.com/international-business/our-sectors/food-and-drink",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d728d"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "Segment": "Competitive food systems",
+  "Factor": "Trading relationships",
+  "Location": "United Kingdom",
+  "Indicator": "In 2023, 58% of domestic consumption came from UK production (based on unprocessed value at farmgate), 24% from the EU and the remaining 18% from the rest of the world. 33 countries accounted for 90% of imported supply, and 22 for 80%.",
+  "Title": "Food statistics in your pocket",
+  "Url": "https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d728e"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Biosphere",
+  "Factor": "Impact on Biodiversity",
+  "Location": "Ireland",
+  "Indicator": "",
+  "Title": "Farmland bird species decline Birdwatch Ireland",
+  "Url": "https://birdwatchireland.ie/app/uploads/2020/08/Space-for-Nature-Briefing-.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d728f"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Biosphere",
+  "Factor": "Impact on Biodiversity",
+  "Location": "Northern Ireland",
+  "Indicator": "The abundance of 17 farmland bird species has on average fallen by 43% across Northern Ireland since 1996.",
+  "Title": "State of Nature",
+  "Url": "https://stateofnature.org.uk/wp-content/uploads/2023/09/TP26055-SoN-N_Ireland-summary-report-v4-1.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7290"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Biosphere",
+  "Factor": "Impact on Biodiversity",
+  "Location": "United Kingdom",
+  "Indicator": "",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7291"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Water management",
+  "Location": "Ireland",
+  "Indicator": "Only just over half of surface waters (rivers, lakes, estuaries and coastal waters) are in satisfactory condition (that is they are achieving good or high ecological status and are able to sustain healthy ecosystems for fish, insects and plants).",
+  "Title": "Water quality of our rivers, lakes, estuaries and coastal areas continues to decline, says EPA",
+  "Url": "https://www.epa.ie/news-releases/news-releases-2022/water-quality-of-our-rivers-lakes-estuaries-and-coastal-areas-continues-to-decline-says-epa-.php",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7292"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Water management",
+  "Location": "Northern Ireland",
+  "Indicator": "By 2019, only four of Northern Ireland’s lakes monitored under WFD\nachieved a ‘Good’ status outcome for phosphorus",
+  "Title": "Water Quality in\nNorthern Ireland’s\nRivers and Lakes",
+  "Url": "https://www.niauditoffice.gov.uk/files/niauditoffice/documents/2024-03/00311423%20-%20NIA9797%20-%20Water%20Quality%20Report_%28WEB%29_V2.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7293"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Water management",
+  "Location": "United Kingdom",
+  "Indicator": "In 2019 16% of all surface waters in England were classified as having a good ecological status. This has remained fairly stable since 2016. Less than 1% of surface waters were classified as high in 2019, while 63% were classified as moderate. 17% were classified as poor and 3% were classified as bad.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7294"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Soil management",
+  "Location": "Ireland",
+  "Indicator": "Ireland’s Soil Information System classifies soils using a hierarchical grouping. Figure 6.6 shows Ireland’s great soil groups. Well- and moderately drained soils (podzolics, brown earths, podzols and rendzinas) make up 55% of Ireland’s soils. Poorly drained mineral soils (gleys) make up 24.5% and organic soils (peats and lithosols) make up 18%.",
+  "Title": "State of the Environment Report – Chapter 6: Soil",
+  "Url": "https://www.epa.ie/publications/monitoring--assessment/assessment/state-of-the-environment/EPA-SOER-2024-Chapter-06-Soil.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7295"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Soil management",
+  "Location": "Northern Ireland",
+  "Indicator": "Almost 70% of farms have registered for the Soil Nutrient Health Scheme, a scheme that is the first of its kind anywhere in the world. By the time the scheme is completed in 2026, the aim is that all 700,000 fields in Northern Ireland will have been sampled and mapped.",
+  "Title": "Half of NI fields tested in world-first soil scheme",
+  "Url": "https://www.bbc.com/news/articles/ce8xvlz8nvdo",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7296"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Soil management",
+  "Location": "United Kingdom",
+  "Indicator": "The Environment Agency’s (EA) State of the Environment report estimated that, in England and Wales, soil degradation was putting 4 million hectares of soil at risk of compaction as well as over 2 million hectares at risk of erosion. The EA concluded that soil degradation is leading to flooding risks and is threatening biodiversity, water resources and soil fertility. Soil degradation is associated with increased carbon emission as it is estimated that UK soils currently hold around 9.8 billion tonnes of carbon.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7297"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Nitrogen and phosphorus management",
+  "Location": "Ireland",
+  "Indicator": "",
+  "Title": "Food vision 2030 DashBoard- Mission 1-Nitrous Oxide Emissions",
+  "Url": "https://app.powerbi.com/view?r=eyJrIjoiMGFhNDUyNmUtODVlYi00ZmFkLWI5MDAtMDIyZDUyMDUyNDhjIiwidCI6IjA2YTk0YWNkLWRiZGMtNGU0My1hZGY4LTE0Nzg2MGM3ZmRhMyIsImMiOjl9",
+  "Datatype": "Application"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7298"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Nitrogen and phosphorus management",
+  "Location": "Northern Ireland",
+  "Indicator": "In Northern Ireland (NI), NH3 emissions were estimated at 27.9 kt N year-1 (33.9 kt NH3 year-1) in 2017, with agriculture contributing 96 % of the total (Jones et al., 2019). Over 63% of agricultural NH3 emissions produced in NI 2018 are associated with cattle farming (Misselbrook and Gilhespy, 2020).",
+  "Title": "Nitrogen deposition in Northern Ireland and import/export of N deposition across the UK",
+  "Url": "https://www.daera-ni.gov.uk/sites/default/files/publications/daera/Nitrogen%20deposition%20in%20Northern%20Ireland%20and%20importexport%20of%20N%20deposition%20across%20the%20UK%20.PDF",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d7299"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Nitrogen and phosphorus management",
+  "Location": "United Kingdom",
+  "Indicator": "The overall UK nitrogen balance of management agricultural land in 2022 was a surplus of 79.1 kg/ha, which represented a decrease of 11.7 kg/ha (-12.9%) compared to 2020. In 2022, nitrous oxide emissions from agriculture are estimated to have fallen by 15% since 2002 and by 23% since 1990. This is consistent with trends in fertiliser usage. Since 2020, nitrous oxide emissions from agriculture fell by 3.1% from 13MtCO2e to 12.6MtCO2e in 2022.\nThe overall UK phosphorus balance in 2022 was a surplus of 2.8 kg/ha, which represented a decrease of 3.7 kg/ha (-51.1%) compared to 2020.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d729a"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Agrichemical management",
+  "Location": "Ireland",
+  "Indicator": "",
+  "Title": "Food vision 2030 DashBoard- Mission 1-Level Organic Farming",
+  "Url": "https://app.powerbi.com/view?r=eyJrIjoiMGFhNDUyNmUtODVlYi00ZmFkLWI5MDAtMDIyZDUyMDUyNDhjIiwidCI6IjA2YTk0YWNkLWRiZGMtNGU0My1hZGY4LTE0Nzg2MGM3ZmRhMyIsImMiOjl9",
+  "Datatype": "Application"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d729b"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Agrichemical management",
+  "Location": "Northern Ireland",
+  "Indicator": "60% of UK organic land was in England, 23% in Scotland, 15% in Wales and 1.4% in Northern Ireland.",
+  "Title": "Organic farming statistics 2023: United Kingdom",
+  "Url": "https://www.gov.uk/government/statistics/organic-farming-statistics-2023/organic-farming-statistics-2023-united-kingdom",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d729c"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Primary production",
+  "Factor": "Agrichemical management",
+  "Location": "United Kingdom",
+  "Indicator": "Between 2020 and 2023 the total organic area in the UK has remained largely static at around 500,000 hectares.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d729d"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Circularity",
+  "Factor": "Food loss and waste",
+  "Location": "Ireland",
+  "Indicator": "",
+  "Title": "Food vision 2030 DashBoard- Mission 1-Food waste statistics",
+  "Url": "https://app.powerbi.com/view?r=eyJrIjoiMGFhNDUyNmUtODVlYi00ZmFkLWI5MDAtMDIyZDUyMDUyNDhjIiwidCI6IjA2YTk0YWNkLWRiZGMtNGU0My1hZGY4LTE0Nzg2MGM3ZmRhMyIsImMiOjl9",
+  "Datatype": "Application"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d729e"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Circularity",
+  "Factor": "Food loss and waste",
+  "Location": "Northern Ireland",
+  "Indicator": "The estimated greenhouse gas emissions (GHG) associated with wasted food and drink in NI are 450 thousand tonnes CO2 equivalent (CO2e) in 2021/22.\nFigure ES4 shows the estimated weight and GHG emissions associated with edible household food waste in NI split by food group. Meat and fish are the largest food category by GHG emissions, comprising of 119 thousand tonnes of CO2e per year despite six other food groups being found in larger quantities by weight. Homemade and pre-prepared meals are the second largest food group by both weight and CO2e, accounting for a considerable 82 thousand tonnes CO2e per year. Fresh vegetables and salads are the largest category by weight of edible food waste but are associated with the third largest amount of CO2e per year. This indicates that fresh vegetables and salads are less carbon intensive per unit of weight. However, at 72 thousand tonnes, fresh vegetables and salads are still associated with a large amount of GHG emissions.",
+  "Title": "WRAP-Household-Food-Drink-Waste-Northern-Ireland-2021-22-v5.1.pdf",
+  "Url": "https://www.wrap.ngo/sites/default/files/2024-05/WRAP-Household-Food-Drink-Waste-Northern-Ireland-2021-22-v5.1.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d729f"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Circularity",
+  "Factor": "Food loss and waste",
+  "Location": "United Kingdom",
+  "Indicator": "Total food waste in the UK is equivalent to 25% of all food purchased. Household food waste represented the biggest share at 60% (6.4 million tonnes). Data collected in 2021/22 showed that wasted food and drink in the UK accounted for approximately 18 million tonnes of CO2 equivalent, which is around 3% of total GHG emissions relating to consumption in the UK.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a0"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Circularity",
+  "Factor": "Packaging",
+  "Location": "Ireland",
+  "Indicator": "In 2023, Ireland generated nearly 1.2 million tonnes of packaging waste. The 2023 packaging waste recycling rate is 59%.",
+  "Title": "Packaging Waste Statistics for Ireland",
+  "Url": "https://www.epa.ie/our-services/monitoring--assessment/waste/national-waste-statistics/packaging/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a1"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Circularity",
+  "Factor": "Packaging",
+  "Location": "United Kingdom",
+  "Indicator": "",
+  "Title": "UK statistics on waste",
+  "Url": "https://www.gov.uk/government/statistics/uk-waste-data/uk-statistics-on-waste#packaging-waste",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a2"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Climate change",
+  "Factor": "Mitigation",
+  "Location": "Ireland",
+  "Indicator": "In Ireland the Agriculture sector was directly responsible for 37.8% of national Greenhouse Gases (GHGs) emissions in 2023, mainly methane from livestock, and nitrous oxide due to the use of nitrogen fertiliser and manure management. The most significant drivers for the decreased emissions in 2023 was decreased synthetic fertiliser use (-18.2%). Livestock numbers decreased in general, however the size of the dairy herd continued to increase, (+0.6% in 2023), with a 4.5% decrease in milk output per cow.",
+  "Title": "Greenhouse gas emissions from agriculture in 2023",
+  "Url": "https://www.epa.ie/our-services/monitoring--assessment/climate-change/ghg/agriculture/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a3"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Climate change",
+  "Factor": "Mitigation",
+  "Location": "Northern Ireland",
+  "Indicator": "In 2022, In 2022, Northern Ireland’s net greenhouse gas emissions were estimated to be 21.3 million tonnes of carbon dioxide equivalent (MtCO2e).Agriculture was the largest emitting sector, responsible for 29.1% of emissions. Over £4.6million in support approved for nature friendly farming",
+  "Title": "Over £4.6million in support approved for nature friendly farming",
+  "Url": "https://www.daera-ni.gov.uk/news/over-ps46million-support-approved-nature-friendly-farming",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a4"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Climate change",
+  "Factor": "Mitigation",
+  "Location": "United Kingdom",
+  "Indicator": "In 2022 agriculture accounted for around 12% of total GHG emissions in the UK. Between 2020 and 2022 GHG emissions from agriculture fell by 0.6%, while emissions from land use and forestry decreased by 0.3% or 0.002 MtCO2e. The process of peat degradation places England’s lowland peat soils among the largest sources of GHG emissions in the land use sector. This accounts for over 2% of England’s overall GHG emissions and approximately 88% of all emissions from peat in England.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a5"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Climate change",
+  "Factor": "Adaption",
+  "Location": "Ireland",
+  "Indicator": "ACRES is Ireland's agri-environment climate scheme under Ireland's CAP Strategic Plan. This €1.5 billion flagship agri-environment scheme is a farmer-friendly scheme to help address biodiversity decline while delivering an income support for up to 50,000 farm families in Ireland.",
+  "Title": "Agri-Climate Rural Environment Scheme (ACRES)",
+  "Url": "https://www.gov.ie/en/department-of-agriculture-food-and-the-marine/campaigns/agri-climate-rural-environment-scheme-acres/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a6"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Climate change",
+  "Factor": "Adaption",
+  "Location": "Northern Ireland",
+  "Indicator": "Since 2018, Environmental Farming Scheme (EFS) participants have managed over 58,000 hectares of priority habitat, planted or enhanced 1000 kilometres of hedgerows, protected 2,700 kilometres of waterway and planted half a million trees.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a7"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "Segment": "Climate change",
+  "Factor": "Adaption",
+  "Location": "United Kingdom",
+  "Indicator": "For the UK overall, the area in AES (Agri- environmental schemes) increased from 4,922 thousand hectares in 2021 to 5,872 thousand hectares in 2023.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a8"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Right to food",
+  "Location": "Ireland",
+  "Indicator": "the prevalence of moderate or severe food insecurity in Ireland was down from 6.5% in 2020 to 5.4% in 2021.",
+  "Title": "Ireland's UN SDGs - Goal 2 Zero Hunger 2024",
+  "Url": "https://www.cso.ie/en/releasesandpublications/ep/p-sdg2/irelandsunsdgs-goal2zerohunger2024/keyfindings/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72a9"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Right to food",
+  "Location": "Northern Ireland",
+  "Indicator": "Northern Ireland had the highest at 91% of food security",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72aa"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Right to food",
+  "Location": "United Kingdom",
+  "Indicator": "In the UK, in FYE 2023, 90% of households were classed as being food secure (‘high’ or ‘marginal’ food security) and 10% as being food insecure (‘low’ or ‘very low’ food security).",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72ab"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Food literacy",
+  "Location": "Ireland",
+  "Indicator": "Thinking about their own culinary skills in the kitchen, the top frustrations faced by Irish adults are having too many steps involved in preparing the meal (30%), not having enough patience for home cooking (21%) and poor time management in getting the full meal ready for serving (18%). One in ten said they aren’t good at following recipes (12%).",
+  "Title": "Almost half of Irish households cook fresh home-made meals every day",
+  "Url": "https://harrispr.ie/2025/03/18/almost-half-of-irish-households-cook-fresh-home-made-meals-every-day-but-time-and-inspiration-remain-big-barriers-in-the-kitchen/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72ac"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Food literacy",
+  "Location": "Northern Ireland",
+  "Indicator": "The leading source of nutritional information for consumers is nutritional claims on pack, which 32% of consumers look at.\nExamples of nutrition claims that consumers may look for on product packaging include 'low sugar', 'low fat', 'high in fibre’. However, 41% do not look at the nutritional information of products when food shopping in store. Most respondents reported that they often (i.e. always or most of the time) check the use-by (90%) or best before (90%) date when they buy food.",
+  "Title": "Making Food Better Tracker Survey 2023",
+  "Url": "https://www.food.gov.uk/research/consumer-interests-aka-wider-consumer-interests/making-food-better-tracker-survey-2023",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72ad"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Food literacy",
+  "Location": "United Kingdom",
+  "Indicator": "Around 8 in 10 respondents (82% - 89%) reported confidence in food labels being accurate across all waves. Between Wave 1 (July 2020 to October 2020) and Wave 3 (April 2021 to June 2021), there was a slight increase in the percentage of respondents who reported they check (always or most of the time) use-by dates (from 80% to 84%) best-before dates (from 78% to 82%), list of ingredients (from 30% to 35%), allergen information (from 19% to 25%) and nutritional information (from 35% to 39%) when shopping for food**.",
+  "Title": "Food and You 2 trends: Executive Summary",
+  "Url": "https://www.food.gov.uk/research/food-you-2-trends-executive-summary",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72ae"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Food affordability",
+  "Location": "Ireland",
+  "Indicator": "71% of Irish consumers worry about the cost of food",
+  "Title": "71% of Irish consumers worry about the cost of food",
+  "Url": "https://www.rte.ie/news/business/2025/0624/1520025-pwc-2025-irish-and-global-voice-of-the-consumer-study/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72af"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Food affordability",
+  "Location": "Northern Ireland",
+  "Indicator": "Consumers worried about the cost of food and groceries Almost 9 in 10 consumers in Northern Ireland (87 per cent) reported being worried\nabout the cost of their food and grocery shopping.",
+  "Title": "Key statistics looking at the impact of rising food\ncosts for NI consumers",
+  "Url": "https://www.niassembly.gov.uk/globalassets/documents/agriculture-and-rural-development/food-supply-chain/written-submissions/consumer-council-key-stats.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b0"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Food affordability",
+  "Location": "United Kingdom",
+  "Indicator": "The Wave 7 survey found that 55% of people across England, Wales and Northern Ireland were ‘highly concerned’ about the affordability of food, rising from 48% in Wave 5 which was conducted during the same period in 2022.",
+  "Title": "FSA’s flagship survey shows food affordability concerns have risen",
+  "Url": "https://www.food.gov.uk/news-alerts/news/fsas-flagship-survey-shows-food-affordability-concerns-have-risen",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b1"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Right to food",
+  "Factor": "Food affordability",
+  "Location": "United Kingdom",
+  "Indicator": "12.2% of households were having smaller meals or skipping meals in June 2024 up from 7.8% in January 2022, having peaked in September 2022 at 17.6%.",
+  "Title": "United Kingdom Food Security Report 2024: Theme 2: UK Food Supply Sources",
+  "Url": "https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-2-uk-food-supply-sources#introduction",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b2"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Obesogenic conditions",
+  "Location": "Ireland",
+  "Indicator": "as of June 2024, the Republic of Ireland has an average of 25.2 chain fast-food outlets per 100,000 people",
+  "Title": "Food Service Thrives in the Republic of Ireland",
+  "Url": "https://meaningfulvision.com/food-service-thrives-in-the-republic-of-ireland/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b3"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Obesogenic conditions",
+  "Location": "Northern Ireland",
+  "Indicator": "chain fast-food outlets per 100,000 people:  20.7",
+  "Title": "Food Service Thrives in the Republic of Ireland",
+  "Url": "https://meaningfulvision.com/food-service-thrives-in-the-republic-of-ireland/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b4"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Obesogenic conditions",
+  "Location": "United Kingdom",
+  "Indicator": "chain fast-food outlets per 100,000 people:  28.8",
+  "Title": "Food Service Thrives in the Republic of Ireland",
+  "Url": "https://meaningfulvision.com/food-service-thrives-in-the-republic-of-ireland/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b5"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Cultural appropriateness",
+  "Location": "Northern Ireland",
+  "Indicator": "in previous waves people were asked about avoiding food for religious or cultural reasons, and relatively few people reported this (less than 1% in Northern Ireland in Wave 4).",
+  "Title": "Food and You survey Wave 5: Northern Ireland report",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/food-and-you-wave5-northern-ireland-report_0.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b6"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Cultural appropriateness",
+  "Location": "United Kingdom",
+  "Indicator": "in previous waves people were asked about avoiding food for religious or cultural reasons, and relatively few people reported this (4% in Wave 4).",
+  "Title": "THE FOOD AND YOU SURVEY Wave 5",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/food-and-you-wave-5-combined-report.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b7"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Food practice",
+  "Location": "Ireland",
+  "Indicator": "almost half of adults (43%) preparing meals cooked from scratch every day and 56% saying they are hungry for more and want to cook even more home-made meals throughout the week.",
+  "Title": "Almost half of Irish households cook fresh home-made meals every day",
+  "Url": "https://harrispr.ie/2025/03/18/almost-half-of-irish-households-cook-fresh-home-made-meals-every-day-but-time-and-inspiration-remain-big-barriers-in-the-kitchen/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b8"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Food practice",
+  "Location": "Northern Ireland",
+  "Indicator": "79% respondents who would eat leftover food within two days of cooking",
+  "Title": "Food and You survey Wave 5: Northern Ireland report",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/food-and-you-wave5-northern-ireland-report_0.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72b9"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Food practice",
+  "Location": "United Kingdom",
+  "Indicator": "73% respondents who would eat leftover food within two days of cooking",
+  "Title": "THE FOOD AND YOU SURVEY Wave 5",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/food-and-you-wave-5-combined-report.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72ba"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Access to diverse foods",
+  "Location": "Ireland",
+  "Indicator": "Fruit was eaten daily by 62% of the population and 73% reported eating vegetables every day.",
+  "Title": "Healthy Ireland Survey 2024",
+  "Url": "https://www.gov.ie/en/healthy-ireland/publications/healthy-ireland-survey-2024/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72bb"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Food environment",
+  "Factor": "Access to diverse foods",
+  "Location": "Northern Ireland",
+  "Indicator": "79% respondents said they eat fruit and veg every day or most days.",
+  "Title": "Food and You 2:\nNorthern Ireland",
+  "Url": "https://www.food.gov.uk/sites/default/files/media/document/FY2_W3-4%20Northern%20Ireland%20Key%20Findings.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72bc"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Environmental and social justice",
+  "Factor": "Recognition of nature’s contribution to human wellbeing",
+  "Location": "Ireland",
+  "Indicator": "89% of adults agree that the environment is a valuable asset to the people of Ireland. 84% of adults who say access to nature was important for their mental health in 2020",
+  "Title": "EPA survey shows 84 per cent of people say access to nature was important for mental health in 2020",
+  "Url": "https://www.epa.ie/news-releases/news-releases-2021/epa-survey-shows-84-per-cent-of-people-say-access-to-nature-was-important-for-mental-health-in-2020.php",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72bd"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Environmental and social justice",
+  "Factor": "Recognition of nature’s contribution to human wellbeing",
+  "Location": "Northern Ireland",
+  "Indicator": "Green space in NI … publicly accessible urban green spaces per annum: mental wellbeing value of £717m; physical wellbeing value of £381m; total > £1.1bn",
+  "Title": "Green-Space-and-Values-Feb-2023.pdf",
+  "Url": "https://www.nienvironmentlink.org/site/wp-content/uploads/2022/09/Green-Space-and-Values-Feb-2023.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72be"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Environmental and social justice",
+  "Factor": "Recognition of nature’s contribution to human wellbeing",
+  "Location": "United Kingdom",
+  "Indicator": "38-39% reported that nature / wildlife is more important than ever to their wellbeing; similarly ~ 39% said visiting natural spaces has become more important.",
+  "Title": "The Adults’ People and Nature Survey",
+  "Url": "https://www.gov.uk/government/statistics/the-people-and-nature-survey-for-england-data-tables-and-publications-from-adults-survey-year-3-april-2022-march-2023-official-statistics/adults-year-3-annual-report-april-2022-march-2023-official-statistics",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72bf"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Environmental and social justice",
+  "Factor": "Environmental externalities",
+  "Location": "Ireland",
+  "Indicator": "Nearly half (47%) of the river sites have unsatisfactory nitrate concentration and 38% of the sites have rising concentrations.",
+  "Title": "Nearly half of Irish Rivers are polluted by nitrogen — EPA",
+  "Url": "https://theriverstrust.org/about-us/news/nearly-half-of-irish-rivers-are-polluted-by-nitrogen-epa",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72c0"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Environmental and social justice",
+  "Factor": "Environmental externalities",
+  "Location": "Northern Ireland",
+  "Indicator": "Agriculture accounted for 87% of total UK emissions in 2020, and\n97% of ammonia emissions from Northern Ireland (with key areas of emission from the management of animal manures and application of nitrogen fertilisers.).",
+  "Title": "REVIEW OF DRAFT NORTHERN\nIRELAND AMMONIA STRATEGY",
+  "Url": "https://www.theoep.org.uk/sites/default/files/reports-files/Ricardo%20Review%20of%20Draft%20Northern%20Ireland%20Ammonia%20Strategy_0.pdf",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72c1"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Environmental and social justice",
+  "Factor": "Environmental externalities",
+  "Location": "United Kingdom",
+  "Indicator": "Agriculture accounts for ~ 69% of nitrous oxide emissions, ~ 48-49% of methane emissions, and ~ 87% of ammonia emissions in 2023.",
+  "Title": "Chapter 11: Agri-environment",
+  "Url": "https://www.gov.uk/government/statistics/agriculture-in-the-united-kingdom-2024/chapter-11-agri-environment",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72c2"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Animal welfare",
+  "Factor": "Treatment during production, transport and slaughter",
+  "Location": "Northern Ireland",
+  "Indicator": "From 1 January 2023 to 31 December 2023, 1279 production site inspections for compliance\nwith animal welfare requirements were completed. The overall compliance rate was 91%",
+  "Title": "Animal Welfare\nReport 2023",
+  "Url": "https://www.daera-ni.gov.uk/sites/default/files/2025-02/Animal%20Welfare%20Service%20delivery%20statistical%20bulletin%202023.PDF",
+  "Datatype": "PDF"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72c3"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Animal welfare",
+  "Factor": "Treatment during production, transport and slaughter",
+  "Location": "United Kingdom",
+  "Indicator": "Standard Operating Procedures (SOP) non-compliance cases\nApril 2021 to March 2022\nTransport 3105\nOn farm 835\nSlaughterhouse 372",
+  "Title": "Animal welfare-FSA",
+  "Url": "https://www.food.gov.uk/business-guidance/animal-welfare",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72c4"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Animal welfare",
+  "Factor": "Transparency of production of products deriving from animals",
+  "Location": "Ireland",
+  "Indicator": "The ‘indifferent’ consumer (69.1% of participants) has positive perceptions of farm animal welfare on the island of Ireland. While they feel motivated to buy welfare-friendly produce, this attitude is less likely to translate to frequent purchasing behaviour.\nThe ‘engaged’ consumer (16.5% of participants) is highly concerned about welfare standards in farming, and is highly motivated to purchase welfare-friendly produce. Unlike the ‘indifferent’ consumer, this motivation translates to frequent purchasing behaviour.\nThe ‘struggling’ consumer (14.4% of participants) is also concerned about welfare standards on farms. But while they’re motivated to purchase welfare-friendly produce, this motivation doesn’t translate to behaviour. A lack of choice, dearth of information, inadequate availability and difficulty using relevant labels represent significant hurdles for this type of consumer.",
+  "Title": "What do Irish consumers think about farming and animal welfare?",
+  "Url": "https://teagasc.ie/news--events/daily/what-do-irish-consumers-think-about-farming-and-animal-welfare/",
+  "Datatype": "Webpage"
+},
+{
+  "_id": {
+    "$oid": "690b7c52f362148e583d72c5"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "Segment": "Animal welfare",
+  "Factor": "Transparency of production of products deriving from animals",
+  "Location": "United Kingdom",
+  "Indicator": "In terms of purchasing decisions, Food and You 2 data showed that the vast majority (91%) of consumers felt it was important to buy meat, eggs and dairy products produced with high standards of animal welfare. Two thirds (64%) reported that they actually bought meat, eggs and dairy which had information on animal welfare always or most of the time and 40% reported that they checked for information on animal welfare when shopping always or most of the time. \nOnly a third (33%) of consumers felt that meat, eggs and dairy products showed enough information about animal welfare. Similarly, the FSA / FSS research revealed that 64% of respondents agreed that the treatment of animals in the food chain was something they cared deeply about. However, a smaller proportion of consumers (46%) were prepared to pay more for food products that are environmentally friendly or have high welfare standards.",
+  "Title": "FSA 22-09-18 - Annual Animal Welfare Main report 2021/22",
+  "Url": "https://www.food.gov.uk/board-papers/fsa-22-09-18-annual-animal-welfare-main-report-202122",
+  "Datatype": "Webpage"
+}]

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Item</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tableStyle.css') }}">
+    <style>
+        .add-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .add-header {
+            background: linear-gradient(135deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .add-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .add-form {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d5016;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4a7c59;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background: linear-gradient(135deg, #1e7e34, #1aa179);
+            transform: translateY(-2px);
+        }
+        
+        .submit-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .required {
+            color: #dc3545;
+        }
+        
+        .field-description {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .form-group select {
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .form-group input[type="url"] {
+            font-family: monospace;
+        }
+        
+        .form-group textarea {
+            font-family: inherit;
+        }
+        
+        .required-info {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4a7c59;
+        }
+        
+        .required-info h4 {
+            margin: 0 0 5px 0;
+            color: #2d5016;
+        }
+        
+        .required-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .dropdown-input {
+            width: 100%;
+            padding: 12px 40px 12px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .dropdown-input:focus {
+            outline: none;
+            border-color: #4a7c59;
+        }
+        
+        .dropdown-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+            transition: transform 0.3s ease;
+        }
+        
+        .dropdown-arrow.expanded {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #4a7c59;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .dropdown-list.show {
+            display: block;
+        }
+        
+        .dropdown-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item.highlighted {
+            background-color: #e8f5e8;
+        }
+        
+        .dropdown-item.no-results {
+            color: #666;
+            font-style: italic;
+            cursor: default;
+        }
+        
+        .dropdown-item.no-results:hover {
+            background-color: transparent;
+        }
+        
+        .cascading-info {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #007bff;
+            font-size: 0.9rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="add-container">
+        <div class="add-header">
+            <h1>Add New Item</h1>
+            <p>Fill in the details below to add a new record to the database</p>
+            <p style="font-size: 0.9rem; opacity: 0.9;">Fields marked with * are required</p>
+        </div>
+        
+        <div class="add-form">
+            <div id="success-message" class="success-message" style="display: none;"></div>
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            
+            <div class="required-info">
+                <h4>📋 New Database Structure</h4>
+                <p>This form now matches the updated database structure with the following fields: Quadrant, Segment, Factor, Location, Indicator, Title, Url, and Datatype.</p>
+            </div>
+            
+            <div class="cascading-info">
+                <strong>🔗 Cascading Selection:</strong> Start by selecting a Quadrant, then Segment will show only related options. Factor will show options based on your previous selections. You can type to search, click the arrow to see all options, or select the blank option to clear a field. <strong>You can change your selections at any time!</strong>
+            </div>
+            
+            <form id="addForm">
+                <div class="form-group">
+                    <label for="quadrant">Quadrant <span class="required">*</span></label>
+                    <div class="dropdown-container">
+                        <input type="text" id="quadrant" name="Quadrant" class="dropdown-input" placeholder="Type to search, click arrow, or select blank option" required>
+                        <span class="dropdown-arrow" onclick="toggleDropdown('quadrant')">▼</span>
+                        <div id="quadrant-list" class="dropdown-list"></div>
+                    </div>
+                    <div class="field-description">The main quadrant or societal goal (e.g., "Safe and healthy diets for all") - Required field</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="segment">Segment <span class="required">*</span></label>
+                    <div class="dropdown-container">
+                        <input type="text" id="segment" name="Segment" class="dropdown-input" placeholder="Type to search, click arrow, or select blank option" required>
+                        <span class="dropdown-arrow" onclick="toggleDropdown('segment')">▼</span>
+                        <div id="segment-list" class="dropdown-list"></div>
+                    </div>
+                    <div class="field-description">The specific area of concern or segment (e.g., "Food intake") - Required field</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="factor">Factor</label>
+                    <div class="dropdown-container">
+                        <input type="text" id="factor" name="Factor" class="dropdown-input" placeholder="Type to search, click arrow, or select blank option">
+                        <span class="dropdown-arrow" onclick="toggleDropdown('factor')">▼</span>
+                        <div id="factor-list" class="dropdown-list"></div>
+                    </div>
+                    <div class="field-description">The factor or aspect being measured (e.g., "Nutrient intake throughout life") - Optional field</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <div class="dropdown-container">
+                        <input type="text" id="location" name="Location" class="dropdown-input" placeholder="Type to search, click arrow, or select blank option">
+                        <span class="dropdown-arrow" onclick="toggleDropdown('location')">▼</span>
+                        <div id="location-list" class="dropdown-list"></div>
+                    </div>
+                    <div class="field-description">The geographical location or region (e.g., "Ireland") - Optional field</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="indicator">Indicator</label>
+                    <textarea id="indicator" name="Indicator" rows="3"></textarea>
+                    <div class="field-description">The specific indicator or measurement (e.g., "Adults: inadequate Ca, Mg, Vit D, folate, Zn, Vit C...")</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="Title">
+                    <div class="field-description">The title or name of the study/source (e.g., "INANS 2008–2010; follow-ups to 2021")</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="url">URL</label>
+                    <input type="url" id="url" name="Url" placeholder="https://example.com">
+                    <div class="field-description">The URL link to the source or study</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="datatype">Datatype</label>
+                    <select id="datatype" name="Datatype">
+                        <option value="">Select datatype...</option>
+                        <option value="PDF">PDF</option>
+                        <option value="Excel">Excel</option>
+                        <option value="CSV">CSV</option>
+                        <option value="Database">Database</option>
+                        <option value="Website">Website</option>
+                        <option value="Report">Report</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="field-description">The type of data or document format</div>
+                </div>
+                
+                <button type="submit" class="submit-button" id="submitButton">
+                    Add Item
+                </button>
+            </form>
+            
+            <div class="navigation-buttons" style="margin-top: 30px;">
+                <a href="{{ url_for('index') }}" class="nav-button back-button">← Back to Home</a>
+                <a href="{{ url_for('d3viz') }}" class="nav-button">Food Co-Centre Sustainability Compass</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables for cascading dropdowns
+        let dropdownData = null;
+        let currentHighlightedIndex = -1;
+        
+        // Check authentication
+        if (!sessionStorage.getItem('authenticated')) {
+            window.location.href = '/login';
+        }
+        
+        // Load dropdown data on page load
+        window.onload = async function() {
+            await loadDropdownData();
+            setupDropdownListeners();
+        };
+        
+        // Load unique values from Compass collection
+        async function loadDropdownData() {
+            try {
+                const response = await fetch('/api/compass/structure');
+                const result = await response.json();
+                
+                if (result.success) {
+                    dropdownData = result.data;
+                    console.log('Compass structure loaded:', dropdownData);
+                } else {
+                    console.error('Failed to load Compass structure:', result.error);
+                }
+            } catch (error) {
+                console.error('Error loading Compass structure:', error);
+            }
+        }
+        
+        // Setup event listeners for all dropdowns
+        function setupDropdownListeners() {
+            ['quadrant', 'segment', 'factor', 'location'].forEach(field => {
+                const input = document.getElementById(field);
+                const list = document.getElementById(field + '-list');
+                
+                // Input focus - show filtered options
+                input.addEventListener('focus', () => {
+                    updateDropdownOptions(field);
+                    list.classList.add('show');
+                });
+                
+                // Input typing - filter options
+                input.addEventListener('input', () => {
+                    updateDropdownOptions(field);
+                    list.classList.add('show');
+                    currentHighlightedIndex = -1;
+                });
+                
+                // Input blur - hide dropdown after delay and check for auto-fill
+                input.addEventListener('blur', () => {
+                    setTimeout(() => {
+                        list.classList.remove('show');
+                        // Check if input value matches a valid option and auto-fill parent levels
+                        checkAndAutoFillParent(field);
+                    }, 200);
+                });
+                
+                // Also check on input change (when user types and selects from datalist)
+                input.addEventListener('change', () => {
+                    checkAndAutoFillParent(field);
+                });
+                
+                // Keyboard navigation
+                input.addEventListener('keydown', (e) => {
+                    handleKeyboardNavigation(e, field);
+                });
+            });
+        }
+        
+        // Toggle dropdown visibility
+        function toggleDropdown(field) {
+            const list = document.getElementById(field + '-list');
+            const arrow = document.querySelector(`#${field} + .dropdown-arrow`);
+            
+            if (list.classList.contains('show')) {
+                list.classList.remove('show');
+                arrow.classList.remove('expanded');
+            } else {
+                updateDropdownOptions(field);
+                list.classList.add('show');
+                arrow.classList.add('expanded');
+            }
+        }
+        
+        // Update dropdown options based on current selections
+        function updateDropdownOptions(field) {
+            if (!dropdownData) return;
+            
+            const input = document.getElementById(field);
+            const list = document.getElementById(field + '-list');
+            const searchTerm = input.value.toLowerCase();
+            
+            let options = [];
+            
+            if (field === 'quadrant') {
+                options = dropdownData.quadrants;
+            } else if (field === 'segment') {
+                const quadrant = document.getElementById('quadrant').value;
+                if (quadrant && dropdownData.mappings.quadrant_segment[quadrant]) {
+                    options = dropdownData.mappings.quadrant_segment[quadrant];
+                } else {
+                    options = dropdownData.segments;
+                }
+            } else if (field === 'factor') {
+                const quadrant = document.getElementById('quadrant').value;
+                const segment = document.getElementById('segment').value;
+                
+                if (segment && dropdownData.mappings.segment_factor[segment]) {
+                    options = dropdownData.mappings.segment_factor[segment];
+                } else if (quadrant) {
+                    // If only quadrant is selected, show factors that belong to segments of this quadrant
+                    const segments = dropdownData.mappings.quadrant_segment[quadrant] || [];
+                    const factors = new Set();
+                    segments.forEach(seg => {
+                        if (dropdownData.mappings.segment_factor[seg]) {
+                            dropdownData.mappings.segment_factor[seg].forEach(factor => factors.add(factor));
+                        }
+                    });
+                    options = Array.from(factors).sort();
+                } else {
+                    options = dropdownData.factors;
+                }
+            } else if (field === 'location') {
+                options = dropdownData.locations || [];
+            }
+            
+            // Filter options based on search term
+            const filteredOptions = options.filter(option => 
+                option.toLowerCase().includes(searchTerm)
+            );
+            
+            // Clear and populate dropdown
+            list.innerHTML = '';
+            
+            // Add blank option first
+            const blankItem = document.createElement('div');
+            blankItem.className = 'dropdown-item';
+            blankItem.textContent = '-- Select ' + field.charAt(0).toUpperCase() + field.slice(1) + ' --';
+            blankItem.onclick = () => selectOption(field, '');
+            list.appendChild(blankItem);
+            
+            if (filteredOptions.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'dropdown-item no-results';
+                noResults.textContent = 'No matching options found';
+                list.appendChild(noResults);
+            } else {
+                filteredOptions.forEach((option, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'dropdown-item';
+                    item.textContent = option;
+                    item.onclick = () => selectOption(field, option);
+                    list.appendChild(item);
+                });
+            }
+        }
+        
+        // Select an option from dropdown
+        function selectOption(field, value) {
+            const input = document.getElementById(field);
+            const list = document.getElementById(field + '-list');
+            const arrow = document.querySelector(`#${field} + .dropdown-arrow`);
+            
+            input.value = value;
+            list.classList.remove('show');
+            arrow.classList.remove('expanded');
+            
+            // Trigger cascading updates
+            updateCascadingFields(field);
+        }
+        
+        // Check if input value matches a valid option and auto-fill parent levels
+        function checkAndAutoFillParent(field) {
+            if (!dropdownData) return;
+            
+            const input = document.getElementById(field);
+            const value = input.value.trim();
+            
+            if (!value) return;
+            
+            // Check if the value matches a valid option (case-insensitive)
+            let isValid = false;
+            let normalizedValue = value.toLowerCase();
+            
+            if (field === 'segment') {
+                // Check if segment exists in the data
+                const allSegments = dropdownData.segments || [];
+                isValid = allSegments.some(s => s.toLowerCase() === normalizedValue);
+                
+                if (isValid) {
+                    const quadrant = document.getElementById('quadrant').value;
+                    // Auto-fill quadrant if empty
+                    if (!quadrant) {
+                        const possibleQuadrants = dropdownData.mappings.segment_quadrant[value] || [];
+                        if (possibleQuadrants.length > 0) {
+                            // Find the exact match (case-sensitive from data)
+                            const exactSegment = allSegments.find(s => s.toLowerCase() === normalizedValue);
+                            if (exactSegment) {
+                                const quadrants = dropdownData.mappings.segment_quadrant[exactSegment] || [];
+                                if (quadrants.length > 0) {
+                                    document.getElementById('quadrant').value = quadrants[0];
+                                    updateDropdownOptions('segment');
+                                    updateDropdownOptions('factor');
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (field === 'factor') {
+                // Check if factor exists in the data
+                const allFactors = dropdownData.factors || [];
+                isValid = allFactors.some(f => f.toLowerCase() === normalizedValue);
+                
+                if (isValid) {
+                    const segment = document.getElementById('segment').value;
+                    const quadrant = document.getElementById('quadrant').value;
+                    
+                    // Auto-fill segment if empty
+                    if (!segment) {
+                        const possibleSegments = dropdownData.mappings.factor_segment[value] || [];
+                        if (possibleSegments.length > 0) {
+                            // Find the exact match (case-sensitive from data)
+                            const exactFactor = allFactors.find(f => f.toLowerCase() === normalizedValue);
+                            if (exactFactor) {
+                                const segments = dropdownData.mappings.factor_segment[exactFactor] || [];
+                                if (segments.length > 0) {
+                                    document.getElementById('segment').value = segments[0];
+                                    updateDropdownOptions('segment');
+                                    
+                                    // Also auto-fill quadrant if empty
+                                    if (!quadrant) {
+                                        const quadrants = dropdownData.mappings.factor_quadrant[exactFactor] || [];
+                                        if (quadrants.length > 0) {
+                                            document.getElementById('quadrant').value = quadrants[0];
+                                            updateDropdownOptions('segment');
+                                        }
+                                    }
+                                    updateDropdownOptions('factor');
+                                }
+                            }
+                        }
+                    } else if (!quadrant) {
+                        // If segment is set but quadrant is not, try to auto-fill quadrant
+                        const exactFactor = allFactors.find(f => f.toLowerCase() === normalizedValue);
+                        if (exactFactor) {
+                            const quadrants = dropdownData.mappings.factor_quadrant[exactFactor] || [];
+                            if (quadrants.length > 0) {
+                                document.getElementById('quadrant').value = quadrants[0];
+                                updateDropdownOptions('segment');
+                                updateDropdownOptions('factor');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Update other fields based on selection
+        function updateCascadingFields(selectedField) {
+            if (!dropdownData) return;
+            
+            const quadrant = document.getElementById('quadrant').value;
+            const segment = document.getElementById('segment').value;
+            const factor = document.getElementById('factor').value;
+            
+            if (selectedField === 'quadrant') {
+                // Clear segment and factor when quadrant changes
+                if (quadrant === '') {
+                    document.getElementById('segment').value = '';
+                    document.getElementById('factor').value = '';
+                    updateDropdownOptions('segment');
+                    updateDropdownOptions('factor');
+                } else {
+                    // Update segment and factor options based on quadrant
+                    updateDropdownOptions('segment');
+                    updateDropdownOptions('factor');
+                }
+            } else if (selectedField === 'segment') {
+                // Clear factor when segment changes
+                if (segment === '') {
+                    document.getElementById('factor').value = '';
+                    updateDropdownOptions('factor');
+                } else {
+                    // Auto-fill quadrant if segment is selected and quadrant is empty
+                    if (!quadrant) {
+                        const possibleQuadrants = dropdownData.mappings.segment_quadrant[segment] || [];
+                        if (possibleQuadrants.length > 0) {
+                            // Use the first quadrant if there are multiple
+                            document.getElementById('quadrant').value = possibleQuadrants[0];
+                            updateDropdownOptions('segment');
+                            updateDropdownOptions('factor');
+                        }
+                    }
+                    // Update factor options based on segment
+                    updateDropdownOptions('factor');
+                }
+            } else if (selectedField === 'factor') {
+                // Auto-fill segment and quadrant if factor is selected
+                if (factor === '') {
+                    // If factor is cleared, update options
+                    updateDropdownOptions('factor');
+                } else {
+                    // Auto-fill segment if not set
+                    if (!segment) {
+                        const possibleSegments = dropdownData.mappings.factor_segment[factor] || [];
+                        if (possibleSegments.length > 0) {
+                            // Use the first segment if there are multiple
+                            document.getElementById('segment').value = possibleSegments[0];
+                            updateDropdownOptions('segment');
+                            
+                            // Also auto-fill quadrant if not set
+                            if (!quadrant) {
+                                const possibleQuadrants = dropdownData.mappings.factor_quadrant[factor] || [];
+                                if (possibleQuadrants.length > 0) {
+                                    // Use the first quadrant if there are multiple
+                                    document.getElementById('quadrant').value = possibleQuadrants[0];
+                                    updateDropdownOptions('segment');
+                                }
+                            }
+                            // Update factor options after setting segment
+                            updateDropdownOptions('factor');
+                        }
+                    } else {
+                        // Update factor options
+                        updateDropdownOptions('factor');
+                    }
+                }
+            }
+        }
+        
+        // Handle keyboard navigation
+        function handleKeyboardNavigation(e, field) {
+            const list = document.getElementById(field + '-list');
+            const items = list.querySelectorAll('.dropdown-item:not(.no-results)');
+            
+            if (!list.classList.contains('show')) {
+                if (e.key === 'ArrowDown' || e.key === 'Enter') {
+                    e.preventDefault();
+                    updateDropdownOptions(field);
+                    list.classList.add('show');
+                }
+                return;
+            }
+            
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    currentHighlightedIndex = Math.min(currentHighlightedIndex + 1, items.length - 1);
+                    updateHighlight(items);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    currentHighlightedIndex = Math.max(currentHighlightedIndex - 1, -1);
+                    updateHighlight(items);
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    if (currentHighlightedIndex >= 0 && items[currentHighlightedIndex]) {
+                        selectOption(field, items[currentHighlightedIndex].textContent);
+                    }
+                    break;
+                case 'Escape':
+                    list.classList.remove('show');
+                    currentHighlightedIndex = -1;
+                    break;
+            }
+        }
+        
+        // Update highlighted item
+        function updateHighlight(items) {
+            items.forEach((item, index) => {
+                item.classList.toggle('highlighted', index === currentHighlightedIndex);
+            });
+        }
+        
+        // Close all dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown-container')) {
+                document.querySelectorAll('.dropdown-list').forEach(list => {
+                    list.classList.remove('show');
+                });
+                document.querySelectorAll('.dropdown-arrow').forEach(arrow => {
+                    arrow.classList.remove('expanded');
+                });
+            }
+        });
+        
+        // Form submission
+        document.getElementById('addForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitButton = document.getElementById('submitButton');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Disable button and show loading
+            submitButton.disabled = true;
+            submitButton.textContent = 'Adding Item...';
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Collect form data
+            const formData = new FormData(document.getElementById('addForm'));
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (value.trim() !== '') {
+                    data[key] = value.trim();
+                }
+            }
+            
+            try {
+                const response = await fetch('/api/dataset/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    successMessage.textContent = 'Item submitted successfully! It will be reviewed before being added to the database.';
+                    successMessage.style.display = 'block';
+                    document.getElementById('addForm').reset();
+                    
+                    // Scroll to top to show success message
+                    window.scrollTo(0, 0);
+                } else {
+                    errorMessage.textContent = result.error || 'Failed to submit item';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Submit item error:', error);
+                errorMessage.textContent = 'Network error. Please try again.';
+                errorMessage.style.display = 'block';
+            } finally {
+                // Re-enable button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Add Item';
+            }
+        });
+    </script>
+</body>
+</html>

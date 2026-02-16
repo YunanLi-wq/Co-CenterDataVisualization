@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Centre for Sustainable Food Systems</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .search-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .document-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .field-row {
+            margin: 8px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .field-row:last-child {
+            border-bottom: none;
+        }
+        
+        .field-value {
+            word-break: break-all;
+            line-height: 1.4;
+        }
+        
+        .data-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        #keyword-search:focus {
+            outline: none;
+            border-color: #4a7c59;
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Co-Centre for Sustainable Food Systems</h1>
+        <p>Empowering Communities. Nurturing Our Planet.</p>
+        <p>Driving innovation to foster healthier diets and deliver environmental, economic, and equitable food system advancements by 2050.</p>
+    </header>
+
+    <main>
+        <section class="navigation-section">
+            <h2>Research Platforms</h2>
+            <div class="link-grid">
+                <a href="https://foodcocentre.org/research/sustainable-food" target="_blank" class="nav-link sustainable-food">
+                    <div class="link-content">
+                        <h3>Sustainable Food</h3>
+                        <p>Develop sustainable crop and animal production systems</p>
+                    </div>
+                </a>
+                
+                <a href="https://foodcocentre.org/research/food-safety-integrity" target="_blank" class="nav-link food-safety">
+                    <div class="link-content">
+                        <h3>Food Safety & Integrity</h3>
+                        <p>Enhance food safety and protect against emerging challenges</p>
+                    </div>
+                </a>
+                
+                <a href="https://foodcocentre.org/research/health-nutrition" target="_blank" class="nav-link health-nutrition">
+                    <div class="link-content">
+                        <h3>Health & Nutrition</h3>
+                        <p>Evidence-base for healthy diets from sustainable sources</p>
+                    </div>
+                </a>
+                
+                <a href="https://foodcocentre.org/research/data-modelling" target="_blank" class="nav-link data-modelling">
+                    <div class="link-content">
+                        <h3>Data Modelling</h3>
+                        <p>FAIR data analytics framework for food systems</p>
+                    </div>
+                </a>
+                
+                <a href="https://foodcocentre.org/research/trust-food-systems" target="_blank" class="nav-link trust-systems">
+                    <div class="link-content">
+                        <h3>Trust in Food Systems</h3>
+                        <p>Map food system policies and identify opportunities</p>
+                    </div>
+                </a>
+                
+                <a href="{{ url_for('d3viz2') }}" target="_blank" class="nav-link food-compass">
+                    <div class="link-content">
+                        <h3>Food Co-Centre Sustainability Compass</h3>
+                        <p>Interactive visualization of sustainable food systems</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="navigation-section">
+            <h2>Dataset Hub</h2>
+            <div class="dataset-container">
+                <div class="dataset-stats">
+                    <div class="stat-card">
+                        <h3>Database Connection</h3>
+                        <p>MongoDB: 127.0.0.1:27017</p>
+                        <p>Database: local</p>
+                        <p>Collection: rolNLDraft</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Data Statistics</h3>
+                        <p id="total-documents">Total Documents: Loading...</p>
+                        <p id="database-status">Status: Connecting...</p>
+                    </div>
+                </div>
+                <div class="dataset-actions">
+                    <button onclick="loadDataset()" class="dataset-btn">Load Dataset</button>
+                    <button onclick="viewCollection()" class="dataset-btn">View Collection</button>
+                    <button onclick="previewExcel()" class="dataset-btn">Preview Excel</button>
+                    <button onclick="exportData()" class="dataset-btn">Export Excel</button>
+                </div>
+                
+                <div class="search-container" style="margin: 20px 0;">
+                    <h3>Keyword Search</h3>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="text" id="keyword-search" placeholder="Enter keyword to search..." style="flex: 1; min-width: 200px; padding: 8px; border: 2px solid #4a7c59; border-radius: 5px;">
+                        <button onclick="searchKeyword()" class="dataset-btn" style="background: #4a7c59; color: white;">🔍 Search</button>
+                        <button onclick="clearSearch()" class="dataset-btn" style="background: #6c757d; color: white;">Clear</button>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">🔍 Search across ALL columns - any column containing the keyword will be displayed</p>
+                </div>
+                <div id="dataset-content" class="dataset-content" style="display: none;">
+                    <h3>Dataset Content</h3>
+                    <div id="data-display"></div>
+                </div>
+                <div id="excel-preview" class="excel-preview" style="display: none;">
+                    <h3>Excel Preview</h3>
+                    <div class="excel-table-container">
+                        <table id="excel-table" class="excel-table">
+                            <thead id="excel-headers"></thead>
+                            <tbody id="excel-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Co-Centre for Sustainable Food Systems. All external links open in new tabs.</p>
+        <p>Contact: <a href="mailto:info@foodcocentre.org">info@foodcocentre.org</a></p>
+    </footer>
+
+    <script>
+        // MongoDB Dataset Functions
+        async function loadDataset() {
+            try {
+                const response = await fetch('/api/dataset/load');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('total-documents').textContent = `Total Documents: ${data.count}`;
+                    document.getElementById('database-status').textContent = 'Status: Connected';
+                    document.getElementById('dataset-content').style.display = 'block';
+                    displayData(data.documents);
+                } else {
+                    alert('Failed to load dataset: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to database');
+            }
+        }
+
+        async function viewCollection() {
+            try {
+                const response = await fetch('/api/dataset/view');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('dataset-content').style.display = 'block';
+                    displayData(data.documents);
+                } else {
+                    alert('Failed to view collection: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to database');
+            }
+        }
+
+        async function previewExcel() {
+            try {
+                const response = await fetch('/api/dataset/excel-preview');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('excel-preview').style.display = 'block';
+                    document.getElementById('dataset-content').style.display = 'none';
+                    displayExcelData(data.headers, data.data);
+                } else {
+                    alert('Failed to preview Excel data: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to database');
+            }
+        }
+
+        async function exportData() {
+            try {
+                const response = await fetch('/api/dataset/export');
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dataset_export.xlsx';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to export data');
+            }
+        }
+
+        function displayData(documents) {
+            const container = document.getElementById('data-display');
+            container.innerHTML = '';
+            
+            if (documents.length === 0) {
+                container.innerHTML = '<p>No data in collection</p>';
+                return;
+            }
+
+            documents.forEach((doc, index) => {
+                const docDiv = document.createElement('div');
+                docDiv.className = 'data-item';
+                
+                // Create a formatted display with clickable URLs
+                let formattedContent = '<h4>Document ' + (index + 1) + '</h4><div class="document-content">';
+                
+                Object.keys(doc).forEach(key => {
+                    const value = doc[key];
+                    let displayValue = typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value);
+                    
+                    // Make URL clickable
+                    if (key === 'Url' && value && value.startsWith('http')) {
+                        displayValue = `<a href="${value}" target="_blank" style="color: #007bff; text-decoration: underline;">${value}</a>`;
+                    }
+                    
+                    formattedContent += `<div class="field-row"><strong>${key}:</strong> <span class="field-value">${displayValue}</span></div>`;
+                });
+                
+                formattedContent += '</div>';
+                docDiv.innerHTML = formattedContent;
+                container.appendChild(docDiv);
+            });
+        }
+
+        function displayExcelData(headers, data) {
+            const headersContainer = document.getElementById('excel-headers');
+            const bodyContainer = document.getElementById('excel-body');
+            
+            // Clear previous content
+            headersContainer.innerHTML = '';
+            bodyContainer.innerHTML = '';
+            
+            if (headers.length === 0) {
+                bodyContainer.innerHTML = '<tr><td colspan="100%">No data available</td></tr>';
+                return;
+            }
+            
+            // Create header row
+            const headerRow = document.createElement('tr');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            headersContainer.appendChild(headerRow);
+            
+            // Create data rows
+            data.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                row.forEach((cell, cellIndex) => {
+                    const td = document.createElement('td');
+                    const header = headers[cellIndex];
+                    const cellValue = cell || '';
+                    
+                    // Make URL column clickable
+                    if (header === 'Url' && cellValue && cellValue.startsWith('http')) {
+                        const link = document.createElement('a');
+                        link.href = cellValue;
+                        link.target = '_blank';
+                        link.textContent = cellValue;
+                        link.style.color = '#007bff';
+                        link.style.textDecoration = 'underline';
+                        td.appendChild(link);
+                    } else {
+                        td.textContent = cellValue;
+                    }
+                    
+                    tr.appendChild(td);
+                });
+                bodyContainer.appendChild(tr);
+            });
+        }
+
+        // Keyword search functionality
+        async function searchKeyword() {
+            const keyword = document.getElementById('keyword-search').value.trim();
+            if (!keyword) {
+                alert('Please enter a keyword to search');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/dataset/filter?goal=${encodeURIComponent(keyword)}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('excel-preview').style.display = 'block';
+                    document.getElementById('dataset-content').style.display = 'none';
+                    
+                    // Convert data to table format
+                    const headers = data.available_fields || [];
+                    const tableData = data.records.map(record => 
+                        headers.map(header => record[header] || '')
+                    );
+                    
+                    displayExcelData(headers, tableData);
+                    
+                    // Show search results info
+                    const searchInfo = document.createElement('div');
+                    searchInfo.innerHTML = `
+                        <div style="background: #e8f5e8; padding: 10px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #4a7c59;">
+                            <strong>Search Results for "${keyword}":</strong> ${data.count} records found
+                        </div>
+                    `;
+                    document.getElementById('excel-preview').insertBefore(searchInfo, document.getElementById('excel-preview').firstChild);
+                } else {
+                    alert('Search failed: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to search database');
+            }
+        }
+        
+        function clearSearch() {
+            document.getElementById('keyword-search').value = '';
+            document.getElementById('excel-preview').style.display = 'none';
+            document.getElementById('dataset-content').style.display = 'none';
+        }
+
+        // Check database connection on page load
+        window.onload = function() {
+            fetch('/api/dataset/status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('total-documents').textContent = `Total Documents: ${data.count}`;
+                        document.getElementById('database-status').textContent = 'Status: Connected';
+                    } else {
+                        document.getElementById('database-status').textContent = 'Status: Connection Failed';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('database-status').textContent = 'Status: Connection Failed';
+                });
+        };
+    </script>
+
+</body>
+</html>

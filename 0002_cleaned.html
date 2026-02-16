@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!--
+  Entity Visualization HTML Template
+  
+  Content Source:
+  This content is derived from the UK Government Food Statistics Pocketbook:
+  https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket
+  
+  This file displays named entity recognition (NER) annotations for text content,
+  specifically the National Diet and Nutrition Survey (NDNS) Report for Northern Ireland.
+  Entities are highlighted with color-coded backgrounds and labeled badges.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ent Visualization</title>
+<style>
+  /* CSS Custom Properties (Variables) for Entity Type Colors
+     Each entity type has a distinct color for visual differentiation:
+     - ORG: Organization (light blue)
+     - PER: Person (lighter blue)
+     - LOC: Location (teal)
+     - TIME: Time/Date (orange)
+     - MONEY: Monetary values (lavender)
+     - AMT: Amount/Quantity (light purple)
+     - PLANT: Plant-related entities (yellow)
+     - ANI: Animal-related entities (light blue)
+     - FOOD: Food items (blue)
+     - NUT: Nutrition/Nutrients (yellow)
+     - CHE: Chemical compounds (bright yellow)
+     - DIS: Disease/Disorder (orange-yellow)
+     - EVENT: Events (light green)
+     - PROC: Process (blue)
+     - ENV: Environment (blue-gray)
+     - LAW: Legal/Law (blue)
+     - MARK: Market (beige)
+     - TOOL: Tools/Instruments (lavender)
+     - DATA: Data/Datasets (pink-beige)
+  */
+  :root{
+    --ORG:#85C1E9; --PER:#AED6F1; --LOC:#76D7C4; --TIME:#F5B041; --MONEY:#D7BDE2; --AMT:#D1BAE2;
+	--PLANT:#F9E79F; --ANI:#AED6F1; --FOOD:#85C1E9; --NUT:#F7DC6F; --CHE:#F2DC2F; --DIS:#F8C471;
+	--EVENT:#82E0AA; --PROC:#85C1E9; --ENV:#7FB3D5; --LAW:#7FB4DD; --MARK:#D7BDA2; --TOOL:#E8DAEF; --DATA:#D4B2A2;
+  }
+
+  /* Base body styling - clean, readable typography */
+  body{
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: #000;
+    padding: 24px;
+    line-height: 1.8; /* increased line spacing for better readability */
+    background: #fff;
+  }
+
+  /* Document container - centered, max-width layout similar to displaCy visualization tool */
+  .doc {
+    max-width: 980px;
+    margin: 0 auto;
+    font-size: 16px;
+  }
+
+  /* Heading styles */
+  h3, h3 { margin: 1.1em 0 0.4em 0; font-weight: 600; }
+
+  /* Entity base styling - inline-block elements with rounded corners
+     Entities are highlighted spans that wrap named entities in the text */
+  .ent {
+    display: inline-block;
+    position: relative;
+    padding: 2px 6px;
+    margin: 0 2px 0 0;
+    border-radius: 6px;
+    color: #000; /* black text for readability against colored backgrounds */
+    text-decoration: none;
+    white-space: pre-wrap; /* preserve whitespace and allow wrapping */
+  }
+  
+  /* Entity label badge - automatically appended after each entity
+     Uses the data-label attribute to display the entity type (e.g., "ORG", "LOC")
+     White background with bold text for clear identification */
+  .ent::after{
+    content: attr(data-label);
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 6px;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    border-radius: 6px;
+    font-size: 0.78em;
+    line-height: 1.8;
+    vertical-align: middle;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.02); /* subtle border effect */
+  }
+
+  /* Hover tooltip styling - entities with title attributes show tooltips on hover */
+  .ent[title] { cursor: default; }
+
+  /* Entity type color mappings - each entity class gets its background color
+     from the CSS custom properties defined in :root */
+  .ORG { background: var(--ORG); }
+  .PER { background: var(--PER); }
+  .LOC { background: var(--LOC); }
+  .TIME { background: var(--TIME); }
+  .MONEY { background: var(--MONEY); }
+  .AMT { background: var(--DATA); }
+  .PLANT { background: var(--PLANT); }
+  .ANI { background: var(--ANI); }
+  .FOOD { background: var(--FOOD); }
+  .NUT { background: var(--NUT); }
+  .CHE { background: var(--CHE); }
+  .DIS { background: var(--DIS); }
+  .EVENT { background: var(--EVENT); }
+  .PROC { background: var(--PROC); }
+  .ENV { background: var(--ENV); }
+  .LAW { background: var(--LAW); }
+  .MARK { background: var(--MARK); }
+  .TOOL { background: var(--TOOL); }
+  .DATA { background: var(--DATA); }
+
+  /* Responsive design - adjust padding and font size for smaller screens */
+  @media (max-width:600px){
+    body{padding:12px;}
+    .doc{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+<!-- 
+  Main Content Area
+  Source: UK Government Food Statistics Pocketbook
+  URL: https://www.gov.uk/government/statistics/food-statistics-pocketbook/food-statistics-in-your-pocket
+  
+  This section contains the National Diet and Nutrition Survey (NDNS) Report content
+  with named entity recognition annotations. Each entity is wrapped in a <span> element
+  with the appropriate entity class and data-label attribute.
+-->
+<div class="doc">
+<!-- Document Title - NDNS Report for Northern Ireland -->
+<h2><span class="ent DATA" data-label="DATA" title="DATA">National Diet and Nutrition Survey (NDNS) Report</span> — <span class="ent LOC" data-label="LOC" title="LOC">Northern Ireland</span></h2>
+
+<!-- Introduction paragraph -->
+<p>
+The <span class="ent DATA" data-label="DATA" title="DATA">National Diet and Nutrition Survey (NDNS) Report</span> for <span class="ent LOC" data-label="LOC" title="LOC">Northern Ireland</span>
+</p>
+
+<!-- Research project overview - describes the NDNS Research Project scope and time periods -->
+<p>
+Research project — <span class="ent LOC" data-label="LOC" title="LOC">Northern Ireland</span> specific. The <span class="ent ORG" data-label="ORG" title="ORG">NDNS RP<span class="label">ORG</span></span>: Results for Years 5 to 9 (<span class="ent TIME" data-label="TIME" title="TIME">2012/13 - 2016/17</span>) (combined) and time trend and income analysis Years 1 to 9 (<span class="ent TIME" data-label="TIME" title="TIME">2008/09 - 2016/17</span>).
+</p>
+
+<!-- Survey methodology description -->
+<p>
+The <span class="ent ORG" data-label="ORG" title="ORG">NDNS RP<span class="label">ORG</span></span> is a <span class="ent PROC" data-label="PROC" title="PROC">continuous cross-sectional survey</span>, designed to assess the <span class="ent FOOD" data-label="FOOD" title="FOOD">diet</span>, <span class="ent NUT" data-label="NUT" title="NUT">nutrient intake</span> and nutritional status of the general population aged <span class="ent AMT" data-label="AMT" title="AMT">1.5 years</span> and over living in private households in the <span class="ent LOC" data-label="LOC" title="LOC">UK.
+</p>
+
+<!-- Sampling methodology - explains boosted samples for Northern Ireland representation -->
+<p>
+Boosted samples were gathered in Years 1-4 (<span class="ent TIME" data-label="TIME" title="TIME">2008/09-2011/12</span>) and Years 6-9 (<span class="ent TIME" data-label="TIME" title="TIME">2013/14-2016/17</span>) to achieve representative data for <span class="ent LOC" data-label="LOC" title="LOC">Northern Ireland</span> and enable comparisons with <span class="ent LOC" data-label="LOC" title="LOC">UK</span> results.
+</p>
+
+<!-- Key Findings Section - summarizes main nutritional findings from the survey -->
+<h3>Key findings</h3>
+
+<!-- Finding 1: Fruit and vegetable consumption below recommendations -->
+<p>
+Consumption of <span class="ent AMT" data-label="AMT" title="AMT">5 A Day fruit and vegetable portions</span> was below the recommendation in all age/sex groups.
+</p>
+
+<!-- Finding 2: Oily fish consumption below recommended levels -->
+<p>
+Average consumption of <span class="ent FOOD" data-label="FOOD" title="FOOD">oily fish</span> was equivalent to <span class="ent AMT" data-label="AMT" title="AMT">7-15g per week</span> in children and <span class="ent AMT" data-label="AMT" title="AMT">30-60g per week</span> in adults, below the recommended <span class="ent AMT" data-label="AMT" title="AMT">1 portion (140g) per week</span>.
+</p>
+
+<!-- Finding 3: Red and processed meat consumption exceeds recommendations for adult men -->
+<p>
+Average daily consumption of <span class="ent FOOD" data-label="FOOD" title="FOOD">red and processed meat</span> for men aged <span class="ent AMT" data-label="AMT" title="AMT">19 to 64 years</span> exceeded the current maximum recommendation by <span class="ent AMT" data-label="AMT" title="AMT">19g</span>.
+</p>
+
+<!-- Finding 4: Saturated fatty acid intake exceeds recommendations -->
+<p>
+Average intakes of <span class="ent NUT" data-label="NUT" title="NUT">saturated fatty acids</span> exceeded the current recommendation of no more than <span class="ent AMT" data-label="AMT" title="AMT">11% of food energy</span>, providing <span class="ent AMT" data-label="AMT" title="AMT">12.7-13.3% of food energy</span> for children aged 4 years upwards and <span class="ent AMT" data-label="AMT" title="AMT">13.3-14.0% for adults</span>.
+</p>
+
+<!-- Finding 5: Free sugars intake exceeds recommendations across all groups -->
+<p>
+Intakes of <span class="ent NUT" data-label="NUT" title="NUT">free sugars</span> exceeded the recommendation of no more than 5% of total energy from free sugars in all age/sex groups.
+</p>
+
+<!-- Finding 6: AOAC fibre intake by age group -->
+<p>
+For <span class="ent CHE" data-label="CHE" title="CHE">AOAC fibre</span>, average intakes were <span class="ent AMT" data-label="AMT" title="AMT">9.9g</span> for children aged <span class="ent AMT" data-label="AMT" title="AMT">1.5 to 3 years</span>, <span class="ent AMT" data-label="AMT" title="AMT">12.9g</span> for ages <span class="ent AMT" data-label="AMT" title="AMT">4 to 10 years</span>, and <span class="ent AMT" data-label="AMT" title="AMT">14.6g</span> for children aged <span class="ent AMT" data-label="AMT" title="AMT">11 to 18 years</span>. Intakes for adults were <span class="ent AMT" data-label="AMT" title="AMT">17.3-17.6g</span>.
+</p>
+
+<!-- Finding 7: Vitamin D intake below recommendations -->
+<p>
+Average intakes of <span class="ent NUT" data-label="NUT" title="NUT">vitamin D</span> were below the recommended <span class="ent AMT" data-label="AMT" title="AMT">10µg/day</span> in all age/sex groups.
+</p>
+</div>
+</body></html>

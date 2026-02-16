@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Map - Food Co-Centre Sustainability Compass</title>
+    <!-- 
+        Using Leaflet.js + OpenStreetMap - FREE and NO API KEY REQUIRED!
+        Leaflet is an open-source JavaScript library for mobile-friendly interactive maps.
+        OpenStreetMap provides free map tiles.
+    -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script>
+        // Global variable to track if Leaflet is loaded
+        window.mapLibraryLoaded = false;
+        window.mapLibraryError = null;
+        let mapsReady = false;
+        
+        // Initialize when Leaflet is loaded
+        function initMapLibrary() {
+            if (typeof L !== 'undefined') {
+                window.mapLibraryLoaded = true;
+                mapsReady = true;
+                console.log('Leaflet.js loaded successfully');
+                if (typeof tryLoadData === 'function') {
+                    tryLoadData();
+                }
+            }
+        }
+        
+        // Check if Leaflet is already loaded (after scripts load)
+        function checkLeafletLoaded() {
+            if (typeof L !== 'undefined') {
+                initMapLibrary();
+            } else {
+                // Wait a bit more if not loaded yet
+                setTimeout(function() {
+                    if (typeof L !== 'undefined') {
+                        initMapLibrary();
+                    } else {
+                        window.mapLibraryError = {
+                            type: 'LoadError',
+                            message: 'Failed to load Leaflet.js map library.',
+                            details: 'Please check your network connection and try refreshing the page.'
+                        };
+                        mapsReady = true;
+                        if (typeof tryLoadData === 'function') {
+                            tryLoadData();
+                        }
+                    }
+                }, 500);
+            }
+        }
+        
+        // Check when page loads
+        if (document.readyState === 'complete') {
+            checkLeafletLoaded();
+        } else {
+            window.addEventListener('load', checkLeafletLoaded);
+        }
+        
+        // Also check after a short delay
+        setTimeout(checkLeafletLoaded, 200);
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6b8e23 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        #map {
+            width: 100%;
+            /* Calculate height based on UK/Ireland bounds aspect ratio */
+            /* Bounds: lat range ~10.47, lng range ~18.82, ratio ~1.8:1 */
+            aspect-ratio: 1.8 / 1;
+            min-height: 500px;
+            max-height: 800px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #e8f5e9;
+            border: 2px solid #4a7c59;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Fallback for browsers that don't support aspect-ratio */
+        @supports not (aspect-ratio: 1) {
+            #map {
+                height: calc(100vw * 0.556); /* 1/1.8 ≈ 0.556 */
+                min-height: 500px;
+                max-height: 800px;
+            }
+        }
+        
+        #map::before {
+            content: 'Loading map...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #666;
+            font-size: 1.1rem;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        #map.loaded::before {
+            display: none;
+        }
+        
+        /* Leaflet specific styles */
+        .leaflet-container {
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .custom-marker {
+            background: transparent !important;
+            border: none !important;
+        }
+        
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+        }
+        
+        .leaflet-popup-content {
+            margin: 0;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #dc3545;
+            font-size: 1.2rem;
+            background: #f8d7da;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #2d5016;
+        }
+        
+        .empty-state p {
+            font-size: 1.1rem;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: #2d5016;
+        }
+        
+        .filter-panel {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-end;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d5016;
+            font-size: 0.95rem;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #4a7c59;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: white;
+            color: #333;
+            cursor: text;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:hover {
+            border-color: #6b8e23;
+            box-shadow: 0 2px 8px rgba(74, 124, 89, 0.2);
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: #6b8e23;
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+        }
+        
+        .filter-select::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+        
+        .stats-summary {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stats-summary h3 {
+            margin: 0 0 10px 0;
+            color: #2d5016;
+            font-size: 1.3rem;
+        }
+        
+        .stats-summary p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .location-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .legend-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a7c59, #6b8e23);
+        }
+        
+        .legend-text {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .map-container {
+                padding: 20px;
+            }
+            
+            #map {
+                aspect-ratio: 1.8 / 1;
+                min-height: 300px;
+                max-height: 500px;
+                height: auto;
+            }
+            
+            /* Fallback for browsers that don't support aspect-ratio */
+            @supports not (aspect-ratio: 1) {
+                #map {
+                    height: calc(100vw * 0.556);
+                    min-height: 300px;
+                    max-height: 500px;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Food Co-Centre Sustainability Compass</h1>
+        <p>Location Distribution Map</p>
+    </div>
+    
+    <div class="map-container">
+        <div id="loading" class="loading">Loading location data...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="content" style="display: none;">
+            <div class="filter-panel">
+                <div class="filter-group">
+                    <label for="quadrant-filter">Quadrant:</label>
+                    <input type="text" id="quadrant-filter" class="filter-select" list="quadrant-list" placeholder="Type to search or select...">
+                    <datalist id="quadrant-list">
+                        <option value="">-- All Quadrants --</option>
+                    </datalist>
+                </div>
+                <div class="filter-group">
+                    <label for="segment-filter">Segment:</label>
+                    <input type="text" id="segment-filter" class="filter-select" list="segment-list" placeholder="Type to search or select...">
+                    <datalist id="segment-list">
+                        <option value="">-- All Segments --</option>
+                    </datalist>
+                </div>
+                <div class="filter-group">
+                    <label for="factor-filter">Factor:</label>
+                    <input type="text" id="factor-filter" class="filter-select" list="factor-list" placeholder="Type to search or select...">
+                    <datalist id="factor-list">
+                        <option value="">-- All Factors --</option>
+                    </datalist>
+                </div>
+            </div>
+            <div id="stats-summary" class="stats-summary"></div>
+            <div id="map"></div>
+            <div id="location-legend" class="location-legend"></div>
+        </div>
+    </div>
+    
+    <div class="navigation-buttons">
+        <a href="/" class="nav-button">Home</a>
+        <a href="/d3viz" class="nav-button">Compass Visualization</a>
+        <a href="/add" class="nav-button">Add Item</a>
+    </div>
+    
+    <script>
+        let map;
+        let markers = [];
+        let locationData = [];
+        let mapInitialized = false;
+        let isLoadingData = false;
+
+        // Read initial filters from URL (e.g. /map?quadrant=...&segment=...&factor=...)
+        const urlSearchParams = new URLSearchParams(window.location.search || '');
+        const urlFilters = {
+            quadrant: (urlSearchParams.get('quadrant') || '').trim(),
+            segment: (urlSearchParams.get('segment') || '').trim(),
+            factor: (urlSearchParams.get('factor') || '').trim()
+        };
+        
+        // Predefined coordinates for common locations
+        // 52.944552, -1.467151
+        
+        const locationCoordinates = {
+            'UK': { lat: 53.7024, lng: -1.2766 },
+            'United Kingdom': { lat: 53.7024, lng: -1.2766 },
+            'Great Britain': { lat: 54.7024, lng: -3.2766 },
+            'England': { lat: 52.3555, lng: -1.1743 },
+            'Wales': { lat: 52.1307, lng: -3.7837 },
+            'Scotland': { lat: 56.4907, lng: -4.2026 },
+            'Northern Ireland': { lat: 54.5973, lng: -6.0 }, // Center of Northern Ireland
+            'N. Ireland': { lat: 54.5973, lng: -6.0 },
+            'N Ireland': { lat: 54.5973, lng: -6.0 },
+            'Ireland': { lat: 53.3498, lng: -7.9 }, // Dublin, Republic of Ireland
+            'Republic of Ireland': { lat: 53.3498, lng: -6.2603 },
+            'Eire': { lat: 53.3498, lng: -6.2603 }, // Alternative name for Ireland
+            'London': { lat: 51.5074, lng: -0.1278 },
+            'Belfast': { lat: 54.5973, lng: -5.9301 },
+            'Dublin': { lat: 53.3498, lng: -6.2603 }
+        };
+        
+        // Function to normalize location names
+        function normalizeLocationName(name) {
+            if (!name) return '';
+            const normalized = name.trim();
+
+            // Canonicalize UK variations to ONE key to avoid overlapping duplicate markers
+            // (the dataset may contain "UK" or "United Kingdom"; we display as "United Kingdom")
+            const lowerName = normalized.toLowerCase();
+            if (lowerName === 'uk' || lowerName.includes('united kingdom') || lowerName.includes('great britain')) {
+                return 'United Kingdom';
+            }
+            
+            // Try exact match first
+            if (locationCoordinates[normalized]) {
+                return normalized;
+            }
+            
+            // Try case-insensitive match
+            for (const key in locationCoordinates) {
+                if (key.toLowerCase() === normalized.toLowerCase()) {
+                    return key;
+                }
+            }
+            
+            // Check for partial matches - IMPORTANT: Check Northern Ireland FIRST before Ireland
+            
+            // Northern Ireland variations (must check before Ireland)
+            if (lowerName.includes('northern ireland') || 
+                lowerName.includes('n. ireland') || 
+                lowerName.includes('n ireland') ||
+                lowerName === 'northern ireland' ||
+                lowerName === 'n. ireland' ||
+                lowerName === 'n ireland' ||
+                lowerName.startsWith('northern') ||
+                (lowerName.startsWith('n.') && lowerName.includes('ireland')) ||
+                (lowerName.startsWith('n ') && lowerName.includes('ireland'))) {
+                return 'Northern Ireland';
+            }
+            
+            // Ireland (but not Northern Ireland)
+            if (lowerName.includes('ireland') && 
+                !lowerName.includes('northern') && 
+                !lowerName.includes('n.') &&
+                !lowerName.includes('n ')) {
+                // Check if it's Republic of Ireland
+                if (lowerName.includes('republic')) {
+                    return 'Republic of Ireland';
+                }
+                return 'Ireland';
+            }
+            
+            // Other locations
+            if (lowerName.includes('england')) {
+                return 'England';
+            }
+            if (lowerName.includes('wales')) {
+                return 'Wales';
+            }
+            if (lowerName.includes('scotland')) {
+                return 'Scotland';
+            }
+            
+            return normalized;
+        }
+        
+        // Function to get coordinates for a location
+        function getLocationCoordinates(locationName) {
+            const normalized = normalizeLocationName(locationName);
+            return locationCoordinates[normalized] || null;
+        }
+        
+        // Function to create custom marker with count using Leaflet
+        function createCustomMarker(location, count, map, filters = null) {
+            const normalized = normalizeLocationName(location);
+            const coords = getLocationCoordinates(location);
+            
+            // Ensure count is a number, default to 0 if undefined or null
+            count = count || 0;
+            
+            // Debug logging
+            console.log(`Location: "${location}" -> Normalized: "${normalized}" -> Coords:`, coords, `Count: ${count}`);
+            
+            if (!coords) {
+                console.warn(`Coordinates not found for location: "${location}" (normalized: "${normalized}")`);
+                return null;
+            }
+            
+            // Calculate circle radius based on count (scale between 5 and 30 km)
+            // Handle case where all counts are 0 or maxCount is 0
+            const counts = locationData.map(loc => loc.count || 0);
+            const maxCount = Math.max(...counts, 1); // Use 1 as minimum to avoid division by zero
+            const minRadius = 5;
+            const maxRadius = 30;
+            // If maxCount is 0 or all counts are 0, use minimum radius
+            const radius = maxCount > 0 ? minRadius + (count / maxCount) * (maxRadius - minRadius) : minRadius;
+            
+            // Create circle overlay (always show, even if count is 0)
+            const circle = L.circle([coords.lat, coords.lng], {
+                color: '#4a7c59',
+                fillColor: '#4a7c59',
+                fillOpacity: count > 0 ? 0.35 : 0.15, // Lower opacity if count is 0
+                radius: radius * 1000, // Convert to meters
+                weight: 2,
+                opacity: count > 0 ? 0.8 : 0.4 // Lower opacity if count is 0
+            }).addTo(map);
+            
+            // Calculate marker size based on count (minimum size even for 0)
+            const markerSize = Math.max(30, Math.min(60, count > 0 ? 20 + count / 3 : 30));
+            
+            // Create custom icon with count (show 0 if count is 0)
+            const iconColor = count > 0 ? 'linear-gradient(135deg, #4a7c59, #6b8e23)' : 'linear-gradient(135deg, #999999, #666666)';
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `
+                    <div style="
+                        width: ${markerSize}px;
+                        height: ${markerSize}px;
+                        background: ${iconColor};
+                        border: 3px solid #ffffff;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        font-weight: bold;
+                        font-size: ${markerSize * 0.4}px;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                    ">${count}</div>
+                `,
+                iconSize: [markerSize, markerSize],
+                iconAnchor: [markerSize / 2, markerSize / 2]
+            });
+            
+            // Create marker
+            const marker = L.marker([coords.lat, coords.lng], {
+                icon: customIcon,
+                title: `${location}: ${count} items`
+            }).addTo(map);
+            
+            // Create popup content with Show Table button
+            const encodedLocation = encodeURIComponent(location);
+            
+            // Build URL with filters if they exist
+            let tableUrl = `/table/${encodedLocation}`;
+            const urlParams = new URLSearchParams();
+            if (filters) {
+                if (filters.quadrant) urlParams.append('quadrant', filters.quadrant);
+                if (filters.segment) urlParams.append('segment', filters.segment);
+                if (filters.factor) urlParams.append('factor', filters.factor);
+            }
+            if (urlParams.toString()) {
+                tableUrl += '?' + urlParams.toString();
+            }
+            
+            const popupContent = `
+                <div style="padding: 10px; font-family: 'Segoe UI', sans-serif; min-width: 180px;">
+                    <h3 style="margin: 0 0 8px 0; color: #2d5016; font-size: 1.1rem;">${escapeHtml(location)}</h3>
+                    <p style="margin: 0 0 12px 0; color: #666; font-size: 0.95rem;">
+                        <strong>Items:</strong> ${count}
+                    </p>
+                    <a href="${tableUrl}" 
+                       style="display: inline-block; 
+                              padding: 8px 16px; 
+                              background: linear-gradient(135deg, #4a7c59, #6b8e23); 
+                              color: white; 
+                              text-decoration: none; 
+                              border-radius: 5px; 
+                              font-size: 0.9rem; 
+                              font-weight: 600; 
+                              text-align: center; 
+                              width: 100%; 
+                              box-sizing: border-box;
+                              transition: all 0.3s ease;
+                              box-shadow: 0 2px 4px rgba(0,0,0,0.2);"
+                       onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.3)';"
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.2)';">
+                        📊 Show Table
+                    </a>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            circle.bindPopup(popupContent);
+            
+            // Add click events
+            marker.on('click', function() {
+                marker.openPopup();
+            });
+            
+            circle.on('click', function() {
+                marker.openPopup();
+            });
+            
+            return { marker, circle };
+        }
+        
+        // Flag to prevent loading filter options multiple times
+        let filterOptionsLoaded = false;
+        // Store dropdown data globally for cascading filters
+        let dropdownData = null;
+        
+        // Prefill filter inputs from URL as early as possible (does not require dropdownData).
+        function prefillFiltersFromUrl() {
+            const quadrantFilter = document.getElementById('quadrant-filter');
+            const segmentFilter = document.getElementById('segment-filter');
+            const factorFilter = document.getElementById('factor-filter');
+            if (!quadrantFilter || !segmentFilter || !factorFilter) return;
+
+            if (urlFilters.quadrant) quadrantFilter.value = urlFilters.quadrant;
+            if (urlFilters.segment) segmentFilter.value = urlFilters.segment;
+            if (urlFilters.factor) factorFilter.value = urlFilters.factor;
+        }
+
+        // Enhance URL-prefilled filters once dropdownData is available (auto-fill parents + update cascading lists)
+        function enhancePrefilledFiltersWithMappings() {
+            if (!dropdownData || !dropdownData.mappings) return;
+
+            const quadrantFilter = document.getElementById('quadrant-filter');
+            const segmentFilter = document.getElementById('segment-filter');
+            const factorFilter = document.getElementById('factor-filter');
+            if (!quadrantFilter || !segmentFilter || !factorFilter) return;
+
+            let quadrant = quadrantFilter.value.trim();
+            let segment = segmentFilter.value.trim();
+            let factor = factorFilter.value.trim();
+
+            // If factor is set, auto-fill segment/quadrant when missing
+            if (factor) {
+                const allFactors = dropdownData.factors || [];
+                const exactFactor = allFactors.find(f => String(f).toLowerCase() === factor.toLowerCase()) || factor;
+                if (!segment && dropdownData.mappings.factor_segment && dropdownData.mappings.factor_segment[exactFactor]) {
+                    const segs = dropdownData.mappings.factor_segment[exactFactor] || [];
+                    if (segs.length > 0) segment = segs[0];
+                }
+                if (!quadrant && dropdownData.mappings.factor_quadrant && dropdownData.mappings.factor_quadrant[exactFactor]) {
+                    const quads = dropdownData.mappings.factor_quadrant[exactFactor] || [];
+                    if (quads.length > 0) quadrant = quads[0];
+                }
+                factor = exactFactor;
+            }
+
+            // If segment is set (and quadrant missing), auto-fill quadrant
+            if (segment && !quadrant && dropdownData.mappings.segment_quadrant) {
+                const allSegments = dropdownData.segments || [];
+                const exactSegment = allSegments.find(s => String(s).toLowerCase() === segment.toLowerCase()) || segment;
+                const quads = dropdownData.mappings.segment_quadrant[exactSegment] || [];
+                if (quads.length > 0) quadrant = quads[0];
+                segment = exactSegment;
+            }
+
+            // Apply values and refresh cascading option lists
+            quadrantFilter.value = quadrant;
+            updateSegmentOptions();
+            segmentFilter.value = segment;
+            updateFactorOptions();
+            factorFilter.value = factor;
+        }
+
+        // Load unique values for filters from Compass collection
+        async function loadFilterOptions() {
+            // Prevent loading multiple times
+            if (filterOptionsLoaded) {
+                console.log('Filter options already loaded, skipping...');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/compass/structure');
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    dropdownData = data.data; // Store globally for cascading
+                    const quadrants = data.data.quadrants || [];
+                    const segments = data.data.segments || [];
+                    const factors = data.data.factors || [];
+                    
+                    // Populate Quadrant datalist - clear existing options first (except the default one)
+                    const quadrantList = document.getElementById('quadrant-list');
+                    // Keep only the default option, remove all others
+                    while (quadrantList.children.length > 1) {
+                        quadrantList.removeChild(quadrantList.lastChild);
+                    }
+                    quadrants.forEach(q => {
+                        const option = document.createElement('option');
+                        option.value = q;
+                        quadrantList.appendChild(option);
+                    });
+                    
+                    // Initially populate Segment and Factor with all options
+                    updateSegmentOptions();
+                    updateFactorOptions();
+
+                    // If URL prefilled a Segment/Factor, auto-fill parents + tighten lists
+                    enhancePrefilledFiltersWithMappings();
+                    
+                    filterOptionsLoaded = true;
+                    console.log('Filter options loaded:', { quadrants, segments, factors });
+                }
+            } catch (error) {
+                console.error('Error loading filter options:', error);
+            }
+        }
+        
+        // Update Segment options based on selected Quadrant
+        function updateSegmentOptions() {
+            if (!dropdownData) return;
+            
+            const quadrant = document.getElementById('quadrant-filter').value;
+            const segmentList = document.getElementById('segment-list');
+            
+            // Clear existing options (except the default one)
+            while (segmentList.children.length > 1) {
+                segmentList.removeChild(segmentList.lastChild);
+            }
+            
+            let segments = [];
+            if (quadrant && dropdownData.mappings && dropdownData.mappings.quadrant_segment && dropdownData.mappings.quadrant_segment[quadrant]) {
+                // Show only segments for the selected quadrant
+                segments = dropdownData.mappings.quadrant_segment[quadrant];
+            } else {
+                // Show all segments if no quadrant is selected
+                segments = dropdownData.segments || [];
+            }
+            
+            segments.forEach(s => {
+                const option = document.createElement('option');
+                option.value = s;
+                segmentList.appendChild(option);
+            });
+        }
+        
+        // Update Factor options based on selected Segment
+        function updateFactorOptions() {
+            if (!dropdownData) return;
+            
+            const quadrant = document.getElementById('quadrant-filter').value;
+            const segment = document.getElementById('segment-filter').value;
+            const factorList = document.getElementById('factor-list');
+            
+            // Clear existing options (except the default one)
+            while (factorList.children.length > 1) {
+                factorList.removeChild(factorList.lastChild);
+            }
+            
+            let factors = [];
+            if (segment && dropdownData.mappings && dropdownData.mappings.segment_factor && dropdownData.mappings.segment_factor[segment]) {
+                // Show only factors for the selected segment
+                factors = dropdownData.mappings.segment_factor[segment];
+            } else if (quadrant && dropdownData.mappings && dropdownData.mappings.quadrant_segment && dropdownData.mappings.quadrant_segment[quadrant]) {
+                // If only quadrant is selected, show factors that belong to segments of this quadrant
+                const segments = dropdownData.mappings.quadrant_segment[quadrant] || [];
+                const factorsSet = new Set();
+                segments.forEach(seg => {
+                    if (dropdownData.mappings.segment_factor && dropdownData.mappings.segment_factor[seg]) {
+                        dropdownData.mappings.segment_factor[seg].forEach(factor => factorsSet.add(factor));
+                    }
+                });
+                factors = Array.from(factorsSet).sort();
+            } else {
+                // Show all factors if nothing is selected
+                factors = dropdownData.factors || [];
+            }
+            
+            factors.forEach(f => {
+                const option = document.createElement('option');
+                option.value = f;
+                factorList.appendChild(option);
+            });
+        }
+        
+        // Get current filter values
+        function getFilterValues() {
+            return {
+                quadrant: document.getElementById('quadrant-filter').value,
+                segment: document.getElementById('segment-filter').value,
+                factor: document.getElementById('factor-filter').value
+            };
+        }
+        
+        async function loadLocationData() {
+            // Prevent multiple simultaneous calls
+            if (isLoadingData) {
+                console.log('loadLocationData already in progress, skipping...');
+                return;
+            }
+            
+            isLoadingData = true;
+            
+            const loadingEl = document.getElementById('loading');
+            const errorEl = document.getElementById('error');
+            const contentEl = document.getElementById('content');
+            const statsSummaryEl = document.getElementById('stats-summary');
+            const legendEl = document.getElementById('location-legend');
+            const mapEl = document.getElementById('map');
+            
+            // Check if Leaflet is loaded
+            if (window.mapLibraryError) {
+                isLoadingData = false;
+                loadingEl.style.display = 'none';
+                const errorMsg = typeof window.mapLibraryError === 'object' 
+                    ? window.mapLibraryError.message 
+                    : window.mapLibraryError;
+                const errorDetails = typeof window.mapLibraryError === 'object' 
+                    ? window.mapLibraryError.details 
+                    : '';
+                const errorType = typeof window.mapLibraryError === 'object' 
+                    ? window.mapLibraryError.type 
+                    : 'Unknown';
+                
+                errorEl.innerHTML = `
+                    <h3 style="color: #dc3545; margin-bottom: 15px;">Map Library Error: ${errorType}</h3>
+                    <p style="font-size: 1.1rem; margin-bottom: 10px;"><strong>${errorMsg}</strong></p>
+                    ${errorDetails ? `<p style="color: #666; margin-bottom: 15px;">${errorDetails}</p>` : ''}
+                `;
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            if (!window.mapLibraryLoaded || typeof L === 'undefined') {
+                loadingEl.textContent = 'Loading map library...';
+                isLoadingData = false;
+                // Wait a bit and try again
+                setTimeout(() => {
+                    if (!window.mapLibraryLoaded) {
+                        loadLocationData();
+                    }
+                }, 500);
+                return;
+            }
+            
+            try {
+                // Get filter values
+                const filters = getFilterValues();
+                
+                // Build query string with filters
+                const params = new URLSearchParams();
+                if (filters.quadrant) params.append('quadrant', filters.quadrant);
+                if (filters.segment) params.append('segment', filters.segment);
+                if (filters.factor) params.append('factor', filters.factor);
+                
+                const url = '/api/dataset/location-counts' + (params.toString() ? '?' + params.toString() : '');
+                console.log('Loading location data with filters:', filters, 'URL:', url);
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to load location data');
+                }
+                
+                locationData = data.data || [];
+
+                // Aggregate counts by canonical (normalized) location to avoid duplicates like "UK" vs "United Kingdom"
+                const aggregatedCounts = new Map();
+                locationData.forEach(loc => {
+                    const norm = normalizeLocationName(loc.location);
+                    const c = (loc.count !== undefined && loc.count !== null) ? Number(loc.count) : 0;
+                    aggregatedCounts.set(norm, (aggregatedCounts.get(norm) || 0) + (isNaN(c) ? 0 : c));
+                });
+                locationData = Array.from(aggregatedCounts.entries()).map(([location, count]) => ({ location, count }));
+                
+                // Ensure all known locations are included, even if count is 0
+                const knownLocations = ['United Kingdom', 'Ireland', 'Northern Ireland'];
+                const receivedLocations = new Set();
+                
+                // Build set of normalized received locations
+                locationData.forEach(loc => {
+                    const normalized = normalizeLocationName(loc.location);
+                    receivedLocations.add(normalized);
+                });
+                
+                // Add missing locations with count 0
+                knownLocations.forEach(knownLoc => {
+                    const normalized = normalizeLocationName(knownLoc);
+                    if (!receivedLocations.has(normalized)) {
+                        // Find the original location name from locationCoordinates
+                        const originalName = Object.keys(locationCoordinates).find(
+                            key => normalizeLocationName(key) === normalized
+                        );
+                        if (originalName) {
+                            locationData.push({
+                                location: originalName,
+                                count: 0
+                            });
+                            receivedLocations.add(normalized); // Mark as added
+                        }
+                    }
+                });
+                
+                // Normalize all location names and ensure count is a number (default to 0)
+                locationData = locationData.map(loc => ({
+                    location: loc.location,
+                    count: (loc.count !== undefined && loc.count !== null) ? Number(loc.count) : 0
+                }));
+                
+                // Debug: Log all location data
+                console.log('Location data received:', locationData);
+                locationData.forEach((loc, index) => {
+                    console.log(`Location ${index + 1}: "${loc.location}" (count: ${loc.count})`);
+                });
+                
+                if (locationData.length === 0) {
+                    contentEl.innerHTML = `
+                        <div class="empty-state">
+                            <h2>No Location Data</h2>
+                            <p>No location data found in the dataset.</p>
+                        </div>
+                    `;
+                    loadingEl.style.display = 'none';
+                    contentEl.style.display = 'block';
+                    isLoadingData = false;
+                    return;
+                }
+                
+                // Calculate statistics
+                const totalLocations = locationData.length;
+                const totalItems = locationData.reduce((sum, loc) => sum + loc.count, 0);
+                const avgCount = Math.round(totalItems / totalLocations);
+                
+                // Display statistics
+                statsSummaryEl.innerHTML = `
+                    <h3>Location Statistics</h3>
+                    <p><strong>Total Locations:</strong> ${totalLocations}</p>
+                    <p><strong>Total Items:</strong> ${totalItems}</p>
+                    <p><strong>Average Items per Location:</strong> ${avgCount}</p>
+                `;
+                
+                // Check if map element exists
+                if (!mapEl) {
+                    isLoadingData = false;
+                    throw new Error('Map container element not found');
+                }
+                
+                // Initialize Leaflet map only if not already initialized
+                if (!mapInitialized) {
+                    try {
+                        // Check if map container already has a map instance
+                        if (mapEl._leaflet_id) {
+                            console.log('Map container already initialized, removing old instance...');
+                            // Remove old map instance
+                            mapEl._leaflet_id = null;
+                            // Clear the container
+                            mapEl.innerHTML = '';
+                        }
+                        
+                        // Define bounds for UK and Ireland only
+                        // Southwest corner (bottom-left) and Northeast corner (top-right)
+                        const ukIrelandBounds = L.latLngBounds(
+                            [49.538550, -12.565909], // Southwest corner (south of England, west of Ireland)
+                            [58.773403, 4.110292]    // Northeast corner (north of Scotland, east of UK)
+                        );
+                        
+                        map = L.map(mapEl, {
+                            center: [54.5, -4.0], // Center between UK and Ireland
+                            zoom: 5,               // Lower initial zoom for faster loading
+                            zoomControl: true,
+                            minZoom: 5,           // Minimum zoom level
+                            maxZoom: 10,          // Further reduced maximum zoom (was 12)
+                            maxBounds: ukIrelandBounds, // Restrict panning to UK and Ireland
+                            maxBoundsViscosity: 1.0, // Prevent panning outside bounds
+                            fadeAnimation: false,  // Disable fade animation for faster rendering
+                            zoomAnimation: false,  // Disable zoom animation for faster rendering
+                            markerZoomAnimation: false // Disable marker animation
+                        });
+                        
+                        // Set initial view to fit UK and Ireland
+                        map.setMaxBounds(ukIrelandBounds);
+                        
+                        // Use CartoDB Positron - faster and lighter tiles
+                        // Alternative: Use multiple tile servers for better performance
+                        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                            subdomains: 'abcd',
+                            maxZoom: 10,              // Further reduced for faster loading
+                            minZoom: 5,
+                            noWrap: false,
+                            updateWhenZooming: false,  // Don't update tiles while zooming
+                            updateWhenIdle: true,      // Update tiles when panning stops
+                            keepBuffer: 1,             // Minimal buffer for faster loading
+                            tileSize: 256,
+                            zoomOffset: 0,
+                            crossOrigin: true
+                        }).addTo(map);
+                        
+                        // Fallback: If CartoDB fails, use OpenStreetMap with aggressive caching
+                        // This is a backup that won't be used unless CartoDB fails
+                        
+                        // Fit map to UK/Ireland bounds after tiles load (with lower zoom for faster loading)
+                        map.whenReady(function() {
+                            // Use setTimeout to ensure tiles are loaded
+                            setTimeout(function() {
+                                map.fitBounds(ukIrelandBounds, {
+                                    padding: [10, 10], // Reduced padding
+                                    maxZoom: 6          // Lower max zoom for faster loading
+                                });
+                            }, 100);
+                        });
+                        
+                        mapEl.classList.add('loaded');
+                        mapInitialized = true;
+                        console.log('Leaflet map initialized successfully');
+                    } catch (mapError) {
+                        isLoadingData = false;
+                        console.error('Error initializing map:', mapError);
+                        throw new Error(`Failed to initialize map: ${mapError.message}`);
+                    }
+                } else {
+                    // Map already initialized, clear existing markers
+                    console.log('Map already initialized, clearing existing markers...');
+                    markers.forEach(markerData => {
+                        if (markerData.marker) {
+                            map.removeLayer(markerData.marker);
+                        }
+                        if (markerData.circle) {
+                            map.removeLayer(markerData.circle);
+                        }
+                    });
+                    markers = [];
+                }
+                
+                // Create markers for each location
+                const bounds = [];
+                let hasValidLocation = false;
+                
+                // Get current filter values to pass to markers
+                const currentFilters = getFilterValues();
+                
+                locationData.forEach(location => {
+                    try {
+                        const markerData = createCustomMarker(location.location, location.count, map, currentFilters);
+                        if (markerData) {
+                            markers.push(markerData);
+                            bounds.push([markerData.marker.getLatLng().lat, markerData.marker.getLatLng().lng]);
+                            hasValidLocation = true;
+                        }
+                    } catch (markerError) {
+                        console.warn(`Error creating marker for ${location.location}:`, markerError);
+                    }
+                });
+                
+                // Fit map to show all markers, but stay within UK/Ireland bounds
+                if (hasValidLocation && markers.length > 0) {
+                    try {
+                        if (bounds.length > 0) {
+                            const boundsGroup = L.latLngBounds(bounds);
+                            // Ensure bounds don't exceed UK/Ireland limits
+                            const ukIrelandBounds = L.latLngBounds(
+                                [49.136155, -13.270132],
+                                [59.602770, 5.545092]
+                            );
+                            // Extend bounds to include UK/Ireland bounds if needed
+                            boundsGroup.extend(ukIrelandBounds);
+                            map.fitBounds(boundsGroup, { 
+                                padding: [30, 30],  // Reduced padding for faster loading
+                                maxZoom: 6           // Lower max zoom for faster loading
+                            });
+                            console.log(`Displaying ${markers.length} markers on map`);
+                        }
+                    } catch (boundsError) {
+                        console.warn('Error fitting bounds:', boundsError);
+                        // Fallback to default center and zoom
+                        map.setView([54.5, -4.0], 5);
+                    }
+                } else {
+                    console.warn('No valid locations found to display on map');
+                    // Set default view to show UK and Ireland
+                    map.setView([54.5, -4.0], 5);
+                }
+                
+                // Ensure map stays within bounds after any operation
+                map.setMaxBounds(L.latLngBounds(
+                    [49.136155, -13.270132],
+                    [59.602770, 5.545092]
+                ));
+                
+                // Create legend
+                const validLocations = locationData.filter(loc => getLocationCoordinates(loc.location));
+                if (validLocations.length > 0) {
+                    legendEl.innerHTML = validLocations.map(location => `
+                        <div class="legend-item">
+                            <div class="legend-circle"></div>
+                            <span class="legend-text">
+                                <strong>${escapeHtml(location.location)}</strong>: ${location.count} items
+                            </span>
+                        </div>
+                    `).join('');
+                } else {
+                    legendEl.innerHTML = '<p style="text-align: center; color: #666;">No locations with valid coordinates found.</p>';
+                }
+                
+                loadingEl.style.display = 'none';
+                contentEl.style.display = 'block';
+                isLoadingData = false;
+                
+            } catch (error) {
+                console.error('Error loading location data:', error);
+                loadingEl.style.display = 'none';
+                errorEl.innerHTML = `
+                    <h3>Error Loading Map</h3>
+                    <p>${error.message}</p>
+                    <p style="margin-top: 15px; font-size: 0.9rem;">
+                        Please check the browser console for more details.
+                    </p>
+                `;
+                errorEl.style.display = 'block';
+                isLoadingData = false;
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Initialize when both DOM and Leaflet are ready
+        let domReady = false;
+        
+        function tryLoadData() {
+            if (domReady && (mapsReady || window.mapLibraryError)) {
+                loadLocationData();
+            }
+        }
+        
+        // Flag to prevent setting up filters multiple times
+        let filtersSetup = false;
+        
+        // Debounce timer (shared across all filters)
+        let debounceTimer;
+        
+        // Debounce function to avoid too many API calls while typing
+        function debounceFilterChange(filterName, value) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                console.log(`${filterName} filter changed:`, value);
+                loadLocationData();
+            }, 500); // Wait 500ms after user stops typing
+        }
+        
+        // Setup filter event listeners
+        function setupFilters() {
+            // Prevent setting up filters multiple times
+            if (filtersSetup) {
+                console.log('Filters already set up, skipping...');
+                return;
+            }
+            
+            const quadrantFilter = document.getElementById('quadrant-filter');
+            const segmentFilter = document.getElementById('segment-filter');
+            const factorFilter = document.getElementById('factor-filter');
+            
+            if (!quadrantFilter || !segmentFilter || !factorFilter) {
+                console.warn('Filter elements not found, will retry later');
+                return;
+            }
+            
+            // Add input event listeners for real-time search and change detection
+            quadrantFilter.addEventListener('input', function() {
+                const value = this.value.trim();
+                
+                // Update cascading filters
+                updateSegmentOptions(); // Update segment options based on quadrant
+                if (value === '') {
+                    // If quadrant is cleared, also clear segment and factor, and update their options
+                    segmentFilter.value = '';
+                    factorFilter.value = '';
+                    updateSegmentOptions();
+                    updateFactorOptions();
+                } else {
+                    // If quadrant is selected, clear segment and factor, and update segment options
+                    segmentFilter.value = '';
+                    factorFilter.value = '';
+                    updateSegmentOptions();
+                    updateFactorOptions();
+                }
+                
+                // If empty, treat as "all"
+                if (value === '') {
+                    debounceFilterChange('Quadrant', '');
+                } else {
+                    debounceFilterChange('Quadrant', value);
+                }
+            });
+            
+            segmentFilter.addEventListener('input', function() {
+                const value = this.value.trim();
+                
+                // Auto-fill quadrant if segment is selected and quadrant is empty
+                if (value && !quadrantFilter.value && dropdownData && dropdownData.mappings) {
+                    const possibleQuadrants = dropdownData.mappings.segment_quadrant[value] || [];
+                    if (possibleQuadrants.length > 0) {
+                        // Find exact match (case-insensitive)
+                        const allSegments = dropdownData.segments || [];
+                        const exactSegment = allSegments.find(s => s.toLowerCase() === value.toLowerCase());
+                        if (exactSegment) {
+                            const quadrants = dropdownData.mappings.segment_quadrant[exactSegment] || [];
+                            if (quadrants.length > 0) {
+                                quadrantFilter.value = quadrants[0];
+                                updateSegmentOptions();
+                                updateFactorOptions();
+                            }
+                        }
+                    }
+                }
+                
+                // Update cascading filters
+                updateFactorOptions(); // Update factor options based on segment
+                if (value === '') {
+                    // If segment is cleared, also clear factor and update its options
+                    factorFilter.value = '';
+                    updateFactorOptions();
+                } else {
+                    // If segment is selected, clear factor and update factor options
+                    factorFilter.value = '';
+                    updateFactorOptions();
+                }
+                
+                if (value === '') {
+                    debounceFilterChange('Segment', '');
+                } else {
+                    debounceFilterChange('Segment', value);
+                }
+            });
+            
+            factorFilter.addEventListener('input', function() {
+                const value = this.value.trim();
+                
+                // Auto-fill segment and quadrant if factor is selected and they are empty
+                if (value && dropdownData && dropdownData.mappings) {
+                    const allFactors = dropdownData.factors || [];
+                    const exactFactor = allFactors.find(f => f.toLowerCase() === value.toLowerCase());
+                    
+                    if (exactFactor) {
+                        // Auto-fill segment if empty
+                        if (!segmentFilter.value) {
+                            const possibleSegments = dropdownData.mappings.factor_segment[exactFactor] || [];
+                            if (possibleSegments.length > 0) {
+                                segmentFilter.value = possibleSegments[0];
+                                updateSegmentOptions();
+                                
+                                // Also auto-fill quadrant if empty
+                                if (!quadrantFilter.value) {
+                                    const possibleQuadrants = dropdownData.mappings.factor_quadrant[exactFactor] || [];
+                                    if (possibleQuadrants.length > 0) {
+                                        quadrantFilter.value = possibleQuadrants[0];
+                                        updateSegmentOptions();
+                                        updateFactorOptions();
+                                    }
+                                }
+                                updateFactorOptions();
+                            }
+                        } else if (!quadrantFilter.value) {
+                            // If segment is set but quadrant is not, try to auto-fill quadrant
+                            const possibleQuadrants = dropdownData.mappings.factor_quadrant[exactFactor] || [];
+                            if (possibleQuadrants.length > 0) {
+                                quadrantFilter.value = possibleQuadrants[0];
+                                updateSegmentOptions();
+                                updateFactorOptions();
+                            }
+                        }
+                    }
+                }
+                
+                if (value === '') {
+                    debounceFilterChange('Factor', '');
+                } else {
+                    debounceFilterChange('Factor', value);
+                }
+            });
+            
+            // Also listen for blur event to apply filter when user clicks away
+            quadrantFilter.addEventListener('blur', function() {
+                clearTimeout(debounceTimer);
+                // Update cascading options when quadrant changes
+                updateSegmentOptions();
+                updateFactorOptions();
+                loadLocationData();
+            });
+            
+            segmentFilter.addEventListener('blur', function() {
+                clearTimeout(debounceTimer);
+                // Check and auto-fill parent when segment changes
+                const value = this.value.trim();
+                if (value && !quadrantFilter.value && dropdownData && dropdownData.mappings) {
+                    const allSegments = dropdownData.segments || [];
+                    const exactSegment = allSegments.find(s => s.toLowerCase() === value.toLowerCase());
+                    if (exactSegment) {
+                        const quadrants = dropdownData.mappings.segment_quadrant[exactSegment] || [];
+                        if (quadrants.length > 0) {
+                            quadrantFilter.value = quadrants[0];
+                            updateSegmentOptions();
+                            updateFactorOptions();
+                        }
+                    }
+                }
+                // Update cascading options when segment changes
+                updateFactorOptions();
+                loadLocationData();
+            });
+            
+            factorFilter.addEventListener('blur', function() {
+                clearTimeout(debounceTimer);
+                // Check and auto-fill parent when factor changes
+                const value = this.value.trim();
+                if (value && dropdownData && dropdownData.mappings) {
+                    const allFactors = dropdownData.factors || [];
+                    const exactFactor = allFactors.find(f => f.toLowerCase() === value.toLowerCase());
+                    
+                    if (exactFactor) {
+                        // Auto-fill segment if empty
+                        if (!segmentFilter.value) {
+                            const possibleSegments = dropdownData.mappings.factor_segment[exactFactor] || [];
+                            if (possibleSegments.length > 0) {
+                                segmentFilter.value = possibleSegments[0];
+                                updateSegmentOptions();
+                                
+                                // Also auto-fill quadrant if empty
+                                if (!quadrantFilter.value) {
+                                    const possibleQuadrants = dropdownData.mappings.factor_quadrant[exactFactor] || [];
+                                    if (possibleQuadrants.length > 0) {
+                                        quadrantFilter.value = possibleQuadrants[0];
+                                        updateSegmentOptions();
+                                        updateFactorOptions();
+                                    }
+                                }
+                                updateFactorOptions();
+                            }
+                        } else if (!quadrantFilter.value) {
+                            // If segment is set but quadrant is not, try to auto-fill quadrant
+                            const possibleQuadrants = dropdownData.mappings.factor_quadrant[exactFactor] || [];
+                            if (possibleQuadrants.length > 0) {
+                                quadrantFilter.value = possibleQuadrants[0];
+                                updateSegmentOptions();
+                                updateFactorOptions();
+                            }
+                        }
+                    }
+                }
+                loadLocationData();
+            });
+            
+            filtersSetup = true;
+            console.log('Filter event listeners set up successfully');
+        }
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                domReady = true;
+                prefillFiltersFromUrl(); // apply query params to inputs before first data load
+                loadFilterOptions(); // Load filter options first
+                setupFilters(); // Setup event listeners
+                tryLoadData();
+            });
+        } else {
+            domReady = true;
+            prefillFiltersFromUrl(); // apply query params to inputs before first data load
+            loadFilterOptions(); // Load filter options first
+            setupFilters(); // Setup event listeners
+            tryLoadData();
+        }
+        
+        // Also try loading after a short delay in case Leaflet loads first
+        // Note: loadFilterOptions has its own flag to prevent duplicate loading
+        setTimeout(function() {
+            if (domReady) {
+                loadFilterOptions(); // Will skip if already loaded
+                setupFilters(); // Setup filters (idempotent)
+            }
+            tryLoadData();
+        }, 1000);
+    </script>
+</body>
+</html>
+

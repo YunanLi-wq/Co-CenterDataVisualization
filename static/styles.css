@@ -1,0 +1,539 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6b8e23 100%);
+    min-height: 100vh;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+}
+
+/* Main content */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.navigation-section {
+    margin-bottom: 3rem;
+}
+
+.navigation-section h2 {
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Link grid */
+.link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Navigation links */
+.nav-link {
+    display: block;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.link-content h3 {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.link-content p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Research Platform Styles */
+.nav-link.sustainable-food:hover {
+    background: linear-gradient(135deg, #2d5016, #4a7c59);
+    color: white;
+}
+
+.nav-link.sustainable-food:hover .link-content h3,
+.nav-link.sustainable-food:hover .link-content p {
+    color: white;
+}
+
+.nav-link.food-safety:hover {
+    background: linear-gradient(135deg, #8b4513, #a0522d);
+    color: white;
+}
+
+.nav-link.food-safety:hover .link-content h3,
+.nav-link.food-safety:hover .link-content p {
+    color: white;
+}
+
+.nav-link.health-nutrition:hover {
+    background: linear-gradient(135deg, #228b22, #32cd32);
+    color: white;
+}
+
+.nav-link.health-nutrition:hover .link-content h3,
+.nav-link.health-nutrition:hover .link-content p {
+    color: white;
+}
+
+.nav-link.data-modelling:hover {
+    background: linear-gradient(135deg, #4169e1, #6495ed);
+    color: white;
+}
+
+.nav-link.data-modelling:hover .link-content h3,
+.nav-link.data-modelling:hover .link-content p {
+    color: white;
+}
+
+.nav-link.trust-systems:hover {
+    background: linear-gradient(135deg, #6b8e23, #9acd32);
+    color: white;
+}
+
+.nav-link.trust-systems:hover .link-content h3,
+.nav-link.trust-systems:hover .link-content p {
+    color: white;
+}
+
+.nav-link.food-compass:hover {
+    background: linear-gradient(135deg, #2d5016, #4a7c59);
+    color: white;
+}
+
+.nav-link.food-compass:hover .link-content h3,
+.nav-link.food-compass:hover .link-content p {
+    color: white;
+}
+
+/* University Partner Styles */
+.nav-link.ucd:hover {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+}
+
+.nav-link.ucd:hover .link-content h3,
+.nav-link.ucd:hover .link-content p {
+    color: white;
+}
+
+.nav-link.qub:hover {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: white;
+}
+
+.nav-link.qub:hover .link-content h3,
+.nav-link.qub:hover .link-content p {
+    color: white;
+}
+
+.nav-link.sheffield:hover {
+    background: linear-gradient(135deg, #7c2d12, #ea580c);
+    color: white;
+}
+
+.nav-link.sheffield:hover .link-content h3,
+.nav-link.sheffield:hover .link-content p {
+    color: white;
+}
+
+.nav-link.teagasc:hover {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+}
+
+.nav-link.teagasc:hover .link-content h3,
+.nav-link.teagasc:hover .link-content p {
+    color: white;
+}
+
+.nav-link.ulster:hover {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+}
+
+.nav-link.ulster:hover .link-content h3,
+.nav-link.ulster:hover .link-content p {
+    color: white;
+}
+
+.nav-link.ucc:hover {
+    background: linear-gradient(135deg, #1f2937, #374151);
+    color: white;
+}
+
+.nav-link.ucc:hover .link-content h3,
+.nav-link.ucc:hover .link-content p {
+    color: white;
+}
+
+/* Additional Partner Styles */
+.nav-link.afbi:hover {
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    color: white;
+}
+
+.nav-link.afbi:hover .link-content h3,
+.nav-link.afbi:hover .link-content p {
+    color: white;
+}
+
+.nav-link.jic:hover {
+    background: linear-gradient(135deg, #be185d, #ec4899);
+    color: white;
+}
+
+.nav-link.jic:hover .link-content h3,
+.nav-link.jic:hover .link-content p {
+    color: white;
+}
+
+.nav-link.galway:hover {
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    color: white;
+}
+
+.nav-link.galway:hover .link-content h3,
+.nav-link.galway:hover .link-content p {
+    color: white;
+}
+
+.nav-link.oxford:hover {
+    background: linear-gradient(135deg, #7c2d12, #ea580c);
+    color: white;
+}
+
+.nav-link.oxford:hover .link-content h3,
+.nav-link.oxford:hover .link-content p {
+    color: white;
+}
+
+.nav-link.city:hover {
+    background: linear-gradient(135deg, #1f2937, #374151);
+    color: white;
+}
+
+.nav-link.city:hover .link-content h3,
+.nav-link.city:hover .link-content p {
+    color: white;
+}
+
+.nav-link.leeds:hover {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+}
+
+.nav-link.leeds:hover .link-content h3,
+.nav-link.leeds:hover .link-content p {
+    color: white;
+}
+
+/* Food Co-Centre Sustainability Compass Styles */
+.compass-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 2rem 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-height: 600px;
+}
+
+#food-compass {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+#food-compass svg {
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: auto;
+}
+
+#food-compass .label {
+    fill: #333;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+/* Dataset Module Styles */
+.dataset-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dataset-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h3 {
+    color: #2d5016;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.stat-card p {
+    color: #666;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.dataset-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.dataset-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #2d5016, #4a7c59);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dataset-btn:hover {
+    background: linear-gradient(135deg, #1e3a0a, #3a6b49);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dataset-content {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.dataset-content h3 {
+    color: #2d5016;
+    margin-bottom: 1rem;
+}
+
+.data-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #4a7c59;
+}
+
+.data-item h4 {
+    color: #2d5016;
+    margin-bottom: 0.5rem;
+}
+
+.data-item pre {
+    background: #fff;
+    border-radius: 4px;
+    padding: 0.5rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    color: #333;
+}
+
+/* Excel Preview Styles */
+.excel-preview {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.excel-preview h3 {
+    color: #2d5016;
+    margin-bottom: 1rem;
+}
+
+.excel-table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.excel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background: white;
+}
+
+.excel-table th {
+    background: #4a7c59;
+    color: white;
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-right: 1px solid #3a6b49;
+}
+
+.excel-table th:last-child {
+    border-right: none;
+}
+
+.excel-table td {
+    padding: 8px;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.excel-table td:last-child {
+    border-right: none;
+}
+
+.excel-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.excel-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.excel-table tbody tr:nth-child(even):hover {
+    background-color: #f0f0f0;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 2rem;
+}
+
+footer p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .link-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .nav-link {
+        padding: 1rem;
+    }
+    
+    main {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    .navigation-section h2 {
+        font-size: 1.5rem;
+    }
+}

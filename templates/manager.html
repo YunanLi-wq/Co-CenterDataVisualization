@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dataset - Database Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tableStyle.css') }}">
+    <style>
+        .manager-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .manager-header {
+            background: linear-gradient(135deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .manager-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .manager-content {
+            padding: 30px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .action-button:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-1px);
+        }
+        
+        .add-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .add-button:hover {
+            background: linear-gradient(135deg, #1e7e34, #1aa179);
+        }
+        
+        .edit-button {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #212529;
+        }
+        
+        .edit-button:hover {
+            background: linear-gradient(135deg, #e0a800, #d39e00);
+        }
+        
+        .delete-button {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+        
+        .delete-button:hover {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+        }
+        
+        .export-button {
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+        }
+        
+        .export-button:hover {
+            background: linear-gradient(135deg, #5a32a3, #4c2a85);
+        }
+        
+        .search-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .search-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-button {
+            background: #4a7c59;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .search-button:hover {
+            background: #2d5016;
+        }
+        
+        .clear-button {
+            background: #6c757d;
+        }
+        
+        .clear-button:hover {
+            background: #545b62;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: #4a7c59;
+            border-radius: 4px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #2d5016;
+        }
+        
+        .data-table {
+            width: 100%;
+            min-width: 1200px;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        
+        /* Column width control */
+        .data-table th:nth-child(1), .data-table td:nth-child(1) { min-width: 120px; } /* Quadrant */
+        .data-table th:nth-child(2), .data-table td:nth-child(2) { min-width: 120px; } /* Segment */
+        .data-table th:nth-child(3), .data-table td:nth-child(3) { min-width: 150px; } /* Factor */
+        .data-table th:nth-child(4), .data-table td:nth-child(4) { min-width: 100px; } /* Location */
+        .data-table th:nth-child(5), .data-table td:nth-child(5) { min-width: 200px; white-space: normal; } /* Indicator */
+        .data-table th:nth-child(6), .data-table td:nth-child(6) { min-width: 150px; } /* Title */
+        .data-table th:nth-child(7), .data-table td:nth-child(7) { min-width: 200px; } /* Url */
+        .data-table th:nth-child(8), .data-table td:nth-child(8) { min-width: 100px; } /* Datatype */
+        .data-table th:last-child, .data-table td:last-child { min-width: 150px; } /* Actions */
+        
+        .data-table th {
+            background: #4a7c59;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .data-table tr:hover {
+            background: #e9ecef;
+        }
+        
+        .action-cell {
+            white-space: nowrap;
+        }
+        
+        .action-cell button {
+            margin: 0 2px;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2d5016;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <a href="/higher-manager-dashboard" class="add-item-button">← Back to Dashboard</a>
+    
+    <div class="manager-container">
+        <div class="manager-header">
+            <h1>🗄️ Manager Dataset</h1>
+            <p>Direct Database Management Interface</p>
+        </div>
+        
+        <div class="manager-content">
+            <div id="success-message" class="success-message" style="display: none;"></div>
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            
+            <div class="action-buttons">
+                <button onclick="showAddModal()" class="action-button add-button">➕ Add New Record</button>
+                <button onclick="refreshData()" class="action-button">🔄 Refresh Data</button>
+                <button onclick="exportAllData()" class="action-button export-button">📊 Export All Data</button>
+            </div>
+            
+            <div class="search-container">
+                <h3>🔍 Search Database</h3>
+                <div class="search-controls">
+                    <input type="text" id="search-input" placeholder="Search across all columns..." class="search-input">
+                    <button onclick="searchData()" class="search-button">🔍 Search</button>
+                    <button onclick="clearSearch()" class="search-button clear-button">Clear</button>
+                </div>
+            </div>
+            
+            <div id="data-container">
+                <div class="loading">
+                    <h3>Loading database records...</h3>
+                    <p>Please wait while we fetch the data.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="recordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Record</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <form id="recordForm">
+                <div class="form-group">
+                    <label for="quadrant">Quadrant:</label>
+                    <input type="text" id="quadrant" name="Quadrant" placeholder="Enter quadrant (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="segment">Segment:</label>
+                    <input type="text" id="segment" name="Segment" placeholder="Enter segment (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="factor">Factor:</label>
+                    <input type="text" id="factor" name="Factor" placeholder="Enter factor (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="Location" placeholder="Enter location (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="indicator">Indicator:</label>
+                    <textarea id="indicator" name="Indicator" placeholder="Enter indicator (optional)"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="Title" placeholder="Enter title (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="url">URL:</label>
+                    <input type="url" id="url" name="Url" placeholder="Enter URL (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="datatype">Datatype:</label>
+                    <select id="datatype" name="Datatype">
+                        <option value="">Select Datatype (optional)</option>
+                        <option value="PDF">PDF</option>
+                        <option value="Excel">Excel</option>
+                        <option value="CSV">CSV</option>
+                        <option value="JSON">JSON</option>
+                        <option value="Website">Website</option>
+                        <option value="Database">Database</option>
+                        <option value="Report">Report</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary" id="submitButton">Add Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="navigation-buttons" style="margin-top: 30px;">
+        <a href="/higher-manager-dashboard" class="nav-button back-button">← Back to Dashboard</a>
+        <a href="/update" class="nav-button">📋 Review Submissions</a>
+        <a href="{{ url_for('d3viz') }}" class="nav-button">🧭 Food Co-Centre Sustainability Compass</a>
+    </div>
+
+    <script>
+        let currentData = [];
+        let currentRecordId = null;
+        
+        // Check higher manager authentication
+        if (!sessionStorage.getItem('higher_manager_authenticated')) {
+            window.location.href = '/higher-manager-login';
+        }
+        
+        // Load data on page load
+        window.onload = function() {
+            loadAllData();
+        };
+        
+        async function loadAllData() {
+            try {
+                const response = await fetch('/api/dataset/all');
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentData = data.records;
+                    displayData(data.records);
+                } else {
+                    showError('Failed to load data: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to connect to database');
+            }
+        }
+        
+        function displayData(records) {
+            const container = document.getElementById('data-container');
+            
+            if (records.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data">
+                        <h3>No Data Found</h3>
+                        <p>No records found in the database.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Get all unique keys from all records
+            const allKeys = new Set();
+            records.forEach(record => {
+                Object.keys(record).forEach(key => allKeys.add(key));
+            });
+            
+            // Priority order for columns
+            const priorityFields = [
+                'Quadrant', 'Segment', 'Factor', 'Location', 
+                'Indicator', 'Title', 'Url', 'Datatype'
+            ];
+            
+            // Fields to move to the end
+            const endFields = ['_id', '_created', '_updated', 'id'];
+            
+            // Reorder headers according to priority
+            const orderedHeaders = [];
+            const remainingKeys = Array.from(allKeys);
+            
+            for (const field of priorityFields) {
+                if (remainingKeys.includes(field)) {
+                    orderedHeaders.push(field);
+                    remainingKeys.splice(remainingKeys.indexOf(field), 1);
+                }
+            }
+            
+            // Add remaining headers in alphabetical order
+            orderedHeaders.push(...remainingKeys.sort());
+            
+            // Move end fields to the back
+            for (const field of endFields) {
+                if (orderedHeaders.includes(field)) {
+                    orderedHeaders.splice(orderedHeaders.indexOf(field), 1);
+                    orderedHeaders.push(field);
+                }
+            }
+            
+            const headers = orderedHeaders;
+            
+            // Create table HTML
+            let tableHTML = `
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                ${headers.map(header => `<th>${header}</th>`).join('')}
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            records.forEach(record => {
+                tableHTML += '<tr>';
+                headers.forEach(header => {
+                    const value = record[header];
+                    let displayValue = '';
+                    
+                    if (value === null || value === undefined) {
+                        displayValue = '<em style="color: #999;">Empty</em>';
+                    } else if (typeof value === 'object') {
+                        displayValue = JSON.stringify(value);
+                    } else {
+                        displayValue = String(value);
+                    }
+                    
+                    // Make URL column clickable
+                    if (header === 'Url' && value && value !== null && value.startsWith('http')) {
+                        tableHTML += `<td title="${displayValue}"><a href="${value}" target="_blank" style="color: #007bff; text-decoration: underline;">${displayValue}</a></td>`;
+                    } else {
+                        tableHTML += `<td title="${displayValue}">${displayValue}</td>`;
+                    }
+                });
+                
+                // Add action buttons
+                tableHTML += `
+                    <td class="action-cell">
+                        <button onclick="editRecord('${record._id}')" class="action-button edit-button">✏️ Edit</button>
+                        <button onclick="deleteRecord('${record._id}')" class="action-button delete-button">🗑️ Delete</button>
+                    </td>
+                `;
+                
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        function showAddModal() {
+            currentRecordId = null;
+            document.getElementById('modalTitle').textContent = 'Add New Record';
+            document.getElementById('submitButton').textContent = 'Add Record';
+            document.getElementById('recordForm').reset();
+            document.getElementById('recordModal').style.display = 'block';
+        }
+        
+        function editRecord(recordId) {
+            const record = currentData.find(r => r._id === recordId);
+            if (!record) return;
+            
+            currentRecordId = recordId;
+            document.getElementById('modalTitle').textContent = 'Edit Record';
+            document.getElementById('submitButton').textContent = 'Update Record';
+            
+            // Fill form with record data
+            document.getElementById('quadrant').value = record.Quadrant || '';
+            document.getElementById('segment').value = record.Segment || '';
+            document.getElementById('factor').value = record.Factor || '';
+            document.getElementById('location').value = record.Location || '';
+            document.getElementById('indicator').value = record.Indicator || '';
+            document.getElementById('title').value = record.Title || '';
+            document.getElementById('url').value = record.Url || '';
+            document.getElementById('datatype').value = record.Datatype || '';
+            
+            document.getElementById('recordModal').style.display = 'block';
+        }
+        
+        async function deleteRecord(recordId) {
+            if (!confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/dataset/delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ _id: recordId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess('Record deleted successfully!');
+                    // Remove the record from current data
+                    currentData = currentData.filter(record => record._id !== recordId);
+                    // Refresh the display
+                    displayData(currentData);
+                } else {
+                    showError('Failed to delete record: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showError('Network error. Please try again.');
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('recordModal').style.display = 'none';
+        }
+        
+        function refreshData() {
+            loadAllData();
+        }
+        
+        function searchData() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            if (!searchTerm) {
+                displayData(currentData);
+                return;
+            }
+            
+            const filteredData = currentData.filter(record => {
+                return Object.values(record).some(value => 
+                    String(value).toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            });
+            
+            displayData(filteredData);
+        }
+        
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            displayData(currentData);
+        }
+        
+        async function exportAllData() {
+            try {
+                const response = await fetch('/api/dataset/export-all');
+                const blob = await response.blob();
+                
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'all_database_records.xlsx';
+                document.body.appendChild(a);
+                a.click();
+                
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                showSuccess('All data exported successfully!');
+            } catch (error) {
+                console.error('Export error:', error);
+                showError('Failed to export data');
+            }
+        }
+        
+        // Handle form submission
+        document.getElementById('recordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const recordData = Object.fromEntries(formData.entries());
+            
+            // Clean up empty values - convert empty strings to null or remove them
+            Object.keys(recordData).forEach(key => {
+                if (recordData[key] === '' || recordData[key] === null || recordData[key] === undefined) {
+                    recordData[key] = null; // Keep as null instead of removing
+                }
+            });
+            
+            try {
+                const url = currentRecordId ? '/api/dataset/update' : '/api/dataset/add-direct';
+                const method = currentRecordId ? 'PUT' : 'POST';
+                
+                if (currentRecordId) {
+                    recordData._id = currentRecordId;
+                }
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(recordData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(currentRecordId ? 'Record updated successfully!' : 'Record added successfully!');
+                    closeModal();
+                    loadAllData();
+                } else {
+                    showError('Failed to save record: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Network error. Please try again.');
+            }
+        });
+        
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success-message');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('recordModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

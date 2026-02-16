@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6b8e23 100%);
+    min-height: 100vh;
+    color: #333;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+
+  /* Filter bar */
+  .filter-bar {
+    width: min(100%, 980px);
+    margin: 0 auto 16px auto;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    backdrop-filter: blur(6px);
+  }
+
+  .filter-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .filter-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #2d5016;
+    margin-bottom: 6px;
+  }
+
+  .filter-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #d7e2d5;
+    outline: none;
+    font-size: 13px;
+    background: white;
+  }
+
+  .filter-input:focus {
+    border-color: #4a7c59;
+    box-shadow: 0 0 0 3px rgba(74,124,89,0.18);
+  }
+
+  .filter-hint {
+    margin: 10px 0 0 0;
+    font-size: 12px;
+    color: #556;
+  }
+
+  .filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .filter-action-btn {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 2px solid #000;
+    background: #fff;
+    color: #111;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .filter-action-btn:hover {
+    background: #f3f3f3;
+  }
+  
+  .compass-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  
+  .compass-container svg {
+    width: min(100%, 900px);
+    height: auto;
+    font-size: 12px;
+  }
+  
+  .arc path {
+    stroke: #fff;
+  }
+  
+  .label {
+    font-size: 10px;
+    text-anchor: middle;
+    pointer-events: auto;
+  }
+
+  .clickable { cursor: pointer; }
+  .hovered { opacity: 0.85; filter: saturate(1.2); }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+  
+  .nav-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .nav-button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    color: #2d5016;
+  }
+  
+  .back-button {
+    background: linear-gradient(135deg, #2d5016, #4a7c59);
+    color: white;
+  }
+  
+  .back-button:hover {
+    background: linear-gradient(135deg, #1e3a0a, #3a6b49);
+    color: white;
+  }
+  
+  .add-item-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .add-item-button:hover {
+    background: linear-gradient(135deg, #1e7e34, #1aa179);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+  
+  .higher-manager-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #6f42c1, #5a32a3);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+  }
+  
+  .higher-manager-button:hover {
+    background: linear-gradient(135deg, #5a32a3, #4a2c8a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+  
+  /* Tooltip styles - Rounded design with improved positioning */
+  .tooltip {
+    position: fixed;
+    background: #f5f5f5;
+    color: #333;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    max-width: 300px;
+    pointer-events: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border: 1px solid #ddd;
+  }
+  
+  .tooltip.show {
+    opacity: 1;
+  }
+  
+  .tooltip-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+  
+  .tooltip-description {
+    line-height: 1.4;
+    margin: 0;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .tooltip-button {
+    background: #4a7c59;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    margin-top: 8px;
+  }
+  
+  .tooltip-button:hover {
+    background: #3a6b49;
+  }
+  
+  /* Detail panel styles */
+  .detail-panel {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 350px;
+    max-height: 80vh;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 2000;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-50%) translateX(-20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    border: 1px solid #ddd;
+  }
+  
+  .detail-panel.show {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+    pointer-events: auto;
+  }
+  
+  .detail-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  
+  .detail-panel-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d5016;
+    margin: 0;
+  }
+  
+  .detail-panel-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  
+  .detail-panel-close:hover {
+    background: #f5f5f5;
+    color: #333;
+  }
+  
+  .detail-panel-content {
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .detail-panel-description {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .detail-panel-info {
+    font-size: 13px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  .detail-panel-button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background: #4a7c59;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .detail-panel-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .detail-panel-actions .detail-panel-button {
+    flex: 1;
+    margin-top: 0;
+    width: auto;
+  }
+
+  .detail-panel-button.secondary {
+    background: #6b8e23;
+  }
+  
+  .detail-panel-button:hover {
+    background: #3a6b49;
+  }
+  
+  .detail-panel-button:active {
+    background: #2d5016;
+  }
+  
+  .detail-panel-color-bar {
+    height: 4px;
+    width: 100%;
+    border-radius: 2px;
+    margin-bottom: 15px;
+  }
+
+  /* Factor count bubbles (shown outside the pie) */
+  .count-bubble circle {
+    fill: rgba(255, 255, 255, 0.92);
+    stroke: #000;
+    stroke-width: 2px;
+  }
+
+  .count-bubble text {
+    fill: #2d5016;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+  }
+
+  /* Center AllFactor bubble */
+  .allfactor-bubble circle {
+    fill: rgba(255, 255, 255, 0.95);
+    stroke: #000;
+    stroke-width: 2.5px;
+  }
+
+  .allfactor-bubble text {
+    fill: #000;
+    font-weight: 800;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+  }
+
+  /* Researcher List panel (left side) */
+  .researcher-panel {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 380px;
+    max-height: 80vh;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    z-index: 2000;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .researcher-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .researcher-panel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2d5016;
+    margin: 0;
+  }
+
+  .researcher-panel-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .researcher-panel-close:hover {
+    background: #f5f5f5;
+    color: #333;
+  }
+
+  .researcher-panel-subtitle {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 10px 0;
+  }
+
+  .researcher-panel-content {
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  .researcher-item {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fafafa;
+  }
+
+  .researcher-name {
+    font-weight: 700;
+    color: #2d5016;
+    margin-bottom: 4px;
+  }
+
+  .researcher-meta {
+    font-size: 12.5px;
+    color: #444;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .researcher-meta strong { color: #333; }
+</style>
+<body>
+<a href="/login" class="add-item-button">+ Add Item</a>
+<a href="/higher-manager-login" class="higher-manager-button">🔐 Higher Manager</a>
+
+<!-- Tooltip element -->
+<div id="tooltip" class="tooltip">
+  <div class="tooltip-title"></div>
+  <div class="tooltip-description"></div>
+  <button class="tooltip-button" id="more-info-btn">More Information</button>
+</div>
+
+<!-- Researcher List Panel (left side) -->
+<div id="researcher-panel" class="researcher-panel" style="display:none;">
+  <div class="researcher-panel-header">
+    <h3 class="researcher-panel-title">Researcher List</h3>
+    <button class="researcher-panel-close" id="researcher-panel-close">×</button>
+  </div>
+  <p class="researcher-panel-subtitle" id="researcher-panel-subtitle">Click a Factor bubble to load researchers.</p>
+  <div class="researcher-panel-content" id="researcher-panel-content"></div>
+</div>
+
+<!-- Detail Panel -->
+<div id="detail-panel" class="detail-panel">
+  <div class="detail-panel-header">
+    <h3 class="detail-panel-title" id="detail-title"></h3>
+    <button class="detail-panel-close" id="detail-close">×</button>
+  </div>
+  <div class="detail-panel-color-bar" id="detail-color-bar"></div>
+  <div class="detail-panel-content">
+    <div class="detail-panel-description" id="detail-description"></div>
+    <div class="detail-panel-info" id="detail-info"></div>
+    <div class="detail-panel-actions">
+      <button class="detail-panel-button" id="show-table-btn">Show Table</button>
+      <button class="detail-panel-button secondary" id="show-map-btn">Show Map</button>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Food Co-Centre Sustainability Compass</h1>
+  <p>Interactive visualization of sustainable food systems</p>
+</div>
+
+<!-- Filters (Researcher collection) -->
+<div class="filter-bar">
+  <div class="filter-row">
+    <div class="filter-group">
+      <label for="platform-alignment-filter">Platform Alignment</label>
+      <select id="platform-alignment-filter" class="filter-input"></select>
+    </div>
+    <div class="filter-group">
+      <label for="institution-filter">Institution</label>
+      <select id="institution-filter" class="filter-input"></select>
+    </div>
+    <div class="filter-group">
+      <label for="funder-category-filter">Funder Category</label>
+      <select id="funder-category-filter" class="filter-input"></select>
+    </div>
+  </div>
+  <div class="filter-actions">
+    <button class="filter-action-btn" id="show-all-researchers-btn" type="button">Show All</button>
+  </div>
+  <p class="filter-hint">Tip: start typing to search options. Bubble counts + Researcher List update with filters.</p>
+</div>
+
+<div class="compass-container">
+  <svg width="900" height="900"></svg>
+</div>
+
+<div class="navigation-buttons">
+  <a href="{{ url_for('index') }}" class="nav-button back-button">← Back to Research Platforms</a>
+  <a href="https://foodcocentre.org/" class="nav-button" target="_blank">Visit Co-Centre Website</a>
+  <a href="https://foodcocentre.org/research" class="nav-button" target="_blank">Research Overview</a>
+  <a href="https://foodcocentre.org/contact" class="nav-button" target="_blank">Contact Us</a>
+</div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+
+// Global variables for tooltip and descriptions
+let descriptions = {};
+let tooltip = null;
+let currentModule = null; // Store current module data for detail panel
+let selectedModule = null; // Freeze the module shown in the detail panel (prevents hover from changing Show Table target)
+let detailPanel = null;
+let hideTooltipTimeout = null; // Timeout for hiding tooltip
+let factorKeyByName = {}; // map normalized factor display name -> actual factor key/column from API
+let tooltipPinned = false; // When true, tooltip stays until click-away/ESC
+
+// Load descriptions from API
+async function loadDescriptions() {
+  try {
+    const response = await fetch('/api/descriptions');
+    const data = await response.json();
+    if (data.success) {
+      descriptions = data.descriptions;
+      console.log('Descriptions loaded successfully', descriptions);
+    } else {
+      console.error('Failed to load descriptions:', data.error);
+      descriptions = {}; // Initialize as empty object to prevent errors
+    }
+  } catch (error) {
+    console.error('Error loading descriptions:', error);
+    descriptions = {}; // Initialize as empty object to prevent errors
+  }
+}
+
+// Initialize tooltip
+function initTooltip() {
+  tooltip = d3.select('#tooltip');
+  
+  // Add mouse events to tooltip to keep it visible when mouse is over it
+  tooltip
+    .on('mouseenter', function() {
+      cancelHideTooltip();
+    })
+    .on('mouseleave', function() {
+      // If tooltip is pinned (shown by click), don't hide on mouse leave
+      if (!tooltipPinned) hideTooltip();
+    });
+
+  // Prevent click on tooltip from closing it (click-away handler below)
+  const tooltipEl = document.getElementById('tooltip');
+  if (tooltipEl) {
+    tooltipEl.addEventListener('click', (e) => e.stopPropagation());
+  }
+
+  // Click-away to close pinned tooltip
+  document.addEventListener('click', function() {
+    if (tooltipPinned) {
+      tooltipPinned = false;
+      hideTooltip(0, true);
+    }
+  });
+
+  // ESC to close pinned tooltip
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && tooltipPinned) {
+      tooltipPinned = false;
+      hideTooltip(0, true);
+    }
+  });
+}
+
+// Calculate tooltip position based on module position (relative to viewport)
+// Since tooltip uses position: fixed, coordinates are relative to viewport
+function calculateTooltipPosition(moduleX, moduleY, tooltipWidth, tooltipHeight, svgElement) {
+  // Get SVG element's bounding box in viewport coordinates
+  const svgRect = svgElement.node().getBoundingClientRect();
+  
+  // Convert SVG coordinates to viewport coordinates (relative to page)
+  // SVG viewBox coordinates are mapped proportionally to viewport
+  const viewportX = svgRect.left + (moduleX / width) * svgRect.width;
+  const viewportY = svgRect.top + (moduleY / height) * svgRect.height;
+  
+  // Position tooltip so it overlaps 50% with module center
+  // Since position is fixed, these coordinates are relative to viewport
+  let tooltipX = viewportX - tooltipWidth * 0.5;
+  let tooltipY = viewportY - tooltipHeight * 0.5;
+  
+  // Adjust if tooltip would go off screen
+  const minPadding = 10;
+  
+  // Horizontal boundary check
+  if (tooltipX < minPadding) {
+    tooltipX = minPadding;
+  } else if (tooltipX + tooltipWidth > window.innerWidth - minPadding) {
+    tooltipX = window.innerWidth - tooltipWidth - minPadding;
+  }
+  
+  // Vertical boundary check
+  if (tooltipY < minPadding) {
+    tooltipY = minPadding;
+  } else if (tooltipY + tooltipHeight > window.innerHeight - minPadding) {
+    tooltipY = window.innerHeight - tooltipHeight - minPadding;
+  }
+  
+  return { tooltipX, tooltipY };
+}
+
+// Show tooltip with clean positioning (no arrow)
+function showTooltip(event, d) {
+  if (!tooltip) {
+    console.warn('Tooltip element not initialized');
+    return;
+  }
+  
+  // Try to find description, but don't block tooltip display if not found
+  let descData = null;
+  let shortDescription = '';
+  
+  if (descriptions) {
+    descData = findDescription(d.name, descriptions);
+    if (descData) {
+      shortDescription = descData.short_description || '';
+    } else {
+      console.log('No description found for:', d.name);
+    }
+  } else {
+    console.log('Descriptions not loaded yet');
+  }
+  
+  // If no description found, show module name only
+  if (!shortDescription) {
+    shortDescription = 'No description available';
+  }
+  
+  console.log('Showing tooltip for:', d.name, 'with description:', shortDescription);
+  
+  // Get SVG element
+  const svgElement = d3.select("svg");
+  
+  // Calculate module center position
+  const compassCenterX = width / 2;
+  const compassCenterY = height / 2;
+  
+  // Calculate module center angle
+  const midAngle = (d.startAngle + d.endAngle) / 2;
+  
+  // Determine which ring this module belongs to by checking the event target
+  let moduleRadius;
+  const targetElement = event.currentTarget || event.target;
+  if (targetElement.classList.contains('quadrant')) {
+    // Quadrant (inner ring)
+    moduleRadius = 60; // Middle of quadrant ring (0-120)
+  } else if (targetElement.classList.contains('segment')) {
+    // Segment (middle ring)
+    moduleRadius = 180; // Middle of segment ring (120-240)
+  } else if (targetElement.classList.contains('factor')) {
+    // Factor (outer ring)
+    moduleRadius = 320; // Middle of factor ring (240-400)
+  } else {
+    // Fallback: try to determine from label position
+    const labelText = d3.select(targetElement);
+    if (labelText.classed('label')) {
+      const isQuadrant = data.some(q => q.name === d.name);
+      if (isQuadrant) {
+        moduleRadius = 60;
+      } else {
+        const isSegment = data.some(q => q.children && q.children.some(s => s.name === d.name));
+        if (isSegment) {
+          moduleRadius = 180;
+        } else {
+          moduleRadius = 320;
+        }
+      }
+    } else {
+      moduleRadius = 180; // Default to middle ring
+    }
+  }
+  
+  // Convert polar coordinates to screen coordinates
+  const angle = midAngle - Math.PI / 2; // Adjust for D3's coordinate system
+  const moduleX = compassCenterX + Math.cos(angle) * moduleRadius;
+  const moduleY = compassCenterY + Math.sin(angle) * moduleRadius;
+  
+  // Tooltip dimensions
+  const tooltipWidth = 300;
+  const tooltipHeight = 120;
+  
+  // Calculate tooltip position with 50% overlap
+  const { tooltipX, tooltipY } = calculateTooltipPosition(
+    moduleX, moduleY, tooltipWidth, tooltipHeight, svgElement
+  );
+  
+  // Calculate darker color for title
+  let titleColor = '#4a7c59'; // default color
+  if (d.color) {
+    const baseColor = d3.color(d.color);
+    if (baseColor) {
+      titleColor = baseColor.darker(0.5).toString();
+    } else {
+      titleColor = d.color;
+    }
+  }
+  
+  // Set tooltip content and position
+  tooltip
+    .style('left', tooltipX + 'px')
+    .style('top', tooltipY + 'px')
+    .select('.tooltip-title')
+    .text(d.name)
+    .style('color', titleColor);
+  
+  tooltip
+    .select('.tooltip-description')
+    .text(shortDescription);
+  
+  // Store current module data for detail panel
+  currentModule = {
+    name: d.name,
+    color: d.color || '#4a7c59',
+    short_description: shortDescription,
+    definition: descData ? (descData.definition || '') : '',
+    data: d
+  };
+  
+  // Cancel any pending hide
+  cancelHideTooltip();
+  
+  tooltip.classed('show', true);
+}
+
+// Hide tooltip with delay
+function hideTooltip(delay = 200, force = false) {
+  // If pinned, only hide when forced (click-away / ESC)
+  if (tooltipPinned && !force) return;
+  // Clear any existing timeout
+  if (hideTooltipTimeout) {
+    clearTimeout(hideTooltipTimeout);
+  }
+  
+  // Set new timeout
+  hideTooltipTimeout = setTimeout(() => {
+    if (tooltip) {
+      tooltip.classed('show', false);
+    }
+    hideTooltipTimeout = null;
+  }, delay);
+}
+
+// Cancel hide tooltip
+function cancelHideTooltip() {
+  if (hideTooltipTimeout) {
+    clearTimeout(hideTooltipTimeout);
+    hideTooltipTimeout = null;
+  }
+}
+
+// Show detail panel
+function showDetailPanel() {
+  if (!currentModule || !detailPanel) return;
+  
+  // Set title
+  detailPanel.select('#detail-title').text(currentModule.name);
+  
+  // Set color bar
+  detailPanel.select('#detail-color-bar').style('background-color', currentModule.color);
+  
+  // Set definition (from database)
+  detailPanel.select('#detail-description').text(currentModule.definition || 'No definition available.');
+  
+  // Set additional info
+  const info = detailPanel.select('#detail-info');
+  
+  // Determine module type by checking data structure
+  let moduleType = 'Module';
+  const moduleName = currentModule.name;
+  
+  // Check if it's a quadrant (top level)
+  if (data.some(q => q.name === moduleName)) {
+    moduleType = 'Quadrant';
+  } 
+  // Check if it's a segment (second level)
+  else if (data.some(q => q.children && q.children.some(s => s.name === moduleName))) {
+    moduleType = 'Segment';
+  } 
+  // Otherwise it's a factor (third level)
+  else {
+    moduleType = 'Factor';
+  }
+
+  // Persist module type so "Show Table" can filter by the correct field
+  currentModule.moduleType = moduleType;
+
+  // Freeze the selected module for the detail panel AFTER moduleType is computed
+  // (prevents hover events from changing the Show Table target, and keeps correct field=Factor etc.)
+  selectedModule = { ...currentModule };
+  
+  info.html(`
+    <strong>Module Type:</strong> ${moduleType}<br>
+    <strong>Color:</strong> <span style="color: ${currentModule.color}">${currentModule.color}</span>
+  `);
+  
+  // Show panel
+  detailPanel.classed('show', true);
+}
+
+// Hide detail panel
+function hideDetailPanel() {
+  if (detailPanel) {
+    detailPanel.classed('show', false);
+  }
+  selectedModule = null;
+}
+
+// Initialize detail panel
+function initDetailPanel() {
+  detailPanel = d3.select('#detail-panel');
+
+  function determineModuleTypeByName(moduleName) {
+    if (data.some(q => q.name === moduleName)) return 'Quadrant';
+    if (data.some(q => q.children && q.children.some(s => s.name === moduleName))) return 'Segment';
+    return 'Factor';
+  }
+  
+  // Bind close button
+  d3.select('#detail-close').on('click', hideDetailPanel);
+  
+  // Bind show table button
+  d3.select('#show-table-btn').on('click', function() {
+    const moduleToOpen = selectedModule || currentModule;
+    if (moduleToOpen && moduleToOpen.name) {
+      // Navigate to table.html with the module name as path parameter
+      // The route is /table/<path:module_name>
+      const moduleName = encodeURIComponent(moduleToOpen.name);
+      const fieldType = moduleToOpen.moduleType || determineModuleTypeByName(moduleToOpen.name);
+      const field = fieldType ? encodeURIComponent(fieldType) : '';
+      const qs = field ? `?field=${field}` : '';
+      window.location.href = `/table/${moduleName}${qs}`;
+    }
+  });
+
+  // Bind show map button
+  d3.select('#show-map-btn').on('click', function() {
+    const moduleToOpen = selectedModule || currentModule;
+    if (!moduleToOpen || !moduleToOpen.name) return;
+
+    const fieldType = moduleToOpen.moduleType || determineModuleTypeByName(moduleToOpen.name);
+    const params = new URLSearchParams();
+    if (fieldType === 'Quadrant') params.set('quadrant', moduleToOpen.name);
+    else if (fieldType === 'Segment') params.set('segment', moduleToOpen.name);
+    else params.set('factor', moduleToOpen.name);
+
+    const qs = params.toString() ? `?${params.toString()}` : '';
+    window.location.href = `/map${qs}`;
+  });
+  
+  // Bind more info button
+  d3.select('#more-info-btn').on('click', function(event) {
+    event.stopPropagation();
+    showDetailPanel();
+  });
+}
+
+// Find description for a given name from database (flat dictionary structure)
+// data format: { "Module Name": { "short_description": "...", "definition": "..." } }
+function findDescription(name, data) {
+  if (!data || typeof data !== 'object') return null;
+  
+  // Direct lookup by name
+  if (data[name]) {
+    return data[name];
+  }
+  
+  // Try case-insensitive lookup
+  const lowerName = name.toLowerCase();
+  for (const key in data) {
+    if (key.toLowerCase() === lowerName) {
+      return data[key];
+    }
+  }
+  
+  return null;
+}
+
+// Hierarchical data
+const data = [
+  { name: "Safe and healthy diets for all", children: [
+      { name: "Food intake", children: [
+          "Healthy diets",
+          "Nutrient intake throughout life"
+        ]
+      },
+      { name: "Diet-related health conditions", children: [
+          "Diet-related chronic disease",
+          "Population weight status"
+        ]
+      },
+      { name: "Food safety and risk mitigation", children: [
+          "Foodborne microbiological, physical and chemical contaminants"
+        ]
+      },
+      { name: "Food integrity", children: [
+          "Environmental sustainability claims",
+          "Food fraud",
+          "Nutrition and health claims",
+          "Transparency of production of products deriving from animals"
+        ]
+      }
+    ]
+  },
+
+  { name: "Economically thriving, robust food value chains", children: [
+      { name: "Innovative and transformative businesses", children: [
+          "Agrifood investment",
+          "Knowledge and skills",
+          "Business practices and technology"
+        ]
+      },
+      { name: "Economic development", children: [
+          "Investment attractiveness",
+          "Profit",
+          "Revenue",
+          "Yield"
+        ]
+      },
+      { name: "Value chain configuration", children: [
+          "Consumer habits",
+          "Degree of structural reconfiguration",
+          "Food loss",
+          "Packaging",
+          "Responsible sourcing"
+        ]
+      },
+      { name: "Competitive positioning", children: [
+          "Commercial risk management",
+          "Food self-sufficiency",
+          "Trading relationships"
+        ]
+      }
+    ]
+  },
+
+  { name: "Clean and healthy planet", children: [
+      { name: "Atmosphere", children: [
+          "Air quality",
+          "Greenhouse gas emissions",
+          "Water vapour"
+        ]
+      },
+      { name: "Biosphere", children: [
+          "Biomass",
+          "Functional biodiversity",
+          "Genetic diversity",
+          "Net primary productivity",
+          "Species richness"
+        ]
+      },
+      { name: "Geosphere", children: [
+          "Non-renewable resources",
+          "Soil carbon",
+          "Soil degradation",
+          "Soil erosion and deposition"
+        ]
+      },
+      { name: "Hydrosphere", children: [
+          "Freshwater extraction",
+          "Nitrogen and phosphorous loading",
+          "Water quality",
+          "Water temperature"
+        ]
+      }
+    ]
+  },
+
+  { name: "Just, ethical, fair and culturally meaningful food system", children: [
+      { name: "Right to food", children: [
+          "Access",
+          "Agency",
+          "Cultural appropriateness"
+        ]
+      },
+      { name: "Food culture", children: [
+          "Food behaviour",
+          "Food environment",
+          "Food literacy",
+          "Food waste"
+        ]
+      },
+      { name: "Social justice", children: [
+          "Dignified work environments",
+          "Social externalities"
+        ]
+      },
+      { name: "Environmental justice", children: [
+          "Environmental externalities",
+          "Recognition of nature’s contribution to human wellbeing"
+        ]
+      },
+      { name: "Animal welfare", children: [
+          "Treatment during production, transport and slaughter"
+        ]
+      }
+    ]
+  }
+];
+
+const width = 1200, height = 1200, radius = Math.min(width, height)/2;
+const rootSvg = d3.select("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("preserveAspectRatio", "xMidYMid meet")
+  .style("width", "100%")
+  .style("height", "auto");
+
+const svg = rootSvg
+  .append("g")
+  .attr("transform", `translate(${width/2},${height/2})`);
+
+// Color scale for quadrants - Custom colors as specified
+const quadrantColors = [
+  "#f8d294", // Safe & healthy diets for all – yellow
+  "#7ea1b4", // Economically thriving, robust food value chains – dark blue
+  "#abe5cd", // Clean & healthy planet – light green
+  "#f1b9a1"  // Just, ethical, fair & culturally meaningful food system – deeper peach
+];
+
+// Helper to create lighter colors for outer rings (no gradient)
+const adjustLightness = (inputColor, delta, maxLightness = 0.95) => {
+  const baseColor = d3.color(inputColor);
+  if (!baseColor) {
+    return inputColor;
+  }
+  const hsl = d3.hsl(baseColor);
+  hsl.l = Math.min(maxLightness, hsl.l + delta);
+  return hsl.formatHex();
+};
+
+const createSegmentColor = (quadrantColor) => {
+  return adjustLightness(quadrantColor, 0.08, 0.88);
+};
+
+const createFactorColor = (segmentColor) => {
+  return adjustLightness(segmentColor, 0.15, 0.93);
+};
+
+const reverseOrderQuadrants = new Set([
+  "Clean and healthy planet",
+  "Just, ethical, fair and culturally meaningful food system"
+]);
+
+// Function to create arcs
+const arcGenerator = d3.arc();
+
+// First ring: Quadrants
+const quadrantCount = data.length;
+const quadrantAngle = 2 * Math.PI / quadrantCount;
+data.forEach((q, i) => {
+  q.startAngle = i * quadrantAngle;
+  q.endAngle = (i+1) * quadrantAngle;
+  q.color = quadrantColors[i % quadrantColors.length];
+  // Second ring: segments
+  const segmentList = reverseOrderQuadrants.has(q.name)
+    ? [...q.children].reverse()
+    : q.children;
+  const segCount = segmentList.length;
+  const segAngle = segCount > 0 ? (q.endAngle - q.startAngle) / segCount : 0;
+  q.children = segmentList.map((s, j) => {
+    const segmentStart = q.startAngle + j * segAngle;
+    const segmentEnd = q.startAngle + (j+1) * segAngle;
+    const segmentColor = createSegmentColor(q.color);
+
+    // Third ring: factors
+    const factorNames = reverseOrderQuadrants.has(q.name)
+      ? [...s.children].reverse()
+      : s.children;
+    const facCount = factorNames.length;
+    const facAngle = facCount > 0 ? (segmentEnd - segmentStart) / facCount : 0;
+    const factors = factorNames.map((f, k) => ({
+      name: f,
+      startAngle: segmentStart + k * facAngle,
+      endAngle: segmentStart + (k+1) * facAngle,
+      // Create even lighter color for factors (uniform per factor)
+      color: createFactorColor(segmentColor)
+    }));
+
+    return {
+      ...s,
+      startAngle: segmentStart,
+      endAngle: segmentEnd,
+      color: segmentColor,
+      children: factors
+    };
+  });
+});
+
+// Draw quadrants (inner ring)
+svg.selectAll(".quadrant")
+  .data(data)
+  .join("path")
+  .attr("class", "quadrant clickable")
+  .attr("d", d => arcGenerator({
+    innerRadius: 0,
+    outerRadius: 120,
+    startAngle: d.startAngle,
+    endAngle: d.endAngle
+  }))
+  .attr("fill", d => d.color)
+  .attr("stroke","#fff")
+  .on("click", (event, d) => {
+    event.stopPropagation();
+    // Keep old behavior accessible via modifier key
+    if (event.shiftKey || event.metaKey || event.ctrlKey) return openDataTable(d.name, 'Quadrant');
+    selectedModule = { name: d.name, moduleType: 'Quadrant' };
+    tooltipPinned = true;
+    showTooltip(event, d);
+  })
+  .on("mouseover", function(event, d){ 
+    d3.select(this).classed("hovered", true);
+  })
+  .on("mouseout", function(){ 
+    d3.select(this).classed("hovered", false);
+  });
+
+// Draw segments (middle ring)
+svg.selectAll(".segment")
+  .data(data.flatMap(d => d.children))
+  .join("path")
+  .attr("class", "segment clickable")
+  .attr("d", d => arcGenerator({
+    innerRadius: 120,
+    outerRadius: 240,
+    startAngle: d.startAngle,
+    endAngle: d.endAngle
+  }))
+  .attr("fill", d => d.color)
+  .attr("stroke","#fff")
+  .on("click", (event, d) => {
+    event.stopPropagation();
+    if (event.shiftKey || event.metaKey || event.ctrlKey) return openDataTable(d.name, 'Segment');
+    selectedModule = { name: d.name, moduleType: 'Segment' };
+    tooltipPinned = true;
+    showTooltip(event, d);
+  })
+  .on("mouseover", function(event, d){ 
+    d3.select(this).classed("hovered", true);
+  })
+  .on("mouseout", function(){ 
+    d3.select(this).classed("hovered", false);
+  });
+
+// Draw factors (outer ring)
+svg.selectAll(".factor")
+  .data(data.flatMap(d => d.children.flatMap(s => s.children)))
+  .join("path")
+  .attr("class", "factor clickable")
+  .attr("d", d => arcGenerator({
+    innerRadius: 240,
+    outerRadius: 400,
+    startAngle: d.startAngle,
+    endAngle: d.endAngle
+  }))
+  .attr("fill", d => d.color)
+  .attr("stroke","#fff")
+  .on("click", (event, d) => {
+    event.stopPropagation();
+    if (event.shiftKey || event.metaKey || event.ctrlKey) return openDataTable(d.name, 'Factor');
+    selectedModule = { name: d.name, moduleType: 'Factor' };
+    tooltipPinned = true;
+    showTooltip(event, d);
+  })
+  .on("mouseover", function(event, d){ 
+    d3.select(this).classed("hovered", true);
+  })
+  .on("mouseout", function(){ 
+    d3.select(this).classed("hovered", false);
+  });
+
+// Open data table for a specific societal goal
+function openDataTable(societalGoal, field = ''){
+  // Encode the module name for URL
+  const encodedModuleName = encodeURIComponent(societalGoal);
+  const encodedField = field ? encodeURIComponent(field) : '';
+  const qs = encodedField ? `?field=${encodedField}` : '';
+  // Open the table page in a new window
+  window.open(`/table/${encodedModuleName}${qs}`, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+}
+
+// Add text labels (centered along the arcs)
+const addLabels = (elements, radiusOffset, options = {}, field = '') => {
+  const {
+    wrapWidth = 80,
+    alignWithArc = false,
+    keepUpright = true,
+    allowWrap = true,
+    rotationOffset = 0,
+    fontSize = 10,
+    fontWeight = 'normal',
+    radiusAdjust = 0,
+    radiusAdjustMap = null
+  } = options;
+  svg.selectAll(null)
+    .data(elements)
+    .join("text")
+    .attr("class","label clickable")
+    .style("font-size", `${fontSize}px`)
+    .style("font-weight", fontWeight)
+    .attr("transform", d => {
+      const angle = (d.startAngle + d.endAngle)/2 - Math.PI/2;
+      let extraRadius = 0;
+      if (typeof radiusAdjust === 'function') {
+        extraRadius = radiusAdjust(d);
+      } else if (radiusAdjustMap && Object.prototype.hasOwnProperty.call(radiusAdjustMap, d.name)) {
+        extraRadius = radiusAdjustMap[d.name];
+      } else {
+        extraRadius = radiusAdjust;
+      }
+      const r = radiusOffset + extraRadius;
+      const x = Math.cos(angle)*r;
+      const y = Math.sin(angle)*r;
+      // Improved rotation logic to keep text readable
+      const angleDegrees = (angle * 180 / Math.PI + 360) % 360;
+      let rotation = 0;
+      if (alignWithArc) {
+        let rotationDegrees = ((d.startAngle + d.endAngle) / 2) * 180 / Math.PI - 90 + rotationOffset;
+        rotationDegrees = ((rotationDegrees + 540) % 360) - 180; // normalize to [-180, 180)
+        if (keepUpright && rotationDegrees > 90) {
+          rotationDegrees -= 180;
+        }
+        if (keepUpright && rotationDegrees < -90) {
+          rotationDegrees += 180;
+        }
+        rotation = rotationDegrees;
+      }
+      return `translate(${x},${y}) rotate(${rotation})`;
+    })
+    .text(d => d.name)
+    .on('click', (event, d) => {
+      event.stopPropagation();
+      if (event.shiftKey || event.metaKey || event.ctrlKey) return openDataTable(d.name, field);
+      selectedModule = { name: d.name, moduleType: field || '' };
+      tooltipPinned = true;
+      showTooltip(event, d);
+    })
+    .call((selection) => {
+      if (!alignWithArc || allowWrap) {
+        selection.call(wrap, wrapWidth);
+      }
+    });
+}
+
+// Simple wrap function for labels
+function wrap(text, width) {
+  text.each(function() {
+    const text = d3.select(this);
+    const words = text.text().split(/\s+/).reverse();
+    let word, line = [], lineNumber = 0, lineHeight = 1.1;
+    let y = 0, dy = 0;
+    let tspan = text.text(null).append("tspan").attr("x",0).attr("y",y).attr("dy",dy+"em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x",0).attr("y",y).attr("dy",++lineNumber*lineHeight+"em").text(word);
+      }
+    }
+  });
+}
+
+addLabels(
+  data,
+  80,
+  {
+    wrapWidth: 120,
+    alignWithArc: true,
+    keepUpright: true,
+    allowWrap: true,
+    rotationOffset: 90,
+    fontSize: 12,
+    fontWeight: '600',
+    radiusAdjustMap: {
+      'Economically thriving, robust food value chains': -10
+    }
+  },
+  'Quadrant'
+);                     // Quadrants
+addLabels(
+  data.flatMap(d => d.children),
+  180,
+  {
+    wrapWidth: 120,
+    alignWithArc: true,
+    keepUpright: true,
+    allowWrap: true,
+    fontSize: 12,
+    fontWeight: '500'
+  },
+  'Segment'
+);  // Segments
+addLabels(
+  data.flatMap(d => d.children.flatMap(s => s.children)),
+  320,
+  {
+    alignWithArc: true,
+    keepUpright: true,
+    wrapWidth: 150,
+    allowWrap: true,
+    fontSize: 11
+  },
+  'Factor'
+);  // Factors
+
+// ===== Factor-only outside count bubbles (d3viz2 additions) =====
+async function loadFactorCounts() {
+  try {
+    // Factor counts come from Researcher collection (not rolNLDraft)
+    const filters = getResearcherFilters();
+    const params = new URLSearchParams();
+    if (filters.platformAlignment) params.append('platform_alignment', filters.platformAlignment);
+    if (filters.institution) params.append('institution', filters.institution);
+    if (filters.funderCategory) params.append('funder_category', filters.funderCategory);
+    const url = '/api/researchers/factor-counts' + (params.toString() ? `?${params.toString()}` : '');
+    const res = await fetch(url);
+    const json = await res.json();
+    if (!json.success || !json.counts) return { counts: {}, key_map: {} };
+    return { counts: json.counts || {}, key_map: json.key_map || {}, all_factor_count: json.all_factor_count || 0 };
+  } catch (e) {
+    console.error('Failed to load factor counts', e);
+    return { counts: {}, key_map: {}, all_factor_count: 0 };
+  }
+}
+
+function drawCenterAllFactorBubble(count) {
+  // Remove existing bubble (re-render safe)
+  svg.selectAll('.allfactor-bubble-layer').remove();
+  if (!count || count <= 0) return;
+
+  const g = svg.append('g')
+    .attr('class', 'allfactor-bubble-layer');
+
+  const bubble = g.append('g')
+    .attr('class', 'allfactor-bubble')
+    .attr('transform', 'translate(0,0)');
+
+  // Size tuned to feel like a "small" center badge
+  const r = 26;
+  bubble
+    .style('cursor', 'pointer')
+    .attr('role', 'button')
+    .attr('tabindex', 0);
+
+  bubble.append('circle')
+    .attr('r', r)
+    .style('pointer-events', 'all')
+    .on('click', function(event) {
+      event.stopPropagation();
+      loadResearchersForAllFactor();
+    });
+  bubble.append('text')
+    .text(String(count))
+    .style('font-size', '16px');
+}
+
+async function loadResearchersForAllFactor() {
+  const panel = document.getElementById('researcher-panel');
+  const subtitle = document.getElementById('researcher-panel-subtitle');
+  const content = document.getElementById('researcher-panel-content');
+  if (!panel || !subtitle || !content) return;
+
+  panel.style.display = 'flex';
+  subtitle.textContent = 'Loading researchers for AllFactor...';
+  content.innerHTML = '';
+
+  try {
+    const filters = getResearcherFilters();
+    const params = new URLSearchParams();
+    if (filters.platformAlignment) params.append('platform_alignment', filters.platformAlignment);
+    if (filters.institution) params.append('institution', filters.institution);
+    if (filters.funderCategory) params.append('funder_category', filters.funderCategory);
+    const res = await fetch(`/api/researchers/allfactor?${params.toString()}`);
+    const json = await res.json();
+    if (!json.success) {
+      subtitle.textContent = `Failed to load AllFactor researchers: ${json.error || 'Unknown error'}`;
+      return;
+    }
+
+    const list = json.researchers || [];
+    subtitle.textContent = `AllFactor • Researchers: ${json.count || list.length}`;
+
+    if (list.length === 0) {
+      content.innerHTML = `<div class="researcher-item"><div class="researcher-meta">No researchers found for AllFactor.</div></div>`;
+      return;
+    }
+
+    content.innerHTML = list.map(r => {
+      const name = escapeHtml(r.Name || '');
+      const inst = escapeHtml(r.Institution || '');
+      const funderCat = escapeHtml(r['Funder Category'] || '');
+      const email = escapeHtml(r['Email (as per SESAME)'] || '');
+      const platAlign = escapeHtml(r['Platform Alignment'] || '');
+      const role = escapeHtml(r['Co-Centre Role'] || '');
+      const brief = escapeHtml(r['Brief Description'] || '');
+      return `
+        <div class="researcher-item">
+          <div class="researcher-name">${name || '(No Name)'}</div>
+          <div class="researcher-meta">
+            <div><strong>Funder Category:</strong> ${funderCat || '-'}</div>
+            <div><strong>Institution:</strong> ${inst || '-'}</div>
+            <div><strong>Email (as per SESAME):</strong> ${email || '-'}</div>
+            <div><strong>Platform Alignment:</strong> ${platAlign || '-'}</div>
+            <div><strong>Co-Centre Role:</strong> ${role || '-'}</div>
+            <div><strong>Brief Description:</strong> ${brief || '-'}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    subtitle.textContent = 'Failed to load AllFactor researchers.';
+    console.error(e);
+  }
+}
+
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function initResearcherPanel() {
+  const panel = document.getElementById('researcher-panel');
+  const closeBtn = document.getElementById('researcher-panel-close');
+  if (!panel || !closeBtn) return;
+  closeBtn.addEventListener('click', () => {
+    panel.style.display = 'none';
+  });
+}
+
+function getResearcherFilters() {
+  const platformAlignmentEl = document.getElementById('platform-alignment-filter');
+  const institutionEl = document.getElementById('institution-filter');
+  const funderCategoryEl = document.getElementById('funder-category-filter');
+
+  const normalizePlatformSelection = (v) => {
+    const s = String(v || '').trim();
+    if (!s) return '';
+    // If user selects a labeled option like "P1 - ...", extract the platform code.
+    const m = s.match(/^(P\d+)\b/i);
+    if (m) return m[1].toUpperCase();
+    return s;
+  };
+
+  return {
+    platformAlignment: platformAlignmentEl ? normalizePlatformSelection(platformAlignmentEl.value) : '',
+    institution: institutionEl ? String(institutionEl.value || '').trim() : '',
+    funderCategory: funderCategoryEl ? String(funderCategoryEl.value || '').trim() : ''
+  };
+}
+
+function debounce(fn, wait = 250) {
+  let t = null;
+  return (...args) => {
+    if (t) clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}
+
+async function loadResearcherFilterOptions() {
+  try {
+    const res = await fetch('/api/researchers/unique-values');
+    const json = await res.json();
+    if (!json.success) return;
+
+    const platformSelect = document.getElementById('platform-alignment-filter');
+    const institutionSelect = document.getElementById('institution-filter');
+    const funderCategorySelect = document.getElementById('funder-category-filter');
+    if (!platformSelect || !institutionSelect || !funderCategorySelect) return;
+
+    const prevPlatform = platformSelect.value;
+    const prevInstitution = institutionSelect.value;
+    const prevFunder = funderCategorySelect.value;
+
+    platformSelect.innerHTML = '';
+    institutionSelect.innerHTML = '';
+    funderCategorySelect.innerHTML = '';
+
+    // Always include "Show all" (empty value) as the first option
+    const addShowAll = (selectEl) => {
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = 'Show all';
+      selectEl.appendChild(opt);
+    };
+    addShowAll(platformSelect);
+    addShowAll(institutionSelect);
+    addShowAll(funderCategorySelect);
+
+    const platformLabels = {
+      'P1': 'P1 - Food Production & Processsing',
+      'P2': 'P2 - Food Safety & Integrity',
+      'P3': 'P3 - Health & Nutrition',
+      'P4': 'P4 - Food Systems Data Modelling',
+      'P5': 'P5 - Trust in Food Systems'
+    };
+
+    (json.platform_alignments || []).forEach(v => {
+      const opt = document.createElement('option');
+      // Keep value as P1/P2/... for filtering, but show full label.
+      opt.value = v;
+      opt.textContent = platformLabels[v] || v;
+      platformSelect.appendChild(opt);
+    });
+    (json.institutions || []).forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      opt.textContent = v;
+      institutionSelect.appendChild(opt);
+    });
+    (json.funder_categories || []).forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      opt.textContent = v;
+      funderCategorySelect.appendChild(opt);
+    });
+
+    // Restore previous selections when possible; otherwise default to Show all
+    platformSelect.value = prevPlatform;
+    institutionSelect.value = prevInstitution;
+    funderCategorySelect.value = prevFunder;
+  } catch (e) {
+    console.error('Failed to load researcher filter options', e);
+  }
+}
+
+function setupResearcherFilters() {
+  const platformAlignmentEl = document.getElementById('platform-alignment-filter');
+  const institutionEl = document.getElementById('institution-filter');
+  const funderCategoryEl = document.getElementById('funder-category-filter');
+  if (!platformAlignmentEl || !institutionEl || !funderCategoryEl) return;
+
+  const onChange = debounce(() => {
+    initFactorBubbles();
+    // If panel is open, keep it consistent: clear list prompt (user can click bubble again)
+    const panel = document.getElementById('researcher-panel');
+    const subtitle = document.getElementById('researcher-panel-subtitle');
+    const content = document.getElementById('researcher-panel-content');
+    if (panel && panel.style.display !== 'none' && subtitle && content) {
+      subtitle.textContent = 'Filters changed. Click a Factor bubble to load researchers.';
+      content.innerHTML = '';
+    }
+  }, 300);
+
+  platformAlignmentEl.addEventListener('change', onChange);
+  institutionEl.addEventListener('change', onChange);
+  funderCategoryEl.addEventListener('change', onChange);
+}
+
+function setupShowAllResearchersButton() {
+  const btn = document.getElementById('show-all-researchers-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    // Clear filters (Show all by default)
+    const platformAlignmentEl = document.getElementById('platform-alignment-filter');
+    const institutionEl = document.getElementById('institution-filter');
+    const funderCategoryEl = document.getElementById('funder-category-filter');
+    if (platformAlignmentEl) platformAlignmentEl.value = '';
+    if (institutionEl) institutionEl.value = '';
+    if (funderCategoryEl) funderCategoryEl.value = '';
+
+    initFactorBubbles();
+    loadAllResearchers();
+  });
+}
+
+async function loadAllResearchers() {
+  const panel = document.getElementById('researcher-panel');
+  const subtitle = document.getElementById('researcher-panel-subtitle');
+  const content = document.getElementById('researcher-panel-content');
+  if (!panel || !subtitle || !content) return;
+
+  panel.style.display = 'flex';
+  subtitle.textContent = 'Loading all researchers...';
+  content.innerHTML = '';
+
+  try {
+    const filters = getResearcherFilters();
+    const params = new URLSearchParams();
+    if (filters.platformAlignment) params.append('platform_alignment', filters.platformAlignment);
+    if (filters.institution) params.append('institution', filters.institution);
+    if (filters.funderCategory) params.append('funder_category', filters.funderCategory);
+
+    const url = `/api/researchers/all${params.toString() ? `?${params.toString()}` : ''}`;
+    const res = await fetch(url);
+    const json = await res.json();
+    if (!json.success) {
+      subtitle.textContent = `Failed to load researchers: ${json.error || 'Unknown error'}`;
+      return;
+    }
+
+    const list = json.researchers || [];
+    subtitle.textContent = `All Researchers • ${json.count || list.length}`;
+
+    if (list.length === 0) {
+      content.innerHTML = `<div class=\"researcher-item\"><div class=\"researcher-meta\">No researchers found.</div></div>`;
+      return;
+    }
+
+    content.innerHTML = list.map(r => {
+      const name = escapeHtml(r.Name || '');
+      const inst = escapeHtml(r.Institution || '');
+      const funderCat = escapeHtml(r['Funder Category'] || '');
+      const email = escapeHtml(r['Email (as per SESAME)'] || '');
+      const platAlign = escapeHtml(r['Platform Alignment'] || '');
+      const role = escapeHtml(r['Co-Centre Role'] || '');
+      const brief = escapeHtml(r['Brief Description'] || '');
+      return `
+        <div class="researcher-item">
+          <div class="researcher-name">${name || '(No Name)'}</div>
+          <div class="researcher-meta">
+            <div><strong>Funder Category:</strong> ${funderCat || '-'}</div>
+            <div><strong>Institution:</strong> ${inst || '-'}</div>
+            <div><strong>Email (as per SESAME):</strong> ${email || '-'}</div>
+            <div><strong>Platform Alignment:</strong> ${platAlign || '-'}</div>
+            <div><strong>Co-Centre Role:</strong> ${role || '-'}</div>
+            <div><strong>Brief Description:</strong> ${brief || '-'}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    subtitle.textContent = 'Failed to load researchers.';
+    console.error(e);
+  }
+}
+
+async function loadResearchersForFactor(factorName, factorKey = '') {
+  const panel = document.getElementById('researcher-panel');
+  const subtitle = document.getElementById('researcher-panel-subtitle');
+  const content = document.getElementById('researcher-panel-content');
+  if (!panel || !subtitle || !content) return;
+
+  panel.style.display = 'flex';
+  subtitle.textContent = `Loading researchers for Factor: ${factorName} ...`;
+  content.innerHTML = '';
+
+  try {
+    const filters = getResearcherFilters();
+    const params = new URLSearchParams();
+    params.append('factor', factorName);
+    // factor_key is used for wide (one-hot column) schema when the column name differs from display name
+    if (factorKey) params.append('factor_key', factorKey);
+    if (filters.platformAlignment) params.append('platform_alignment', filters.platformAlignment);
+    if (filters.institution) params.append('institution', filters.institution);
+    if (filters.funderCategory) params.append('funder_category', filters.funderCategory);
+    const res = await fetch(`/api/researchers/by-factor?${params.toString()}`);
+    const json = await res.json();
+    if (!json.success) {
+      subtitle.textContent = `Failed to load researchers for "${factorName}": ${json.error || 'Unknown error'}`;
+      return;
+    }
+
+    const list = json.researchers || [];
+    subtitle.textContent = `Factor: ${factorName} • Researchers: ${json.count || list.length}`;
+
+    if (list.length === 0) {
+      content.innerHTML = `<div class="researcher-item"><div class="researcher-meta">No researchers found for this Factor.</div></div>`;
+      return;
+    }
+
+    content.innerHTML = list.map(r => {
+      const name = escapeHtml(r.Name || '');
+      const inst = escapeHtml(r.Institution || '');
+      const funderCat = escapeHtml(r['Funder Category'] || '');
+      const email = escapeHtml(r['Email (as per SESAME)'] || '');
+      const platAlign = escapeHtml(r['Platform Alignment'] || '');
+      const role = escapeHtml(r['Co-Centre Role'] || '');
+      const brief = escapeHtml(r['Brief Description'] || '');
+      return `
+        <div class="researcher-item">
+          <div class="researcher-name">${name || '(No Name)'}</div>
+          <div class="researcher-meta">
+            <div><strong>Funder Category:</strong> ${funderCat || '-'}</div>
+            <div><strong>Institution:</strong> ${inst || '-'}</div>
+            <div><strong>Email (as per SESAME):</strong> ${email || '-'}</div>
+            <div><strong>Platform Alignment:</strong> ${platAlign || '-'}</div>
+            <div><strong>Co-Centre Role:</strong> ${role || '-'}</div>
+            <div><strong>Brief Description:</strong> ${brief || '-'}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    subtitle.textContent = `Failed to load researchers for "${factorName}".`;
+    console.error(e);
+  }
+}
+
+function bubbleRadiusScale(values) {
+  const max = Math.max(...values, 0);
+  return d3.scaleSqrt()
+    .domain([0, Math.max(max, 1)])
+    .range([6, 22]);
+}
+
+function drawFactorBubblesOutside(factors, outerRingRadius = 400, offset = 34) {
+  const nonZeroFactors = factors.filter(d => (d.count || 0) > 0);
+  const values = nonZeroFactors.map(d => d.count || 0);
+  const rScale = bubbleRadiusScale(values);
+  const bubbleDistance = outerRingRadius + offset;
+
+  // Remove any previous bubbles (in case of re-render)
+  svg.selectAll('.count-bubbles-layer').remove();
+
+  // If nothing to show, exit early (hide 0-count bubbles)
+  if (nonZeroFactors.length === 0) {
+    return;
+  }
+
+  const g = svg.append('g').attr('class', 'count-bubbles-layer');
+
+  const bubbles = g.selectAll(null)
+    .data(nonZeroFactors)
+    .join('g')
+    .attr('class', 'count-bubble')
+    .attr('transform', d => {
+      const midAngle = (d.startAngle + d.endAngle) / 2;
+      const angle = midAngle - Math.PI / 2; // align with the compass orientation
+      const x = Math.cos(angle) * bubbleDistance;
+      const y = Math.sin(angle) * bubbleDistance;
+      return `translate(${x},${y})`;
+    });
+
+  bubbles.append('circle')
+    .attr('r', d => rScale(d.count || 0));
+
+  bubbles.append('text')
+    .text(d => (d.count || 0))
+    .style('font-size', d => {
+      const r = rScale(d.count || 0);
+      return `${Math.max(9, Math.min(14, r))}px`;
+    });
+
+  // Clickable bubbles: load researcher list for that factor
+  bubbles
+    .style('cursor', 'pointer')
+    .on('click', function(event, d) {
+      event.stopPropagation();
+      const factorKey = d.factorKey || (factorKeyByName ? factorKeyByName[String(d.name || '').trim().toLowerCase()] : '') || d.name;
+      loadResearchersForFactor(d.name, factorKey);
+    });
+}
+
+async function initFactorBubbles() {
+  const { counts: factorCounts, key_map: keyMap, all_factor_count: allFactorCount } = await loadFactorCounts();
+  const factors = data.flatMap(d => d.children.flatMap(s => s.children));
+  // Punctuation-insensitive lookup so names with/without commas match (e.g. "A, B" vs "A B")
+  // Also handles Chinese punctuation like "，".
+  const normalizeFactorKeyKeepSpaces = (name) => {
+    let s = String(name || '').normalize('NFKC').toLowerCase();
+    // Common misspelling alignment (used only for matching, not display)
+    s = s.replace(/contaminents/g, 'contaminants');
+    // Step 1: drop punctuation/symbols, KEEP spaces
+    return s
+      .replace(/[^\p{L}\p{N}\s]+/gu, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+  const normalizeFactorKeyCompact = (name) =>
+    normalizeFactorKeyKeepSpaces(name).replace(/\s+/g, '');
+
+  const countsByKeepSpaces = {};
+  const keyByKeepSpaces = {};
+  const countsByCompact = {};
+  const keyByCompact = {};
+  factorKeyByName = {};
+  Object.keys(factorCounts || {}).forEach(k => {
+    const k1 = normalizeFactorKeyKeepSpaces(k);
+    const k2 = normalizeFactorKeyCompact(k);
+    countsByKeepSpaces[k1] = factorCounts[k];
+    countsByCompact[k2] = factorCounts[k];
+    // Prefer backend-provided key_map (display -> actual column)
+    const mapped = keyMap && Object.prototype.hasOwnProperty.call(keyMap, k) ? keyMap[k] : k;
+    keyByKeepSpaces[k1] = mapped;
+    keyByCompact[k2] = mapped;
+    // store both normalizations for later lookup
+    factorKeyByName[k1] = mapped;
+    factorKeyByName[k2] = mapped;
+  });
+  factors.forEach(f => {
+    const direct = factorCounts ? factorCounts[f.name] : undefined;
+    if (direct !== undefined && direct !== null) {
+      f.count = direct;
+      const k0 = normalizeFactorKeyKeepSpaces(f.name);
+      const k0c = normalizeFactorKeyCompact(f.name);
+      f.factorKey =
+        (Object.prototype.hasOwnProperty.call(keyByKeepSpaces, k0) && keyByKeepSpaces[k0]) ||
+        (Object.prototype.hasOwnProperty.call(keyByCompact, k0c) && keyByCompact[k0c]) ||
+        f.name;
+      return;
+    }
+    const k1 = normalizeFactorKeyKeepSpaces(f.name);
+    const k2 = normalizeFactorKeyCompact(f.name);
+    // Step 1 match (keep spaces), Step 2 match (compact)
+    const alt =
+      (Object.prototype.hasOwnProperty.call(countsByKeepSpaces, k1) ? countsByKeepSpaces[k1] : undefined) ??
+      (Object.prototype.hasOwnProperty.call(countsByCompact, k2) ? countsByCompact[k2] : undefined);
+    f.count = alt || 0;
+    f.factorKey =
+      (Object.prototype.hasOwnProperty.call(keyByKeepSpaces, k1) && keyByKeepSpaces[k1]) ||
+      (Object.prototype.hasOwnProperty.call(keyByCompact, k2) && keyByCompact[k2]) ||
+      f.name;
+  });
+  drawFactorBubblesOutside(factors, 400, 34);
+  drawCenterAllFactorBubble(allFactorCount);
+}
+
+// Initialize tooltip and load descriptions
+initTooltip();
+initDetailPanel();
+loadDescriptions();
+initResearcherPanel();
+loadResearcherFilterOptions();
+setupResearcherFilters();
+setupShowAllResearchersButton();
+initFactorBubbles();
+
+</script>
+
+</body>
+</html>

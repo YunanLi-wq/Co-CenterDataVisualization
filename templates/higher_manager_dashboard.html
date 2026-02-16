@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higher Manager Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6b8e23 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dashboard-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 15px;
+        }
+        
+        .card-description {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .card-button {
+            background: linear-gradient(135deg, #4a7c59, #6b8e23);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 200px;
+        }
+        
+        .card-button:hover {
+            background: linear-gradient(135deg, #2d5016, #4a7c59);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .users-updates-card {
+            border-left: 5px solid #28a745;
+        }
+        
+        .users-updates-card .card-icon {
+            color: #28a745;
+        }
+        
+        .users-updates-card .card-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .users-updates-card .card-button:hover {
+            background: linear-gradient(135deg, #1e7e34, #1aa179);
+        }
+        
+        .database-manage-card {
+            border-left: 5px solid #007bff;
+        }
+        
+        .database-manage-card .card-icon {
+            color: #007bff;
+        }
+        
+        .database-manage-card .card-button {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+        
+        .database-manage-card .card-button:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .logout-button {
+            background: rgba(220, 53, 69, 0.8);
+            border-color: rgba(220, 53, 69, 0.8);
+        }
+        
+        .logout-button:hover {
+            background: rgba(220, 53, 69, 1);
+            border-color: rgba(220, 53, 69, 1);
+        }
+        
+        .welcome-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .welcome-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+        }
+        
+        .welcome-info p {
+            margin: 0;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>🔐 Higher Manager Dashboard</h1>
+            <p>Administrative Control Panel</p>
+        </div>
+        
+        <div class="welcome-info">
+            <h3>Welcome, Higher Manager</h3>
+            <p>You have administrative access to manage the system and review user submissions</p>
+        </div>
+        
+        <div class="dashboard-cards">
+            <div class="dashboard-card users-updates-card">
+                <span class="card-icon">📋</span>
+                <h2 class="card-title">Users Updates</h2>
+                <p class="card-description">
+                    Review and approve items submitted by users. 
+                    Manage pending submissions and decide which items should be added to the main database.
+                </p>
+                <a href="/update" class="card-button">Review Submissions</a>
+            </div>
+            
+            <div class="dashboard-card database-manage-card">
+                <span class="card-icon">🗄️</span>
+                <h2 class="card-title">Manager Dataset</h2>
+                <p class="card-description">
+                    Direct database management interface. 
+                    Add, update, delete, and manage records in the main database with full administrative control.
+                </p>
+                <a href="/manager" class="card-button">Manage Database</a>
+            </div>
+        </div>
+        
+        <div class="navigation-buttons">
+            <a href="{{ url_for('index') }}" class="nav-button">🏠 Home</a>
+            <a href="{{ url_for('d3viz') }}" class="nav-button">🧭 Food Co-Centre Sustainability Compass</a>
+            <a href="{{ url_for('table', module_name='Safe and healthy diets for all') }}" class="nav-button">📊 Data Table</a>
+            <button onclick="logout()" class="nav-button logout-button">🚪 Logout</button>
+        </div>
+    </div>
+
+    <script>
+        // Check higher manager authentication
+        if (!sessionStorage.getItem('higher_manager_authenticated')) {
+            window.location.href = '/higher-manager-login';
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('higher_manager_authenticated');
+                window.location.href = '/higher-manager-login';
+            }
+        }
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.dashboard-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

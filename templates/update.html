@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Items - Review & Approve</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tableStyle.css') }}">
+    <style>
+        .update-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .update-header {
+            background: linear-gradient(135deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .update-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .update-content {
+            padding: 30px;
+        }
+        
+        .pending-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .pending-item:hover {
+            border-color: #4a7c59;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d5016;
+        }
+        
+        .item-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .item-fields {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .field-group {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c59;
+        }
+        
+        .field-label {
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .field-value {
+            color: #333;
+            word-wrap: break-word;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .approve-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .approve-button:hover {
+            background: linear-gradient(135deg, #1e7e34, #1aa179);
+            transform: translateY(-1px);
+        }
+        
+        .approve-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .reject-button {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .reject-button:hover {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            transform: translateY(-1px);
+        }
+        
+        .no-pending {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <a href="/add" class="add-item-button">+ Add Item</a>
+    <a href="/higher-manager-dashboard" class="add-item-button" style="background: linear-gradient(135deg, #007bff, #0056b3); margin-left: 10px;">← Back to Dashboard</a>
+    
+    <div class="update-container">
+        <div class="update-header">
+            <h1>Pending Items Review</h1>
+            <p>Review and approve submitted items before they are added to the database</p>
+        </div>
+        
+        <div class="update-content">
+            <div id="success-message" class="success-message" style="display: none;"></div>
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            
+            <div id="pending-items">
+                <div class="loading">
+                    <h3>Loading pending items...</h3>
+                    <p>Please wait while we fetch the items awaiting approval.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-buttons" style="margin-top: 30px;">
+        <a href="/higher-manager-dashboard" class="nav-button back-button">← Back to Dashboard</a>
+        <a href="{{ url_for('index') }}" class="nav-button">🏠 Home</a>
+        <a href="{{ url_for('d3viz') }}" class="nav-button">🧭 Food Co-Centre Sustainability Compass</a>
+    </div>
+
+    <script>
+        // Check higher manager authentication
+        if (!sessionStorage.getItem('higher_manager_authenticated')) {
+            window.location.href = '/higher-manager-login';
+        }
+        
+        // Load pending items on page load
+        window.onload = function() {
+            loadPendingItems();
+        };
+        
+        async function loadPendingItems() {
+            try {
+                const response = await fetch('/api/dataset/pending');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayPendingItems(data.items);
+                } else {
+                    showError('Failed to load pending items: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to connect to database');
+            }
+        }
+        
+        function displayPendingItems(items) {
+            const container = document.getElementById('pending-items');
+            
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="no-pending">
+                        <h3>No Pending Items</h3>
+                        <p>There are no items awaiting approval at the moment.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            items.forEach((item, index) => {
+                html += `
+                    <div class="pending-item" id="item-${item._id}">
+                        <div class="item-header">
+                            <div class="item-title">Item #${index + 1}</div>
+                            <div class="item-meta">
+                                Submitted: ${new Date(item.submitted_at).toLocaleString()}
+                            </div>
+                        </div>
+                        
+                        <div class="item-fields">
+                            ${Object.entries(item).map(([key, value]) => {
+                                if (key === '_id' || key === 'submitted_at') return '';
+                                return `
+                                    <div class="field-group">
+                                        <div class="field-label">${key}</div>
+                                        <div class="field-value">${value || 'N/A'}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        
+                        <div class="item-actions">
+                            <button onclick="approveItem('${item._id}')" class="approve-button" id="approve-${item._id}">
+                                ✓ Approve
+                            </button>
+                            <button onclick="rejectItem('${item._id}')" class="reject-button" id="reject-${item._id}">
+                                ✗ Reject
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        async function approveItem(itemId) {
+            const button = document.getElementById(`approve-${itemId}`);
+            const originalText = button.textContent;
+            
+            button.disabled = true;
+            button.textContent = 'Approving...';
+            
+            try {
+                const response = await fetch('/api/dataset/approve', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ item_id: itemId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess('Item approved and added to database successfully!');
+                    // Remove the item from the list
+                    document.getElementById(`item-${itemId}`).remove();
+                    
+                    // Check if no more items
+                    const remainingItems = document.querySelectorAll('.pending-item');
+                    if (remainingItems.length === 0) {
+                        document.getElementById('pending-items').innerHTML = `
+                            <div class="no-pending">
+                                <h3>No Pending Items</h3>
+                                <p>All items have been processed.</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    showError('Failed to approve item: ' + data.error);
+                    button.disabled = false;
+                    button.textContent = originalText;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Network error. Please try again.');
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
+        
+        async function rejectItem(itemId) {
+            if (!confirm('Are you sure you want to reject this item? This action cannot be undone.')) {
+                return;
+            }
+            
+            const button = document.getElementById(`reject-${itemId}`);
+            const originalText = button.textContent;
+            
+            button.disabled = true;
+            button.textContent = 'Rejecting...';
+            
+            try {
+                const response = await fetch('/api/dataset/reject', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ item_id: itemId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess('Item rejected and removed from pending list.');
+                    // Remove the item from the list
+                    document.getElementById(`item-${itemId}`).remove();
+                    
+                    // Check if no more items
+                    const remainingItems = document.querySelectorAll('.pending-item');
+                    if (remainingItems.length === 0) {
+                        document.getElementById('pending-items').innerHTML = `
+                            <div class="no-pending">
+                                <h3>No Pending Items</h3>
+                                <p>All items have been processed.</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    showError('Failed to reject item: ' + data.error);
+                    button.disabled = false;
+                    button.textContent = originalText;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Network error. Please try again.');
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
+        
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success-message');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

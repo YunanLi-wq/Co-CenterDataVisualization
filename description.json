@@ -1,0 +1,164 @@
+[
+    {
+      "name": "Safe and healthy diets for all",
+      "description": "Ensures access to nutritious, safe, and sustainable food for all people throughout life.",
+      "children": [
+        {
+          "name": "Food intake",
+          "description": "Focuses on what people eat and how diets contribute to lifelong health.",
+          "children": [
+            { "name": "Nutrient intake throughout life", "description": "Ensuring adequate and balanced nutrient consumption at all ages." },
+            { "name": "Healthy Diets from Sustainable Sources", "description": "Promoting nutritious diets produced with minimal environmental impact." }
+          ]
+        },
+        {
+          "name": "Diet-related health conditions",
+          "description": "Addresses diseases linked to poor diet and nutrition.",
+          "children": [
+            { "name": "Population weight status", "description": "Monitoring trends in obesity and undernutrition." },
+            { "name": "Diet-related chronic disease", "description": "Preventing illnesses such as diabetes and heart disease." }
+          ]
+        },
+        {
+          "name": "Food safety and risk mitigation",
+          "description": "Ensures food is free from harmful contaminants.",
+          "children": [
+            { "name": "Foodborne microbiological, physical and chemical contaminants", "description": "Reducing pathogens, toxins, and pollutants in food." }
+          ]
+        },
+        {
+          "name": "Food integrity",
+          "description": "Protects authenticity and trust in food products.",
+          "children": [
+            { "name": "Nutrition, health and sustainability claims", "description": "Verifying accuracy of food labeling and claims." },
+            { "name": "Food fraud", "description": "Detecting and preventing intentional misrepresentation of food products." }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Economically thriving, robust food value chains",
+      "description": "Promotes innovation, fairness, and resilience in the food economy.",
+      "children": [
+        {
+          "name": "Innovative and transformative businesses",
+          "description": "Encourages entrepreneurship and new technologies in agri-food sectors.",
+          "children": [
+            { "name": "Novel agrifood research", "description": "Developing new products, processes, or systems in food science." },
+            { "name": "Business practices and technology", "description": "Applying innovation to improve efficiency and competitiveness." }
+          ]
+        },
+        {
+          "name": "Dignified work environments",
+          "description": "Promotes fair, safe, and equitable labor conditions.",
+          "children": [
+            { "name": "Equal opportunities and equitable supports", "description": "Ensuring fairness and inclusion in employment." },
+            { "name": "Health (physical and mental), safety and wellbeing", "description": "Protecting worker welfare." },
+            { "name": "Proportion of work force earning living wage", "description": "Assessing economic fairness in wages." }
+          ]
+        },
+        {
+          "name": "Value chain configuration",
+          "description": "Examines how value is created and distributed across the supply chain.",
+          "children": [
+            { "name": "Responsible sourcing", "description": "Prioritizing ethical and sustainable procurement." },
+            { "name": "Equity of value addition distribution", "description": "Ensuring fair benefit sharing across stakeholders." },
+            { "name": "Degree of structural reconfiguration", "description": "Measuring transformation in value chain organization." },
+            { "name": "Consumer buy-in", "description": "Gauging public support for sustainable and ethical products." }
+          ]
+        },
+        {
+          "name": "Competitive food systems",
+          "description": "Strengthening markets and trade for resilient food economies.",
+          "children": [
+            { "name": "Food self-sufficiency", "description": "Increasing domestic production to meet consumption needs." },
+            { "name": "Commercial risk management", "description": "Managing volatility and financial risks in agrifood trade." },
+            { "name": "Trading relationships", "description": "Fostering fair and stable international partnerships." }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Clean and healthy planet",
+      "description": "Supports environmental protection and sustainable resource use in food production.",
+      "children": [
+        {
+          "name": "Biodiversity and ecosystem function",
+          "description": "Preserving ecosystems essential for agriculture.",
+          "children": [
+            { "name": "Impact on Biodiversity", "description": "Assessing how farming affects species and habitats." },
+            { "name": "Role of biodiversity on agriculture", "description": "Understanding ecosystem benefits to production." }
+          ]
+        },
+        {
+          "name": "Primary production",
+          "description": "Managing natural resources in farming systems.",
+          "children": [
+            { "name": "Water management", "description": "Efficient use and conservation of water resources." },
+            { "name": "Soil management", "description": "Maintaining soil health and fertility." },
+            { "name": "Nitrogen and phosphorus management", "description": "Reducing nutrient pollution from fertilizers." },
+            { "name": "Agrichemical management", "description": "Limiting harmful effects of pesticides and chemicals." }
+          ]
+        },
+        {
+          "name": "Circularity",
+          "description": "Promoting reuse, recycling, and waste reduction in food systems.",
+          "children": [
+            { "name": "Food loss and waste", "description": "Minimizing losses across production and consumption stages." },
+            { "name": "Packaging", "description": "Developing sustainable and recyclable packaging materials." }
+          ]
+        },
+        {
+          "name": "Climate change",
+          "description": "Reducing and adapting to global climate impacts.",
+          "children": [
+            { "name": "Mitigation", "description": "Lowering greenhouse gas emissions from agriculture." },
+            { "name": "Adaption", "description": "Building resilience to changing climate conditions." }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Just, ethical, fair and culturally meaningful food system",
+      "description": "Promotes fairness, inclusivity, and cultural respect across the food system.",
+      "children": [
+        {
+          "name": "Food access",
+          "description": "Ensuring all people can obtain adequate and nutritious food.",
+          "children": [
+            { "name": "Right to food", "description": "Upholding access to food as a human right." },
+            { "name": "Food literacy", "description": "Promoting knowledge and skills for healthy eating." },
+            { "name": "Food affordability", "description": "Making nutritious food financially accessible." }
+          ]
+        },
+        {
+          "name": "Food environment",
+          "description": "Shaping the settings where people make food choices.",
+          "children": [
+            { "name": "Obesogenic conditions", "description": "Reducing environments that promote unhealthy eating." },
+            { "name": "Cultural appropriateness", "description": "Respecting traditions and cultural food preferences." },
+            { "name": "Food practice", "description": "Understanding daily behaviors around eating and cooking." },
+            { "name": "Access to diverse foods", "description": "Expanding variety in available and affordable foods." }
+          ]
+        },
+        {
+          "name": "Environmental and social justice",
+          "description": "Promoting fairness for people and the planet.",
+          "children": [
+            { "name": "Recognition of nature's contribution to human wellbeing", "description": "Valuing ecosystem services and cultural benefits." },
+            { "name": "Environmental externalities", "description": "Accounting for hidden environmental costs." },
+            { "name": "Social externalities", "description": "Addressing social inequalities from food production." }
+          ]
+        },
+        {
+          "name": "Animal welfare",
+          "description": "Protecting animals across all stages of food production.",
+          "children": [
+            { "name": "Treatment during production, transport and slaughter", "description": "Ensuring humane handling." },
+            { "name": "Transparency of production of products deriving from animals", "description": "Informing consumers about animal-origin products." }
+          ]
+        }
+      ]
+    }
+  ]
+  

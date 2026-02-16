@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Table - {{ module_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tableStyle.css') }}">
+</head>
+<body>
+    <a href="/login" class="add-item-button">+ Add Item</a>
+    
+    <div class="header">
+        <h1>Data Table</h1>
+        <p>Filtered data for: {{ module_name }}</p>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>Total Records</h3>
+            <p id="total-records">Loading...</p>
+        </div>
+        <div class="stat-card">
+            <h3>Filtered Records</h3>
+            <p id="filtered-records">Loading...</p>
+        </div>
+        <div class="stat-card">
+            <h3>Database Status</h3>
+            <p id="db-status">Loading...</p>
+        </div>
+    </div>
+
+    <div class="filter-info">
+        <h3>Filter Applied</h3>
+        <p>Showing data where any column contains: <strong>{{ module_name }}</strong></p>
+        <div id="additional-filters-info" style="margin-top: 10px;"></div>
+        <p class="filter-note">🔍 <strong>Smart Detection:</strong> Automatically searches across Quadrant, Segment, Factor, and all other columns</p>
+    </div>
+
+    <div class="search-container">
+        <h3>🔍 Additional Keyword Search</h3>
+        <div class="search-controls">
+            <input type="text" id="keyword-search" placeholder="Enter keyword to search across ALL columns..." class="search-input">
+            <button onclick="searchKeyword()" class="search-button">🔍 Search</button>
+            <button onclick="clearSearch()" class="search-button clear-button">Clear</button>
+        </div>
+        <p class="search-description">Search across ALL columns - any column containing the keyword will be displayed</p>
+        <div id="search-results-info" class="search-results-info" style="display: none;"></div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <h2>Database Records</h2>
+            <p>Data filtered by comprehensive search across all columns</p>
+            <p class="table-description">🎯 <strong>Multi-level Support:</strong> Works with Quadrant (inner ring), Segment (middle ring), Factor (outer ring), and all other database columns</p>
+        </div>
+        
+        <div id="table-content">
+            <div class="loading">
+                <h3>Loading data...</h3>
+                <p>Please wait while we fetch the filtered records from the database.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-buttons">
+        <a href="{{ url_for('index') }}" class="nav-button back-button">← Back to Research Platforms</a>
+        <a href="{{ url_for('d3viz') }}" class="nav-button">Food Co-Centre Sustainability Compass Visualization</a>
+        <button onclick="exportToExcel()" class="nav-button export-button">📊 Export Excel</button>
+        <a href="https://foodcocentre.org/" class="nav-button" target="_blank">Visit Co-Centre Website</a>
+    </div>
+
+    <script>
+        // Get the module name from the URL
+        const moduleName = "{{ module_name }}";
+        
+        // Get filter parameters from URL query string
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                field: params.get('field') || '',
+                quadrant: params.get('quadrant') || '',
+                segment: params.get('segment') || '',
+                factor: params.get('factor') || ''
+            };
+        }
+        
+        // Load filtered data on page load
+        window.onload = function() {
+            loadFilteredData();
+        };
+        
+        async function loadFilteredData() {
+            try {
+                // First check database status
+                const statusResponse = await fetch('/api/dataset/status');
+                const statusData = await statusResponse.json();
+                
+                if (statusData.success) {
+                    document.getElementById('db-status').textContent = 'Connected';
+                    document.getElementById('total-records').textContent = statusData.count;
+                } else {
+                    document.getElementById('db-status').textContent = 'Disconnected';
+                    showError('Database connection failed: ' + statusData.error);
+                    return;
+                }
+                
+                // Get filter parameters from URL
+                const filters = getUrlParams();
+                
+                // Build query string with filters
+                const params = new URLSearchParams();
+                params.append('goal', moduleName);
+                if (filters.field) params.append('field', filters.field);
+                if (filters.quadrant) params.append('quadrant', filters.quadrant);
+                if (filters.segment) params.append('segment', filters.segment);
+                if (filters.factor) params.append('factor', filters.factor);
+                
+                // Load filtered data
+                const response = await fetch(`/api/dataset/filter?${params.toString()}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('filtered-records').textContent = data.count;
+                    
+                    // Display additional filter information if filters are applied
+                    const filters = getUrlParams();
+                    const filterInfoEl = document.getElementById('additional-filters-info');
+                    const activeFilters = [];
+                    if (filters.field) activeFilters.push(`<strong>Field:</strong> ${filters.field}`);
+                    if (filters.quadrant) activeFilters.push(`<strong>Quadrant:</strong> ${filters.quadrant}`);
+                    if (filters.segment) activeFilters.push(`<strong>Segment:</strong> ${filters.segment}`);
+                    if (filters.factor) activeFilters.push(`<strong>Factor:</strong> ${filters.factor}`);
+                    
+                    if (activeFilters.length > 0) {
+                        filterInfoEl.innerHTML = `<p style="color: #4a7c59; font-weight: 600;">📌 Additional Filters: ${activeFilters.join(' | ')}</p>`;
+                    } else {
+                        filterInfoEl.innerHTML = '';
+                    }
+                    
+                    displayFilteredData(data.records);
+                } else {
+                    showError('Failed to load filtered data: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to connect to database');
+            }
+        }
+        
+        function displayFilteredData(records, availableFields = null, count = null, searchKeyword = null) {
+            const container = document.getElementById('table-content');
+            
+            if (records.length === 0) {
+                const message = searchKeyword ? 
+                    `No records found containing "${searchKeyword}"` : 
+                    `No records found matching "${moduleName}" in any column (Quadrant, Segment, Factor, etc.)`;
+                container.innerHTML = `
+                    <div class="no-data">
+                        <h3>No Data Found</h3>
+                        <p>${message}</p>
+                        <p class="no-data-note">💡 <strong>Tip:</strong> The search looks across all database columns including Quadrant, Segment, Factor, Location, Indicator, Title, Url, and Datatype.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Get all unique keys from all records
+            const allKeys = new Set();
+            records.forEach(record => {
+                Object.keys(record).forEach(key => allKeys.add(key));
+            });
+            
+            // Priority order for columns
+            const priorityFields = [
+                'Quadrant',
+                'Segment', 
+                'Factor',
+                'Location',
+                'Indicator',
+                'Title',
+                'Url',
+                'Datatype'
+            ];
+            
+            // Fields to move to the end
+            const endFields = ['_id', '_created', '_updated', 'id'];
+            
+            // Reorder headers according to priority
+            const orderedHeaders = [];
+            const remainingKeys = Array.from(allKeys);
+            
+            for (const field of priorityFields) {
+                if (remainingKeys.includes(field)) {
+                    orderedHeaders.push(field);
+                    remainingKeys.splice(remainingKeys.indexOf(field), 1);
+                }
+            }
+            
+            // Add remaining headers in alphabetical order
+            orderedHeaders.push(...remainingKeys.sort());
+            
+            // Move end fields to the back
+            for (const field of endFields) {
+                if (orderedHeaders.includes(field)) {
+                    orderedHeaders.splice(orderedHeaders.indexOf(field), 1);
+                    orderedHeaders.push(field);
+                }
+            }
+            
+            const headers = orderedHeaders;
+            
+            // Create table HTML
+            let tableHTML = `
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                ${headers.map(header => `<th>${header}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            records.forEach(record => {
+                tableHTML += '<tr>';
+                headers.forEach(header => {
+                    const value = record[header] || '';
+                    const displayValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+                    
+                    // Make URL column clickable
+                    if (header === 'Url' && value && value.startsWith('http')) {
+                        tableHTML += `<td title="${displayValue}"><a href="${value}" target="_blank" style="color: #007bff; text-decoration: underline;">${displayValue}</a></td>`;
+                    } else {
+                        tableHTML += `<td title="${displayValue}">${displayValue}</td>`;
+                    }
+                });
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        function showError(message) {
+            const container = document.getElementById('table-content');
+            container.innerHTML = `
+                <div class="error">
+                    <h3>Error</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+        
+        async function exportToExcel() {
+            try {
+                // Show loading state
+                const exportButton = document.querySelector('.export-button');
+                const originalText = exportButton.textContent;
+                exportButton.disabled = true;
+                exportButton.textContent = '📊 Exporting...';
+                
+                // Create export URL with current filter (+ optional field/quadrant/segment/factor)
+                const filters = getUrlParams();
+                const exportParams = new URLSearchParams();
+                exportParams.append('goal', moduleName);
+                if (filters.field) exportParams.append('field', filters.field);
+                if (filters.quadrant) exportParams.append('quadrant', filters.quadrant);
+                if (filters.segment) exportParams.append('segment', filters.segment);
+                if (filters.factor) exportParams.append('factor', filters.factor);
+                const exportUrl = `/api/dataset/export-filtered?${exportParams.toString()}`;
+                
+                // Fetch the Excel file
+                const response = await fetch(exportUrl);
+                
+                if (response.ok) {
+                    // Get the blob data
+                    const blob = await response.blob();
+                    
+                    // Create download link
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `filtered_data_${moduleName.replace(/[^a-zA-Z0-9]/g, '_')}.xlsx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Cleanup
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    
+                    // Show success message
+                    showSuccessMessage('Excel file exported successfully!');
+                } else {
+                    const errorData = await response.json();
+                    showError('Export failed: ' + (errorData.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Export error:', error);
+                showError('Failed to export Excel file. Please try again.');
+            } finally {
+                // Restore button state
+                const exportButton = document.querySelector('.export-button');
+                exportButton.disabled = false;
+                exportButton.textContent = '📊 Export Excel';
+            }
+        }
+        
+        function showSuccessMessage(message) {
+            // Create a temporary success message
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #d4edda;
+                color: #155724;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid #c3e6cb;
+                z-index: 1001;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            `;
+            successDiv.textContent = message;
+            
+            document.body.appendChild(successDiv);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 3000);
+        }
+        
+        // Keyword search functionality
+        async function searchKeyword() {
+            const keyword = document.getElementById('keyword-search').value.trim();
+            if (!keyword) {
+                alert('Please enter a keyword to search');
+                return;
+            }
+            
+            try {
+                // Show loading state
+                const searchButton = document.querySelector('.search-button');
+                const originalText = searchButton.textContent;
+                searchButton.disabled = true;
+                searchButton.textContent = '🔍 Searching...';
+                
+                const response = await fetch(`/api/dataset/filter?goal=${encodeURIComponent(keyword)}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update the table with search results
+                    displayFilteredData(data.records, data.available_fields, data.count, keyword);
+                    
+                    // Show search results info
+                    const searchInfo = document.getElementById('search-results-info');
+                    searchInfo.innerHTML = `
+                        <div class="search-results">
+                            <strong>🔍 Search Results for "${keyword}":</strong> ${data.count} records found
+                            <button onclick="clearSearch()" class="clear-search-btn">Clear Search</button>
+                        </div>
+                    `;
+                    searchInfo.style.display = 'block';
+                } else {
+                    showError('Search failed: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to search database');
+            } finally {
+                // Restore button state
+                const searchButton = document.querySelector('.search-button');
+                searchButton.disabled = false;
+                searchButton.textContent = '🔍 Search';
+            }
+        }
+        
+        function clearSearch() {
+            document.getElementById('keyword-search').value = '';
+            document.getElementById('search-results-info').style.display = 'none';
+            
+            // Reload original filtered data
+            loadFilteredData();
+        }
+        
+    </script>
+</body>
+</html>

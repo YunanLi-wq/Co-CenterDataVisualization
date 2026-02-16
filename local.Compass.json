@@ -1,0 +1,169 @@
+[{
+  "_id": {
+    "$oid": "6944b1b8c6a035636ed1647b"
+  },
+  "Quadrant": "Safe and healthy diets for all",
+  "children": [
+    {
+      "Segment": "Food intake",
+      "Factor": [
+        "Healthy diets",
+        "Nutrient intake throughout life"
+      ]
+    },
+    {
+      "Segment": "Diet-related health conditions",
+      "Factor": [
+        "Diet-related chronic disease",
+        "Population weight status"
+      ]
+    },
+    {
+      "Segment": "Food safety and risk mitigation",
+      "Factor": [
+        "Foodborne microbiological, physical and chemical contaminants"
+      ]
+    },
+    {
+      "Segment": "Food integrity",
+      "Factor": [
+        "Environmental sustainability claims",
+        "Food fraud",
+        "Nutrition and health claims",
+        "Transparency of production of products deriving from animals"
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6944b1b8c6a035636ed1647c"
+  },
+  "Quadrant": "Economically thriving, robust food value chains",
+  "children": [
+    {
+      "Segment": "Innovative and transformative businesses",
+      "Factor": [
+        "Agrifood investment",
+        "Knowledge and skills",
+        "Business practices and technology"
+      ]
+    },
+    {
+      "Segment": "Economic development",
+      "Factor": [
+        "Investment attractiveness",
+        "Profit",
+        "Revenue",
+        "Yield"
+      ]
+    },
+    {
+      "Segment": "Value chain configuration",
+      "Factor": [
+        "Consumer habits",
+        "Degree of structural reconfiguration",
+        "Food loss",
+        "Packaging",
+        "Responsible sourcing"
+      ]
+    },
+    {
+      "Segment": "Competitive positioning",
+      "Factor": [
+        "Commercial risk management",
+        "Food self-sufficiency",
+        "Trading relationships"
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6944b1b8c6a035636ed1647d"
+  },
+  "Quadrant": "Clean and healthy planet",
+  "children": [
+    {
+      "Segment": "Atmosphere",
+      "Factor": [
+        "Air quality",
+        "Greenhouse gas emissions",
+        "Water vapour"
+      ]
+    },
+    {
+      "Segment": "Biosphere",
+      "Factor": [
+        "Biomass",
+        "Functional biodiversity",
+        "Genetic diversity",
+        "Net primary productivity",
+        "Species richness"
+      ]
+    },
+    {
+      "Segment": "Geosphere",
+      "Factor": [
+        "Non-renewable resources",
+        "Soil carbon",
+        "Soil degradation",
+        "Soil erosion and deposition"
+      ]
+    },
+    {
+      "Segment": "Hydrosphere",
+      "Factor": [
+        "Freshwater extraction",
+        "Nitrogen and phosphorous loading",
+        "Water quality",
+        "Water temperature"
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6944b1b8c6a035636ed1647e"
+  },
+  "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+  "children": [
+    {
+      "Segment": "Right to food",
+      "Factor": [
+        "Access",
+        "Agency",
+        "Cultural appropriateness"
+      ]
+    },
+    {
+      "Segment": "Food culture",
+      "Factor": [
+        "Food behaviour",
+        "Food environment",
+        "Food literacy",
+        "Food waste"
+      ]
+    },
+    {
+      "Segment": "Social justice",
+      "Factor": [
+        "Dignified work environments",
+        "Social externalities"
+      ]
+    },
+    {
+      "Segment": "Environmental justice",
+      "Factor": [
+        "Environmental externalities",
+        "Recognition of nature’s contribution to human wellbeing"
+      ]
+    },
+    {
+      "Segment": "Animal welfare",
+      "Factor": [
+        "Treatment during production, transport and slaughter"
+      ]
+    }
+  ]
+}]

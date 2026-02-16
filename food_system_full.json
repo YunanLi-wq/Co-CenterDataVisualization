@@ -1,0 +1,367 @@
+[
+  {
+    "module": "Safe and healthy diets for all",
+    "keywords": [
+      {
+        "name": "Food intake",
+        "definition": "The act of consuming food.",
+        "short_description": "The act of consuming food"
+      },
+      {
+        "name": "Healthy diets",
+        "definition": "A healthy diet is a foundation for health, well-being, optimal growth and development. It protects against all forms of malnutrition and includes a diet high in whole grains, vegetables, fruit, legumes and nuts, and low in salt, free sugars and fats, particularly saturated and trans fats.",
+        "short_description": "Whole grains, legumes, fruit and vegetables"
+      },
+      {
+        "name": "Nutrient intake throughout life",
+        "definition": "Nutrients (carbohydrates, fat, protein, vitamins and minerals) consumed by infants, children, adolescents, adults and older adults.",
+        "short_description": "Nutrients eaten by all age groups"
+      },
+      {
+        "name": "Diet-related health conditions",
+        "definition": "Physical and mental wellbeing negatively impacted by dietary intake.",
+        "short_description": "Negative impacts of unhealthful diets"
+      },
+      {
+        "name": "Diet-related chronic disease",
+        "definition": "Long-lasting health conditions that are significantly influenced by dietary factors. For example, obesity, cardiovascular disease, type 2 diabetes and certain types of cancer.",
+        "short_description": "E.g., obesity, type 2 diabetes"
+      },
+      {
+        "name": "Population weight status",
+        "definition": "Usually assessed using Body Mass Index (BMI) and can be categorised into underweight, normal weight, overweight or obese.",
+        "short_description": "BMI assessment"
+      },
+      {
+        "name": "Food safety and risk mitigation",
+        "definition": "Identifying potential safety hazards in the production, cooking or storage of food and implementing measures to reduce or eliminate these hazards.",
+        "short_description": "Avoiding hazards in preparation or storage"
+      },
+      {
+        "name": "Foodborne microbiological, physical and chemical contaminants",
+        "definition": "Foodborne illnesses are usually infectious or toxic in nature and caused by bacteria, viruses, parasites or chemical substances entering the body through contaminated food.",
+        "short_description": "E.g., food poisoning or disease"
+      },
+      {
+        "name": "Food integrity",
+        "definition": "A multidimensional concept concerning the integrity of product, process, people and data, implying that a food product is intact, safe, of quality and authentic, as well as ethically sourced and distributed.",
+        "short_description": "Honesty in claims and production methods"
+      },
+      {
+        "name": "Environmental sustainability claims",
+        "definition": "Sustainability claims must adhere to the Green Claims Code, ensuring claims made are substantiated, truthful and accurate.",
+        "short_description": "Truthful environmental sustainability claims"
+      },
+      {
+        "name": "Food fraud",
+        "definition": "The deliberate and intentional substitution, addition, tampering, or misrepresentation of food, food ingredients, or packaging for economic gain.",
+        "short_description": "Unlawful actions to deceive end-consumer"
+      },
+      {
+        "name": "Nutrition and health claims",
+        "definition": "Nutritional claims relate to energy, fat, sugar, fibre, protein, salt and vitamins and minerals. Health claims imply a benefit to health, e.g., vitamin C contributes to immune function.",
+        "short_description": "E.g., nutritionally fat-free or benefiting health"
+      },
+      {
+        "name": "Transparency of production of products deriving from animals",
+        "definition": "Clear, transparent labelling and traceability where products derived from animals were produced and the methods used.",
+        "short_description": "Information about where and how the food was made"
+      }
+    ]
+  },
+  {
+    "module": "Economically thriving, robust food value chains",
+    "keywords": [
+      {
+        "name": "Innovative and transformative businesses",
+        "definition": "Organisations that introduce new products or make changes to their processes, technologies, culture and strategy.",
+        "short_description": "New solutions and modern processes"
+      },
+      {
+        "name": "Agrifood investment",
+        "definition": "The allocation of capital to support food system core activities, such as production, processing, retailing and managing waste.",
+        "short_description": "Money provided for core food system activities"
+      },
+      {
+        "name": "Knowledge and skills",
+        "definition": "Knowledge refers to factual information; skills are the practical abilities to apply that knowledge to certain situations.",
+        "short_description": "Remembering facts and having applicable skills"
+      },
+      {
+        "name": "Business practices and technology",
+        "definition": "Business practices involve increased digitisation and data-driven decision making; technologies include robotics, big data, AI and genetic editing.",
+        "short_description": "E.g., digitisation, AI and data analytics"
+      },
+      {
+        "name": "Economic development",
+        "definition": "The process of improving the economic, political, and social well-being of people by increasing quality of life.",
+        "short_description": "Improving living standards"
+      },
+      {
+        "name": "Investment attractiveness",
+        "definition": "How appealing a company, industry or location is for investment, based on profitability and risk assessment.",
+        "short_description": "Involves assessment of risk and potential profitability"
+      },
+      {
+        "name": "Profit",
+        "definition": "Total revenue minus total cost.",
+        "short_description": "Total revenue minus total cost"
+      },
+      {
+        "name": "Revenue",
+        "definition": "Total income generated by the sale of goods and services.",
+        "short_description": "Total income generated by the sale of goods and services"
+      },
+      {
+        "name": "Yield",
+        "definition": "In economics, the percentage return on investments; in agriculture, the amount of crop produced per land area.",
+        "short_description": "Return on investment or crops produced per area"
+      },
+      {
+        "name": "Value chain configuration",
+        "definition": "How people and their activities along the value chain interact.",
+        "short_description": "Core food system activity interactions"
+      },
+      {
+        "name": "Commercial risk management",
+        "definition": "The systematic process of identifying, assessing, and mitigating threats that can affect an organisation’s success.",
+        "short_description": "Identifying and assessing risks"
+      },
+      {
+        "name": "Consumer habits",
+        "definition": "Mental and physical activities consumers engage in when evaluating, purchasing and using products.",
+        "short_description": "People’s shopping and usage habits"
+      },
+      {
+        "name": "Degree of structural reconfiguration",
+        "definition": "The degree to which proportions and relations between food system activities and workforces change.",
+        "short_description": "Core food system activity changes"
+      },
+      {
+        "name": "Food loss",
+        "definition": "Food loss takes place on the farm and through supply chains due to sub-optimal farming, poor storage or inflexible distribution.",
+        "short_description": "Foods lost throughout the supply chain"
+      },
+      {
+        "name": "Packaging",
+        "definition": "Materials used to wrap or protect goods, from sacks to crisp packets.",
+        "short_description": "Protecting foods"
+      },
+      {
+        "name": "Responsible sourcing",
+        "definition": "Procurement that is sustainable and ethical, respecting human rights.",
+        "short_description": "Sustainable, ethical procurement"
+      },
+      {
+        "name": "Competitive positioning",
+        "definition": "Competition in the food system for efficiency and output, affecting prices and environmental impacts.",
+        "short_description": "Efficient systems and increased output"
+      },
+      {
+        "name": "Food self-sufficiency",
+        "definition": "The ratio of domestic production to consumption; lack of self-sufficiency increases market vulnerability.",
+        "short_description": "Food produced to meet own requirements"
+      },
+      {
+        "name": "Trading relationships",
+        "definition": "Economic exchanges between countries, determined by tariffs and trade policies.",
+        "short_description": "Trade between countries"
+      }
+    ]
+  },
+  {
+    "module": "Clean and healthy planet",
+    "keywords": [
+      {
+        "name": "Atmosphere",
+        "definition": "A layer of gas and suspended solids surrounding Earth’s surface.",
+        "short_description": "Gas surrounding the Earth"
+      },
+      {
+        "name": "Air quality",
+        "definition": "Describes how polluted the air we breathe is; poor air quality can be hazardous to health.",
+        "short_description": "Levels of pollution in the air"
+      },
+      {
+        "name": "Greenhouse gas emissions",
+        "definition": "Gases like CO2, CH4, N2O, and water vapour that trap heat and regulate Earth’s temperature.",
+        "short_description": "E.g., carbon dioxide, methane, nitrous oxide and water vapour"
+      },
+      {
+        "name": "Water vapour",
+        "definition": "The most abundant greenhouse gas; increases with warming and can affect crops and pathogens.",
+        "short_description": "Humidity is caused by water vapour"
+      },
+      {
+        "name": "Biosphere",
+        "definition": "Areas occupied by living organisms, including oceans, forests, and land.",
+        "short_description": "Areas occupied by living organisms"
+      },
+      {
+        "name": "Biomass",
+        "definition": "Organic, non-fossil material of biological origin (plants and animals).",
+        "short_description": "Quantity of living organisms (plants and animals)"
+      },
+      {
+        "name": "Functional biodiversity",
+        "definition": "Variety of biological and chemical roles organisms perform in an ecosystem.",
+        "short_description": "Variety of roles or functions within an ecosystem"
+      },
+      {
+        "name": "Genetic diversity",
+        "definition": "Within one species, the range of genetic characteristics.",
+        "short_description": "Within one species, the range of genetic characteristics"
+      },
+      {
+        "name": "Net primary productivity",
+        "definition": "Net flux of carbon from the atmosphere into green plants per unit time.",
+        "short_description": "Net flux of carbon from the atmosphere into green plants"
+      },
+      {
+        "name": "Species richness",
+        "definition": "The number of different species present in an ecosystem.",
+        "short_description": "Quantity of different species"
+      },
+      {
+        "name": "Geosphere",
+        "definition": "Earth’s interior and surface, comprising all rocks.",
+        "short_description": "Internal and surface rocks forming the Earth"
+      },
+      {
+        "name": "Non-renewable resources",
+        "definition": "Energy resources like coal, gas, oil, and nuclear energy that cannot be replaced once used.",
+        "short_description": "Once used, cannot be replaced"
+      },
+      {
+        "name": "Soil carbon",
+        "definition": "Organic carbon in soil, an indicator of soil health and biological activity.",
+        "short_description": "Organic carbon found in soil"
+      },
+      {
+        "name": "Soil degradation",
+        "definition": "Change in soil health resulting in reduced ecosystem capacity.",
+        "short_description": "Reduction in soil health"
+      },
+      {
+        "name": "Soil erosion and deposition",
+        "definition": "Loss of topsoil and nutrients, worsened by poor management.",
+        "short_description": "Soil losses"
+      },
+      {
+        "name": "Hydrosphere",
+        "definition": "All water on Earth: surface, underground, and atmospheric.",
+        "short_description": "All water on Earth"
+      },
+      {
+        "name": "Freshwater extraction",
+        "definition": "Taking water from lakes, rivers, or groundwater for human or industrial use.",
+        "short_description": "Removing water from lakes, rivers or groundwater"
+      },
+      {
+        "name": "Nitrogen and phosphorous loading",
+        "definition": "Increased input of nutrients into the environment, affecting ecosystems and water quality.",
+        "short_description": "Increasing input of nutrients into environment"
+      },
+      {
+        "name": "Water quality",
+        "definition": "Chemical, physical, and biological characteristics determining water purity.",
+        "short_description": "E.g., chemicals, physical characteristics, biological"
+      },
+      {
+        "name": "Water temperature",
+        "definition": "How hot or cold water is, measured in °C.",
+        "short_description": "Hot or cold"
+      }
+    ]
+  },
+  {
+    "module": "Just, ethical, fair and culturally meaningful food system",
+    "keywords": [
+      {
+        "name": "Right to food",
+        "definition": "Food security exists when all people have physical and economic access to sufficient, safe and nutritious food at all times.",
+        "short_description": "Access to sufficient, safe and nutritious food"
+      },
+      {
+        "name": "Access",
+        "definition": "The ability to equitably access food physically, economically and socially.",
+        "short_description": "Everyone should be able to access food"
+      },
+      {
+        "name": "Agency",
+        "definition": "The capacity to make decisions regarding one's own body and personal wellbeing.",
+        "short_description": "Decision-making autonomy"
+      },
+      {
+        "name": "Cultural appropriateness",
+        "definition": "Degree to which accessible food satisfies cultural norms.",
+        "short_description": "Degree to which accessible food satisfies cultural norms"
+      },
+      {
+        "name": "Food culture",
+        "definition": "The wider set of beliefs, values, and factors that influence what, when, why and how individuals eat.",
+        "short_description": "Beliefs and values around food"
+      },
+      {
+        "name": "Food behaviour",
+        "definition": "Habits and actions related to selecting, preparing, consuming and disposing food.",
+        "short_description": "Habits around food selection, preparation, consumption and disposal"
+      },
+      {
+        "name": "Food environment",
+        "definition": "External and personal factors that shape people’s food acquisition and consumption.",
+        "short_description": "External and personal factors create the food environment"
+      },
+      {
+        "name": "Food literacy",
+        "definition": "Proficiency in food-related skills and knowledge.",
+        "short_description": "Food related skills and knowledge"
+      },
+      {
+        "name": "Food waste",
+        "definition": "Food wasted at the consumer level, either at home or outside.",
+        "short_description": "Food wasted at the consumer level"
+      },
+      {
+        "name": "Social justice",
+        "definition": "Aims to give individuals and groups fair treatment and equal share of social, environmental and economic benefits.",
+        "short_description": "Give everyone fair treatment and equality"
+      },
+      {
+        "name": "Dignified work environments",
+        "definition": "Encompasses humane work conditions, diversity, and opportunities for meaningful contribution.",
+        "short_description": "Decent work conditions and meaningfulness"
+      },
+      {
+        "name": "Social externalities",
+        "definition": "Hidden social costs occurring during food system activities, such as underpayment or forced labour.",
+        "short_description": "‘Hidden’ social costs across the food system"
+      },
+      {
+        "name": "Environmental justice",
+        "definition": "Distribution of environmental benefits and burdens experienced by groups of people.",
+        "short_description": "Environmental benefits and burdens"
+      },
+      {
+        "name": "Environmental externalities",
+        "definition": "Hidden environmental costs during food system activities, such as pollution or soil depletion.",
+        "short_description": "‘Hidden’ environmental costs occurring across the food system"
+      },
+      {
+        "name": "Recognition of nature’s contribution to human wellbeing",
+        "definition": "Ecosystem services like pollination, carbon sequestration, and water filtration that benefit humans.",
+        "short_description": "E.g., climate regulation, food, stress relief"
+      },
+      {
+        "name": "Animal welfare",
+        "definition": "Owners and keepers must ensure animals’ needs are met for environment, diet, behaviour and protection from harm.",
+        "short_description": "The physical and mental state of animals"
+      },
+      {
+        "name": "Treatment during production, transport and slaughter",
+        "definition": "Five domains to consider for animal welfare: nutrition, environment, health, behaviour, and mental state.",
+        "short_description": "Consideration of animals’ physical and psychological wellbeing"
+      }
+    ]
+  }
+]

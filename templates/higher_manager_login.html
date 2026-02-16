@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higher Manager Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tableStyle.css') }}">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .login-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .login-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .login-form {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #6f42c1;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #6f42c1;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-button:hover {
+            background: linear-gradient(135deg, #5a32a3, #4a2c8a);
+            transform: translateY(-2px);
+        }
+        
+        .login-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: #6f42c1;
+            text-decoration: none;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .security-notice {
+            background: #e7f3ff;
+            color: #004085;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #6f42c1;
+        }
+        
+        .security-notice h4 {
+            margin: 0 0 10px 0;
+            color: #6f42c1;
+        }
+        
+        .security-notice p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🔐 Higher Manager Access</h1>
+            <p>Administrative access to review and approve items</p>
+        </div>
+        
+        <div class="login-form">
+            <div class="security-notice">
+                <h4>🔒 Security Notice</h4>
+                <p>This is a restricted access area. Only authorized higher managers can access the approval system.</p>
+            </div>
+            
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            
+            <form id="higherManagerLoginForm">
+                <div class="form-group">
+                    <label for="username">Higher Manager Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="login-button" id="loginButton">
+                    🔐 Access Approval System
+                </button>
+            </form>
+            
+            <div class="back-link">
+                <a href="{{ url_for('d3viz') }}">← Back to Food Co-Centre Sustainability Compass</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('higherManagerLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginButton = document.getElementById('loginButton');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Disable button and show loading
+            loginButton.disabled = true;
+            loginButton.textContent = '🔐 Authenticating...';
+            errorMessage.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/auth/higher-manager-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store higher manager session info and redirect to dashboard
+                    sessionStorage.setItem('higher_manager_authenticated', 'true');
+                    sessionStorage.setItem('higher_manager_username', username);
+                    window.location.href = '/higher-manager-dashboard';
+                } else {
+                    // Show error message
+                    errorMessage.textContent = data.error || 'Authentication failed';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Network error. Please try again.';
+                errorMessage.style.display = 'block';
+            } finally {
+                // Re-enable button
+                loginButton.disabled = false;
+                loginButton.textContent = '🔐 Access Approval System';
+            }
+        });
+    </script>
+</body>
+</html>
