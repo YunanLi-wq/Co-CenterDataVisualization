@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Table - {{ module_name }}</title>
+    {% set display_name = 'All Records' if module_name == '__ALL__' else module_name %}
+    <title>Food Co-Centre Sustainability Compass - Data Search{% if display_name %} ({{ display_name }}){% endif %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='tableStyle.css') }}">
 </head>
 <body>
+    <a href="/higher-manager-login" class="higher-manager-button">🔐 Higher Manager</a>
     <a href="/login" class="add-item-button">+ Add Item</a>
     
     <div class="header">
-        <h1>Data Table</h1>
-        <p>Filtered data for: {{ module_name }}</p>
+        <div class="header-actions">
+            <a class="header-action-btn" href="{{ url_for('intro') }}">Introduction</a>
+            <a class="header-action-btn" href="{{ url_for('d3viz2') }}">Interactive</a>
+            <a class="header-action-btn active" href="{{ url_for('table', module_name='__ALL__') }}">Search Full Dataset</a>
+        </div>
+        <div class="header-content">
+            <h1>Food Co-Centre Sustainability Compass</h1>
+            <p>Data Search · Filtered data for: {{ display_name }}</p>
+        </div>
     </div>
 
     <div class="stats-container">
@@ -32,19 +44,48 @@
 
     <div class="filter-info">
         <h3>Filter Applied</h3>
-        <p>Showing data where any column contains: <strong>{{ module_name }}</strong></p>
+        {% if module_name == '__ALL__' %}
+          <p>Showing <strong>all</strong> database records.</p>
+        {% else %}
+          <p>Showing data where any column contains: <strong>{{ module_name }}</strong></p>
+        {% endif %}
         <div id="additional-filters-info" style="margin-top: 10px;"></div>
-        <p class="filter-note">🔍 <strong>Smart Detection:</strong> Automatically searches across Quadrant, Segment, Factor, and all other columns</p>
+        <p class="filter-note">🔍 <strong>Keyword search:</strong> If you opened this page with a Quadrant, Segment, or Factor filter (see URL <code>?field=...</code>), keyword search runs <em>only within that filtered set</em>. With no such filter, keyword search runs across the whole database.</p>
+    </div>
+
+    <div class="search-container" id="scope-filter-container">
+        <h3>🎯 Filter by Compass level</h3>
+        <div class="search-controls" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display:flex; flex-direction:column; gap:6px; min-width: 220px; flex: 1;">
+                <label for="scope-quadrant" style="font-weight:700;">Quadrant</label>
+                <select id="scope-quadrant" class="search-input"></select>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:6px; min-width: 220px; flex: 1;">
+                <label for="scope-segment" style="font-weight:700;">Segment</label>
+                <select id="scope-segment" class="search-input"></select>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:6px; min-width: 220px; flex: 1;">
+                <label for="scope-factor" style="font-weight:700;">Factor</label>
+                <select id="scope-factor" class="search-input"></select>
+            </div>
+        </div>
+        <div class="search-controls" style="margin-top: 10px;">
+            <button onclick="applyScopeFilters()" class="search-button">Apply Filters</button>
+            <button onclick="clearScopeFilters()" class="search-button clear-button">Clear Filters</button>
+        </div>
+        <p class="search-description">Tip: selecting Segment/Factor will auto-fill its parent Segment/Quadrant when possible.</p>
     </div>
 
     <div class="search-container">
         <h3>🔍 Additional Keyword Search</h3>
         <div class="search-controls">
-            <input type="text" id="keyword-search" placeholder="Enter keyword to search across ALL columns..." class="search-input">
+            <input type="text" id="keyword-search" placeholder="Enter keywords (comma or space separated) to search across ALL columns..." class="search-input">
             <button onclick="searchKeyword()" class="search-button">🔍 Search</button>
             <button onclick="clearSearch()" class="search-button clear-button">Clear</button>
         </div>
-        <p class="search-description">Search across ALL columns - any column containing the keyword will be displayed</p>
+        <p class="search-description">Keyword search matches any column. If this page has a Factor/Segment/Quadrant filter, results are limited to that subset; otherwise the whole collection is searched.</p>
         <div id="search-results-info" class="search-results-info" style="display: none;"></div>
     </div>
 
@@ -70,11 +111,20 @@
         <a href="https://foodcocentre.org/" class="nav-button" target="_blank">Visit Co-Centre Website</a>
     </div>
 
+    <div class="footer-logos" style="display:flex; flex-wrap:wrap; gap:22px; justify-content:center; align-items:center; margin:18px auto 0; padding:12px 0 26px;">
+        <img src="{{ url_for('figure_files', filename='COCENTRE_SFS_Ranged_3_WHITE_Aug24_300dpi.png') }}" alt="Co-Centre for Sustainable Food Systems logo" style="height:54px; width:auto; object-fit:contain;">
+        <img src="{{ url_for('figure_files', filename='university-college-dublin-seeklogo.png') }}" alt="University College Dublin logo" style="height:54px; width:auto; object-fit:contain;">
+        <img src="{{ url_for('figure_files', filename='Food Group Logo.png') }}" alt="Food Group logo" style="height:54px; width:auto; object-fit:contain;">
+    </div>
+
     <script>
         // Get the module name from the URL
         const moduleName = "{{ module_name }}";
+        const isAllRecords = moduleName === '__ALL__';
+        let compassData = null;
+        let lastKeywordSearch = '';
         
-        // Get filter parameters from URL query string
+        // Get filter parameters from URL query string (raw)
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
             return {
@@ -84,9 +134,29 @@
                 factor: params.get('factor') || ''
             };
         }
+
+        // Effective filters:
+        // - If we arrived via /table/<module>?field=Factor (from the compass "Show Table"),
+        //   auto-fill the corresponding Quadrant/Segment/Factor scope filter.
+        function getEffectiveFilters() {
+            const raw = getUrlParams();
+            const out = { ...raw };
+            if (isAllRecords) return out;
+
+            const moduleVal = (moduleName || '').trim();
+            const field = (raw.field || '').trim();
+            if (!moduleVal) return out;
+
+            if (!raw.quadrant && field === 'Quadrant') out.quadrant = moduleVal;
+            if (!raw.segment && field === 'Segment') out.segment = moduleVal;
+            if (!raw.factor && field === 'Factor') out.factor = moduleVal;
+
+            return out;
+        }
         
         // Load filtered data on page load
         window.onload = function() {
+            initScopeFilters();
             loadFilteredData();
         };
         
@@ -105,26 +175,42 @@
                     return;
                 }
                 
-                // Get filter parameters from URL
-                const filters = getUrlParams();
-                
-                // Build query string with filters
-                const params = new URLSearchParams();
-                params.append('goal', moduleName);
-                if (filters.field) params.append('field', filters.field);
-                if (filters.quadrant) params.append('quadrant', filters.quadrant);
-                if (filters.segment) params.append('segment', filters.segment);
-                if (filters.factor) params.append('factor', filters.factor);
-                
-                // Load filtered data
-                const response = await fetch(`/api/dataset/filter?${params.toString()}`);
-                const data = await response.json();
+                // Get filter parameters (effective: includes auto-filled scope from ?field=...)
+                const filters = getEffectiveFilters();
+                const hasScopeFilters = !!(filters.quadrant || filters.segment || filters.factor);
+
+                let data = null;
+                if (isAllRecords) {
+                    if (hasScopeFilters) {
+                        const params = new URLSearchParams();
+                        if (filters.quadrant) params.append('quadrant', filters.quadrant);
+                        if (filters.segment) params.append('segment', filters.segment);
+                        if (filters.factor) params.append('factor', filters.factor);
+                        const response = await fetch(`/api/dataset/filter?${params.toString()}`);
+                        data = await response.json();
+                    } else {
+                        const response = await fetch(`/api/dataset/all`);
+                        data = await response.json();
+                    }
+                } else {
+                    // Build query string with filters
+                    const params = new URLSearchParams();
+                    params.append('goal', moduleName);
+                    if (filters.field) params.append('field', filters.field);
+                    if (filters.quadrant) params.append('quadrant', filters.quadrant);
+                    if (filters.segment) params.append('segment', filters.segment);
+                    if (filters.factor) params.append('factor', filters.factor);
+
+                    // Load filtered data
+                    const response = await fetch(`/api/dataset/filter?${params.toString()}`);
+                    data = await response.json();
+                }
                 
                 if (data.success) {
                     document.getElementById('filtered-records').textContent = data.count;
                     
                     // Display additional filter information if filters are applied
-                    const filters = getUrlParams();
+                    const filters = getEffectiveFilters();
                     const filterInfoEl = document.getElementById('additional-filters-info');
                     const activeFilters = [];
                     if (filters.field) activeFilters.push(`<strong>Field:</strong> ${filters.field}`);
@@ -148,7 +234,7 @@
             }
         }
         
-        function displayFilteredData(records, availableFields = null, count = null, searchKeyword = null) {
+        function displayFilteredData(records, availableFields = null, count = null, searchKeyword = null, searchMeta = null) {
             const container = document.getElementById('table-content');
             
             if (records.length === 0) {
@@ -209,42 +295,70 @@
             }
             
             const headers = orderedHeaders;
-            
-            // Create table HTML
-            let tableHTML = `
-                <div class="table-wrapper">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                ${headers.map(header => `<th>${header}</th>`).join('')}
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            records.forEach(record => {
-                tableHTML += '<tr>';
-                headers.forEach(header => {
-                    const value = record[header] || '';
-                    const displayValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
-                    
-                    // Make URL column clickable
-                    if (header === 'Url' && value && value.startsWith('http')) {
-                        tableHTML += `<td title="${displayValue}"><a href="${value}" target="_blank" style="color: #007bff; text-decoration: underline;">${displayValue}</a></td>`;
-                    } else {
-                        tableHTML += `<td title="${displayValue}">${displayValue}</td>`;
-                    }
+
+            function buildTableHtml(rows) {
+                let tableHTML = `
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    ${headers.map(header => `<th>${header}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                (rows || []).forEach(record => {
+                    tableHTML += '<tr>';
+                    headers.forEach(header => {
+                        const value = record[header] || '';
+                        const displayValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+                        
+                        // Make URL column clickable
+                        if (header === 'Url' && value && value.startsWith('http')) {
+                            tableHTML += `<td title="${displayValue}"><a href="${value}" target="_blank" style="color: #007bff; text-decoration: underline;">${displayValue}</a></td>`;
+                        } else {
+                            tableHTML += `<td title="${displayValue}">${displayValue}</td>`;
+                        }
+                    });
+                    tableHTML += '</tr>';
                 });
-                tableHTML += '</tr>';
-            });
-            
-            tableHTML += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            container.innerHTML = tableHTML;
+                
+                tableHTML += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                return tableHTML;
+            }
+
+            // If multi-keyword search, split into "full match" and "partial match" sections.
+            if (searchMeta && searchMeta.total_keywords > 1 && searchMeta.scores_by_id) {
+                const total = searchMeta.total_keywords || 0;
+                const scoresById = searchMeta.scores_by_id || {};
+                const full = [];
+                const partial = [];
+                records.forEach(r => {
+                    const sid = String(r._id || '');
+                    const score = scoresById[sid]?.match_count ?? 0;
+                    if (score >= total) full.push(r);
+                    else partial.push(r);
+                });
+
+                const fullHeading = `<div style="margin: 10px 0 6px; font-weight: 800; color: #2f5f3a;">✅ Full match (matches all keywords): ${full.length}</div>`;
+                const partialHeading = `<div style="margin: 16px 0 6px; font-weight: 800; color: #6b4b00;">🟨 Partial match (ranked by match count): ${partial.length}</div>`;
+
+                container.innerHTML = `
+                    ${fullHeading}
+                    ${full.length ? buildTableHtml(full) : `<div class="no-data"><p>No articles match all keywords. Showing best partial matches below.</p></div>`}
+                    ${partialHeading}
+                    ${partial.length ? buildTableHtml(partial) : `<div class="no-data"><p>No partial matches.</p></div>`}
+                `;
+                return;
+            }
+
+            // Default single-table display
+            container.innerHTML = buildTableHtml(records);
         }
         
         function showError(message) {
@@ -265,15 +379,22 @@
                 exportButton.disabled = true;
                 exportButton.textContent = '📊 Exporting...';
                 
-                // Create export URL with current filter (+ optional field/quadrant/segment/factor)
-                const filters = getUrlParams();
-                const exportParams = new URLSearchParams();
-                exportParams.append('goal', moduleName);
-                if (filters.field) exportParams.append('field', filters.field);
-                if (filters.quadrant) exportParams.append('quadrant', filters.quadrant);
-                if (filters.segment) exportParams.append('segment', filters.segment);
-                if (filters.factor) exportParams.append('factor', filters.factor);
-                const exportUrl = `/api/dataset/export-filtered?${exportParams.toString()}`;
+                const filters = getEffectiveFilters();
+                const hasScopeFilters = !!(filters.quadrant || filters.segment || filters.factor);
+                const hasKeywordSearch = !!lastKeywordSearch;
+
+                const exportUrl = (isAllRecords && !hasScopeFilters && !hasKeywordSearch)
+                  ? `/api/dataset/export-all`
+                  : (() => {
+                      const exportParams = new URLSearchParams();
+                      if (hasKeywordSearch) exportParams.append('keyword', lastKeywordSearch);
+                      if (!isAllRecords) exportParams.append('goal', moduleName);
+                      if (filters.field) exportParams.append('field', filters.field);
+                      if (filters.quadrant) exportParams.append('quadrant', filters.quadrant);
+                      if (filters.segment) exportParams.append('segment', filters.segment);
+                      if (filters.factor) exportParams.append('factor', filters.factor);
+                      return `/api/dataset/export-filtered?${exportParams.toString()}`;
+                    })();
                 
                 // Fetch the Excel file
                 const response = await fetch(exportUrl);
@@ -286,7 +407,9 @@
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `filtered_data_${moduleName.replace(/[^a-zA-Z0-9]/g, '_')}.xlsx`;
+                    a.download = (isAllRecords && !hasScopeFilters && !hasKeywordSearch)
+                      ? `all_database_records.xlsx`
+                      : `${hasKeywordSearch ? 'keyword_' : ''}filtered_data_${(isAllRecords ? 'ALL' : moduleName).replace(/[^a-zA-Z0-9]/g, '_')}.xlsx`;
                     document.body.appendChild(a);
                     a.click();
                     
@@ -339,7 +462,7 @@
             }, 3000);
         }
         
-        // Keyword search functionality
+        // Keyword search: scoped to current Quadrant/Segment/Factor when URL has those filters; otherwise global
         async function searchKeyword() {
             const keyword = document.getElementById('keyword-search').value.trim();
             if (!keyword) {
@@ -348,24 +471,47 @@
             }
             
             try {
-                // Show loading state
                 const searchButton = document.querySelector('.search-button');
-                const originalText = searchButton.textContent;
                 searchButton.disabled = true;
                 searchButton.textContent = '🔍 Searching...';
                 
-                const response = await fetch(`/api/dataset/filter?goal=${encodeURIComponent(keyword)}`);
+                const filters = getEffectiveFilters();
+                const hasScope = !!(filters.field || filters.quadrant || filters.segment || filters.factor);
+                
+                const params = new URLSearchParams();
+                params.append('keyword', keyword);
+                if (hasScope) {
+                    if (!isAllRecords) params.append('goal', moduleName);
+                    if (filters.field) params.append('field', filters.field);
+                    if (filters.quadrant) params.append('quadrant', filters.quadrant);
+                    if (filters.segment) params.append('segment', filters.segment);
+                    if (filters.factor) params.append('factor', filters.factor);
+                }
+                
+                const response = await fetch(`/api/dataset/filter?${params.toString()}`);
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Update the table with search results
-                    displayFilteredData(data.records, data.available_fields, data.count, keyword);
+                    lastKeywordSearch = keyword;
+                    displayFilteredData(data.records, data.available_fields, data.count, keyword, data.keyword_search || null);
                     
-                    // Show search results info
+                    const scopeNote = hasScope
+                        ? ` (within current filter: <strong>${moduleName}</strong>${filters.field ? ` · ${filters.field}` : ''})`
+                        : ' (whole database)';
+                    const meta = data.keyword_search || null;
+                    let mostMatchNote = '';
+                    if (meta && meta.total_keywords > 1 && meta.mode === 'partial_best_match' && data.count > 0) {
+                        mostMatchNote = `<div style="margin-top:6px; color:#2f5f3a; font-weight:700;">
+                          The articles that most match the keywords (best match ${meta.best_match_count}/${meta.total_keywords})
+                        </div>`;
+                    }
+                    const keywordsList = meta?.keywords?.length ? meta.keywords.join(', ') : keyword;
+                    
                     const searchInfo = document.getElementById('search-results-info');
                     searchInfo.innerHTML = `
                         <div class="search-results">
-                            <strong>🔍 Search Results for "${keyword}":</strong> ${data.count} records found
+                            <strong>🔍 "${keywordsList}"</strong>: ${data.count} records${scopeNote}
+                            ${mostMatchNote}
                             <button onclick="clearSearch()" class="clear-search-btn">Clear Search</button>
                         </div>
                     `;
@@ -377,7 +523,6 @@
                 console.error('Error:', error);
                 showError('Failed to search database');
             } finally {
-                // Restore button state
                 const searchButton = document.querySelector('.search-button');
                 searchButton.disabled = false;
                 searchButton.textContent = '🔍 Search';
@@ -387,8 +532,213 @@
         function clearSearch() {
             document.getElementById('keyword-search').value = '';
             document.getElementById('search-results-info').style.display = 'none';
+            lastKeywordSearch = '';
             
             // Reload original filtered data
+            loadFilteredData();
+        }
+
+        function setScopeInputsFromUrl(clearMissing = true) {
+            const filters = getEffectiveFilters();
+            const q = document.getElementById('scope-quadrant');
+            const s = document.getElementById('scope-segment');
+            const f = document.getElementById('scope-factor');
+            // Only overwrite a select when we actually have a value to set,
+            // unless we explicitly want to clear missing fields.
+            if (q && (clearMissing || filters.quadrant)) selectValueInsensitive(q, filters.quadrant || '');
+            if (s && (clearMissing || filters.segment)) selectValueInsensitive(s, filters.segment || '');
+            if (f && (clearMissing || filters.factor)) selectValueInsensitive(f, filters.factor || '');
+        }
+
+        function normalizeKey(value) {
+            return String(value ?? '').trim().toLowerCase();
+        }
+
+        function ensureSelectHasValue(selectEl, desiredValue) {
+            if (!selectEl) return;
+            const desiredRaw = String(desiredValue ?? '').trim();
+            if (!desiredRaw) return;
+            const desired = normalizeKey(desiredRaw);
+            const existing = Array.from(selectEl.options).find(o => normalizeKey(o.value) === desired);
+            if (existing) return;
+            const opt = document.createElement('option');
+            opt.value = desiredRaw;
+            opt.textContent = desiredRaw;
+            selectEl.appendChild(opt);
+        }
+
+        function selectValueInsensitive(selectEl, desiredValue) {
+            if (!selectEl) return;
+            const desired = normalizeKey(desiredValue);
+            if (!desired) {
+                selectEl.value = '';
+                return;
+            }
+            const opt = Array.from(selectEl.options).find(o => normalizeKey(o.value) === desired);
+            if (opt) {
+                selectEl.value = opt.value;
+                return;
+            }
+            // If not found in current options, insert it so the select can display it.
+            ensureSelectHasValue(selectEl, desiredValue);
+            const opt2 = Array.from(selectEl.options).find(o => normalizeKey(o.value) === desired);
+            selectEl.value = opt2 ? opt2.value : '';
+        }
+
+        function lookupFirstInsensitive(mapObj, desiredKey) {
+            if (!mapObj) return undefined;
+            const desired = normalizeKey(desiredKey);
+            if (!desired) return undefined;
+            if (Object.prototype.hasOwnProperty.call(mapObj, desiredKey)) return mapObj[desiredKey];
+            const foundKey = Object.keys(mapObj).find(k => normalizeKey(k) === desired);
+            return foundKey ? mapObj[foundKey] : undefined;
+        }
+
+        function fillSelect(selectEl, items, placeholderLabel = 'All') {
+            if (!selectEl) return;
+            const previous = selectEl.value;
+            selectEl.innerHTML = '';
+
+            const emptyOpt = document.createElement('option');
+            emptyOpt.value = '';
+            emptyOpt.textContent = `— ${placeholderLabel} —`;
+            selectEl.appendChild(emptyOpt);
+
+            (items || []).forEach((v) => {
+                const opt = document.createElement('option');
+                opt.value = v;
+                opt.textContent = v;
+                selectEl.appendChild(opt);
+            });
+
+            // Restore previous selection if still valid; otherwise keep it by inserting.
+            if (previous) {
+                const prevKey = normalizeKey(previous);
+                const exists = Array.from(selectEl.options).some(o => normalizeKey(o.value) === prevKey);
+                if (!exists) ensureSelectHasValue(selectEl, previous);
+                selectValueInsensitive(selectEl, previous);
+            }
+        }
+
+        function updateSegmentAndFactorOptions() {
+            if (!compassData) return;
+            const mappings = (compassData.mappings || {});
+            const quadrantMap = mappings.quadrant_segment || {};
+            const segmentMap = mappings.segment_factor || {};
+            const allSegments = compassData.segments || [];
+            const allFactors = compassData.factors || [];
+
+            const qVal = (document.getElementById('scope-quadrant')?.value || '').trim();
+            const sVal = (document.getElementById('scope-segment')?.value || '').trim();
+
+            const segments = (qVal && quadrantMap[qVal]) ? quadrantMap[qVal] : allSegments;
+            fillSelect(document.getElementById('scope-segment'), segments, 'All segments');
+
+            let factors = allFactors;
+            if (sVal && segmentMap[sVal]) factors = segmentMap[sVal];
+            fillSelect(document.getElementById('scope-factor'), factors, 'All factors');
+        }
+
+        function autoFillParents() {
+            if (!compassData) return;
+            const mappings = (compassData.mappings || {});
+            const segmentQuadrant = mappings.segment_quadrant || {};
+            const factorSegment = mappings.factor_segment || {};
+            const factorQuadrant = mappings.factor_quadrant || {};
+
+            const qEl = document.getElementById('scope-quadrant');
+            const sEl = document.getElementById('scope-segment');
+            const fEl = document.getElementById('scope-factor');
+
+            const effective = getEffectiveFilters();
+            const qVal = (qEl?.value || effective.quadrant || '').trim();
+            const sVal = (sEl?.value || effective.segment || '').trim();
+            const fVal = (fEl?.value || effective.factor || '').trim();
+
+            if (fVal) {
+                const segs = lookupFirstInsensitive(factorSegment, fVal);
+                const quads = lookupFirstInsensitive(factorQuadrant, fVal);
+                if (!sVal && Array.isArray(segs) && segs[0]) selectValueInsensitive(sEl, segs[0]);
+                if (!qVal && Array.isArray(quads) && quads[0]) selectValueInsensitive(qEl, quads[0]);
+            }
+            if (sEl?.value && !qEl?.value) {
+                const q2 = lookupFirstInsensitive(segmentQuadrant, sEl.value);
+                if (Array.isArray(q2) && q2[0]) selectValueInsensitive(qEl, q2[0]);
+            }
+        }
+
+        async function initScopeFilters() {
+            try {
+                const resp = await fetch('/api/compass/structure');
+                const json = await resp.json();
+                if (!json || !json.success) return;
+                compassData = json.data;
+
+                fillSelect(document.getElementById('scope-quadrant'), compassData.quadrants || [], 'All quadrants');
+                updateSegmentAndFactorOptions();
+                // Apply URL (or derived) selection after options exist
+                setScopeInputsFromUrl(false);
+                autoFillParents();
+                updateSegmentAndFactorOptions();
+
+                const qEl = document.getElementById('scope-quadrant');
+                const sEl = document.getElementById('scope-segment');
+                const fEl = document.getElementById('scope-factor');
+
+                qEl?.addEventListener('change', () => {
+                    // Reset child selections when parent changes
+                    if (sEl) sEl.value = '';
+                    if (fEl) fEl.value = '';
+                    updateSegmentAndFactorOptions();
+                });
+                sEl?.addEventListener('change', () => {
+                    // Reset factor when segment changes
+                    if (fEl) fEl.value = '';
+                    autoFillParents();
+                    updateSegmentAndFactorOptions();
+                });
+                fEl?.addEventListener('change', () => {
+                    autoFillParents();
+                    updateSegmentAndFactorOptions();
+                });
+
+            } catch (e) {
+                console.warn('Failed to init scope filters', e);
+            }
+        }
+
+        function applyScopeFilters() {
+            const q = (document.getElementById('scope-quadrant')?.value || '').trim();
+            const s = (document.getElementById('scope-segment')?.value || '').trim();
+            const f = (document.getElementById('scope-factor')?.value || '').trim();
+
+            const params = new URLSearchParams(window.location.search);
+            if (q) params.set('quadrant', q); else params.delete('quadrant');
+            if (s) params.set('segment', s); else params.delete('segment');
+            if (f) params.set('factor', f); else params.delete('factor');
+            // If we arrived via /table/<module> (locked moduleName), switching scope should unlock the page.
+            // Jump to /table/__ALL__ so the path doesn't keep forcing the original module filter.
+            if (!isAllRecords) {
+                window.location.href = `/table/__ALL__?${params.toString()}`;
+                return;
+            }
+            history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+            loadFilteredData();
+        }
+
+        function clearScopeFilters() {
+            const params = new URLSearchParams(window.location.search);
+            params.delete('quadrant');
+            params.delete('segment');
+            params.delete('factor');
+            // Clearing scope on a locked module page should also unlock to "__ALL__"
+            if (!isAllRecords) {
+                window.location.href = `/table/__ALL__?${params.toString()}`;
+                return;
+            }
+            history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+            setScopeInputsFromUrl(true);
+            updateSegmentAndFactorOptions();
             loadFilteredData();
         }
         

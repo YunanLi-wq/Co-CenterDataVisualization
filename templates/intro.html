@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction - Food Co-Centre Sustainability Compass</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+<link rel="stylesheet" href="{{ url_for('static', filename='intro.page.css') }}">
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="hero-section">
+      <div class="header">
+        <div class="header-actions">
+          <a class="header-action-btn active" href="{{ url_for('intro') }}">Introduction</a>
+          <a class="header-action-btn" href="{{ url_for('d3viz2') }}">Interactive</a>
+          <a class="header-action-btn" href="{{ url_for('table', module_name='__ALL__') }}">Search Full Dataset</a>
+        </div>
+        <div class="header-content">
+          <h1>Food Co-Centre Sustainability Compass</h1>
+        </div>
+      </div>
+
+      <div class="intro-module">
+      <h3 class="intro-question">What is the Food Co-Centre Sustainability Compass?</h3>
+      <p class="intro-answer">
+        The Food Co-Centre Sustainability Compass displays food systems outcomes to consider in Ireland and the UK. It identifies four major societal goals (quadrants), each of which is divided into a number of areas of concern (segments). These are then sub-divided into food system issues (factors). The fourth ring of the Compass is food system outcome data and metrics (variables). Click on 'Data Search' to search the data and metrics collected to date.
+      </p>
+      </div>
+
+      <div class="figure-section">
+        <div class="figure-layout">
+          <div class="figure-main-wrap">
+            <img class="figure-main-img" src="{{ url_for('figure_files', filename='FINALFINAL with variables.jpg') }}" alt="Food Co-Centre Sustainability Compass full figure">
+          </div>
+          <div class="figure-key-wrap">
+            <img class="figure-key-img" src="{{ url_for('figure_files', filename='FINAL_SC key.jpg') }}" alt="Food Co-Centre Sustainability Compass key">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qa-section">
+      <div class="qa-card">
+        <h3 class="qa-question">Why a Sustainability Compass?</h3>
+        <p class="qa-answer">
+          The current state of the food system requires transformation. However, researchers and policymakers typically work in silos and fail to comprehend the entirety of the food system and how a proposed intervention may result in synergies (benefits) as well as trade-offs (negative unintended consequences). The Compass allows users to see an overview of all food system outcomes to consider at an Irish and UK level.
+        </p>
+      </div>
+
+      <div class="qa-card">
+        <h3 class="qa-question">What are the purposes of the Food Co-Centre Sustainability Compass?</h3>
+        <p class="qa-answer">There are six purposes of the Food Co-Centre Sustainability Compass:</p>
+        <ol class="qa-answer-list">
+          <li>To collate the status of key variables and metrics for food system outcomes.</li>
+          <li>To assess the impact of Co-Centre innovations related to individual quadrants.</li>
+          <li>To highlight the synergies and trade-offs of Co-Centre innovations across all the quadrants.</li>
+          <li>To help develop coordinated government and private sector policy (Co-Centre vision).</li>
+          <li>To map research effort across the Co-Centre programme (gap analysis).</li>
+          <li>To facilitate citizen engagement.</li>
+        </ol>
+      </div>
+
+      <div class="qa-card">
+        <h3 class="qa-question">How was the Compass developed?</h3>
+        <p class="qa-answer">
+          As part of the Co-Centre for Sustainable Food Systems, a transdisciplinary participatory design approach with Irish and UK food system stakeholders was undertaken to co-design the Compass. The wording and structure of the Compass is a result of a multi-step iterative design and development process involving stakeholders working in the public sector, industry, non-governmental organisations as well as academia.
+        </p>
+      </div>
+    </div>
+
+    <div class="navigation-buttons">
+      <a href="{{ url_for('index') }}" class="nav-button back-button">← Back to Research Platforms</a>
+      <a href="https://foodcocentre.org/" class="nav-button" target="_blank" rel="noopener noreferrer">Visit Co-Centre Website</a>
+      <a href="https://foodcocentre.org/research" class="nav-button" target="_blank" rel="noopener noreferrer">Research Overview</a>
+      <a href="https://foodcocentre.org/contact" class="nav-button" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    </div>
+
+    <div class="footer-logos" style="display:flex; flex-wrap:wrap; gap:22px; justify-content:center; align-items:center; margin:18px auto 0; padding:12px 0 26px;">
+      <img src="{{ url_for('figure_files', filename='COCENTRE_SFS_Ranged_3_WHITE_Aug24_300dpi.png') }}" alt="Co-Centre for Sustainable Food Systems logo" style="height:54px; width:auto; object-fit:contain;">
+      <img src="{{ url_for('figure_files', filename='university-college-dublin-seeklogo.png') }}" alt="University College Dublin logo" style="height:54px; width:auto; object-fit:contain;">
+      <img src="{{ url_for('figure_files', filename='Food Group Logo.png') }}" alt="Food Group logo" style="height:54px; width:auto; object-fit:contain;">
+    </div>
+  </div>
+</body>
+</html>

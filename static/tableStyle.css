@@ -1,5 +1,5 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-body);
     margin: 0;
     padding: 20px;
     background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6b8e23 100%);
@@ -8,20 +8,82 @@ body {
 }
 
 .header {
-    text-align: center;
-    margin-bottom: 30px;
     color: white;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 18px;
+    flex-wrap: nowrap;
+}
+
+.header-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 0;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex: 0 0 auto;
+}
+
+.header-action-btn {
+    padding: 14px 22px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.92);
+    color: #1f3a13;
+    font-size: 15px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.header-action-btn:hover {
+    background: #ffffff;
+}
+
+.header-action-btn.active {
+    background: #2d5016;
+    color: #fff;
+    border-color: #1f3a13;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header-content {
+    text-align: center;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .header h1 {
-    font-size: 2.5rem;
+    font-size: clamp(1.85rem, 2.2vw, 2.35rem);
     margin-bottom: 0.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .header p {
     font-size: 1.1rem;
     opacity: 0.9;
+}
+
+/* If there's not enough width for the 3 header buttons in one row, stack them vertically */
+@media (max-width: 560px) {
+    .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-action-btn {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
 }
 
 .table-container {
@@ -198,9 +260,9 @@ body {
 
 .add-item-button {
     position: fixed;
-    top: 20px;
+    bottom: 76px;
     right: 20px;
-    z-index: 1000;
+    z-index: 3200;
     background: linear-gradient(135deg, #28a745, #20c997);
     color: white;
     padding: 12px 20px;
@@ -210,10 +272,35 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     border: 2px solid rgba(255, 255, 255, 0.3);
+    margin: 0;
 }
 
 .add-item-button:hover {
     background: linear-gradient(135deg, #1e7e34, #1aa179);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+.higher-manager-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3200;
+    background: linear-gradient(135deg, #6f42c1, #5a32a3);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    margin: 0;
+}
+
+.higher-manager-button:hover {
+    background: linear-gradient(135deg, #5a32a3, #4a2c8a);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     color: white;

@@ -1,10 +1,14 @@
 [
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fae"
+    },
     "Name": "Aedin Cassidy",
     "Funder Category": "PI (Co-Director)",
-    "Institution": "QUB",
+    "Column1": "PI",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "a.cassidy@qub.ac.uk",
-    "Platform Alignment": "P3, P1.1",
+    "Platform Alignment": "P3",
     "Actions": null,
     "Healthy Diets": 1,
     "Nutrient intake throughout life": 1,
@@ -61,12 +65,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Co-Centre Director & RPO Lead",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "a.cassidy@qub.ac.uk",
+    "emailLower": "a.cassidy@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8faf"
+    },
     "Name": "Louise Dye",
     "Funder Category": "PI (Co-Director)",
-    "Institution": "Sheffield",
+    "Column1": "PI",
+    "Institution": "University of University of Sheffield  ",
     "Email (as per SESAME)": "l.dye@sheffield.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -125,12 +139,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": "Co-Centre Director & RPO Lead",
-    "Brief description of intervention(s) they are working on": "School based interventions e.g., blueberry study. But also opportunity to improve school breakfasts to increase fibre and input to household study"
+    "Brief description of intervention(s) they are working on": "School based interventions e.g., blueberry study. But also opportunity to improve school breakfasts to increase fibre and input to household study",
+    "AllFactor": null,
+    "Email": "l.dye@sheffield.ac.uk",
+    "emailLower": "l.dye@sheffield.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb0"
+    },
     "Name": "Eileen Gibney",
     "Funder Category": "PI (Co-Director)",
-    "Institution": "UCD",
+    "Column1": "PI",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "eileen.gibney@ucd.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -189,13 +213,23 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Co-Centre Director & RPO Lead",
-    "Brief description of intervention(s) they are working on": "P3 household food study and intervention"
+    "Brief description of intervention(s) they are working on": "P3 household food study and intervention",
+    "AllFactor": null,
+    "Email": "eileen.gibney@ucd.ie",
+    "emailLower": "eileen.gibney@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb1"
+    },
     "Name": "Lisa Black",
     "Funder Category": "Co-PI",
-    "Institution": "AFBI",
-    "Email (as per SESAME)": "lisa.black@afbini.gov.uk",
+    "Column1": "PI",
+    "Institution": "Agri-Food and Biosciences Institute",
+    "Email (as per SESAME)": "lisa.black@Agri-Food and Biosciences Instituteni.gov.uk",
     "Platform Alignment": "P1.1",
     "Actions": null,
     "Healthy Diets": null,
@@ -253,12 +287,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "RPO Lead",
-    "Brief description of intervention(s) they are working on": "Impact of plant varieties on soil microbiome. Interaction between oat and bean varieties on soil microbiome. Optimisation or co-cropping agronomy. "
+    "Brief description of intervention(s) they are working on": "Impact of plant varieties on soil microbiome. Interaction between oat and bean varieties on soil microbiome. Optimisation or co-cropping agronomy. ",
+    "AllFactor": null,
+    "Email": "lisa.black@Agri-Food and Biosciences Instituteni.gov.uk",
+    "emailLower": "lisa.black@agri-food and biosciences instituteni.gov.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb2"
+    },
     "Name": "Mark Mooney",
     "Funder Category": "Co-PI",
-    "Institution": "QUB",
+    "Column1": "PI",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "mark.mooney@qub.ac.uk",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -317,12 +361,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC)",
-    "Brief description of intervention(s) they are working on": "Food safety risk mitigation"
+    "Brief description of intervention(s) they are working on": "Food safety risk mitigation",
+    "AllFactor": null,
+    "Email": "mark.mooney@qub.ac.uk",
+    "emailLower": "mark.mooney@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb3"
+    },
     "Name": "Chris Creevey",
     "Funder Category": "Co-PI",
-    "Institution": "QUB",
+    "Column1": "PI",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "chris.creevey@qub.ac.uk",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -381,12 +435,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC)",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "chris.creevey@qub.ac.uk",
+    "emailLower": "chris.creevey@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb4"
+    },
     "Name": "Nigel Scollan",
     "Funder Category": "Co-PI",
-    "Institution": "QUB",
+    "Column1": "PI",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "nigel.scollan@qub.ac.uk",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -445,12 +509,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "nigel.scollan@qub.ac.uk",
+    "emailLower": "nigel.scollan@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb5"
+    },
     "Name": "Sharon Huws",
     "Funder Category": "Co-PI",
-    "Institution": "QUB",
+    "Column1": "PI",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "s.huws@qub.ac.uk",
     "Platform Alignment": "P1.2",
     "Actions": null,
@@ -509,11 +583,21 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "s.huws@qub.ac.uk",
+    "emailLower": "s.huws@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb6"
+    },
     "Name": "Geraldine Duffy",
     "Funder Category": "Co-PI",
+    "Column1": "PI",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "geraldine.duffy@teagasc.ie",
     "Platform Alignment": "P2",
@@ -573,11 +657,21 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (EMC) & RPO Lead",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "geraldine.duffy@teagasc.ie",
+    "emailLower": "geraldine.duffy@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb7"
+    },
     "Name": "Ewen Mullins",
     "Funder Category": "Co-PI",
+    "Column1": "PI",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "ewen.mullins@teagasc.ie",
     "Platform Alignment": "P1.1",
@@ -637,11 +731,21 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC)",
-    "Brief description of intervention(s) they are working on": "Field based agronomic actions mainly"
+    "Brief description of intervention(s) they are working on": "Field based agronomic actions mainly",
+    "AllFactor": null,
+    "Email": "ewen.mullins@teagasc.ie",
+    "emailLower": "ewen.mullins@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb8"
+    },
     "Name": "Martin Danaher",
     "Funder Category": "Co-PI",
+    "Column1": "PI",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "martin.danaher@teagasc.ie",
     "Platform Alignment": "P2",
@@ -701,11 +805,21 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Analytical technologies to support agronomy and food processing"
+    "Brief description of intervention(s) they are working on": "Analytical technologies to support agronomy and food processing",
+    "AllFactor": null,
+    "Email": "martin.danaher@teagasc.ie",
+    "emailLower": "martin.danaher@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fb9"
+    },
     "Name": "Maeve Henchion",
     "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "maeve.henchion@teagasc.ie",
     "Platform Alignment": "P1.4",
@@ -760,17 +874,27 @@
     "Dignified work environments": 1,
     "Social externalities": 1,
     "Environmental externalities": null,
-    "Recognition of nature's contribution to human wellbeing": null,
+    "Recognition of nature's contribution to human wellbeing": 1,
     "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 4,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC)",
-    "Brief description of intervention(s) they are working on": "David Meredith's project"
+    "Brief description of intervention(s) they are working on": "David Meredith's project",
+    "AllFactor": null,
+    "Email": "maeve.henchion@teagasc.ie",
+    "emailLower": "maeve.henchion@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fba"
+    },
     "Name": "Mairead Kiely",
     "Funder Category": "Co-PI",
-    "Institution": "UCC",
+    "Column1": "PI",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "m.kiely@ucc.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -829,12 +953,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC) & RPO Lead",
-    "Brief description of intervention(s) they are working on": "Dietary and nutrition data collection and interventions. Also a strong emphasis on food environments / access and agency as well as environmental outcomes "
+    "Brief description of intervention(s) they are working on": "Dietary and nutrition data collection and interventions. Also a strong emphasis on food environments / access and agency as well as environmental outcomes ",
+    "AllFactor": null,
+    "Email": "m.kiely@ucc.ie",
+    "emailLower": "m.kiely@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fbb"
+    },
     "Name": "Seamus O'Mahony",
     "Funder Category": "Co-PI",
-    "Institution": "UCC",
+    "Column1": "PI",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "sa.omahony@ucc.ie",
     "Platform Alignment": "P1.3",
     "Actions": null,
@@ -893,12 +1027,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC) & Platform Lead (EMC) ",
-    "Brief description of intervention(s) they are working on": "Healthy sustainable foods. Food valorisation and waste"
+    "Brief description of intervention(s) they are working on": "Healthy sustainable foods. Food valorisation and waste",
+    "AllFactor": null,
+    "Email": "sa.omahony@ucc.ie",
+    "emailLower": "sa.omahony@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fbc"
+    },
     "Name": "Fiona Doohan",
     "Funder Category": "Co-PI",
-    "Institution": "UCD",
+    "Column1": "PI",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "fiona.doohan@ucd.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -957,12 +1101,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "fiona.doohan@ucd.ie",
+    "emailLower": "fiona.doohan@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fbd"
+    },
     "Name": "Denis Shields",
     "Funder Category": "Co-PI",
-    "Institution": "UCD",
+    "Column1": "PI",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "denis.shields@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -1021,12 +1175,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (EMC)",
-    "Brief description of intervention(s) they are working on": "Shift to plant diets: understanding protein differences"
+    "Brief description of intervention(s) they are working on": "Shift to plant diets: understanding protein differences",
+    "AllFactor": null,
+    "Email": "denis.shields@ucd.ie",
+    "emailLower": "denis.shields@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fbe"
+    },
     "Name": "James Lyng",
     "Funder Category": "Co-PI",
-    "Institution": "UCD",
+    "Column1": "PI",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "james.lyng@ucd.ie",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -1085,14 +1249,24 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Industry Funding Sub-Committee Lead (EMC)",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "james.lyng@ucd.ie",
+    "emailLower": "james.lyng@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fbf"
+    },
     "Name": "Lorraine Brennan",
     "Funder Category": "Co-PI",
-    "Institution": "UCD",
+    "Column1": "PI",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "lorraine.brennan@ucd.ie",
-    "Platform Alignment": "P3, P4",
+    "Platform Alignment": "P3",
     "Actions": null,
     "Healthy Diets": 1,
     "Nutrient intake throughout life": null,
@@ -1149,12 +1323,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Human random control trial"
+    "Brief description of intervention(s) they are working on": "Human random control trial",
+    "AllFactor": null,
+    "Email": "lorraine.brennan@ucd.ie",
+    "emailLower": "lorraine.brennan@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc0"
+    },
     "Name": "Chris Gill",
     "Funder Category": "Funded Investigator",
-    "Institution": "UU",
+    "Column1": "Investigator",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "c.gill@ulster.ac.uk",
     "Platform Alignment": "P1.3",
     "Actions": null,
@@ -1213,12 +1397,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (EMC) & RPO Lead",
-    "Brief description of intervention(s) they are working on": "Nutrition random control trial"
+    "Brief description of intervention(s) they are working on": "Nutrition random control trial",
+    "AllFactor": null,
+    "Email": "c.gill@ulster.ac.uk",
+    "emailLower": "c.gill@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc1"
+    },
     "Name": "Christian Reynolds",
     "Funder Category": "Co-PI",
-    "Institution": "City",
+    "Column1": "PI",
+    "Institution": "City St George's, University of London ",
     "Email (as per SESAME)": "christian.reynolds@city.ac.uk",
     "Platform Alignment": "P5",
     "Actions": null,
@@ -1277,12 +1471,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC) & RPO Lead",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "christian.reynolds@city.ac.uk",
+    "emailLower": "christian.reynolds@city.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc2"
+    },
     "Name": "Cathie Martin",
     "Funder Category": "Co-PI",
-    "Institution": "JIC",
+    "Column1": "PI",
+    "Institution": "John Innes Centre",
     "Email (as per SESAME)": "cathie.martin@jic.ac.uk",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -1341,14 +1545,24 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "RPO Lead",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "cathie.martin@jic.ac.uk",
+    "emailLower": "cathie.martin@jic.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc3"
+    },
     "Name": "Martin Warren",
     "Funder Category": "Funded Investigator",
-    "Institution": "Quadram",
-    "Email (as per SESAME)": "martin.warren@quadram.ac.uk",
-    "Platform Alignment": "P3, P1.1",
+    "Column1": "Investigator",
+    "Institution": "Quadram Institute",
+    "Email (as per SESAME)": "martin.warren@Quadram Institute.ac.uk",
+    "Platform Alignment": "P1.1",
     "Actions": null,
     "Healthy Diets": null,
     "Nutrient intake throughout life": null,
@@ -1405,13 +1619,23 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "RPO Lead",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "martin.warren@Quadram Institute.ac.uk",
+    "emailLower": "martin.warren@quadram institute.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc4"
+    },
     "Name": "Fiona Smith",
     "Funder Category": "Co-PI",
-    "Institution": "Sussex",
-    "Email (as per SESAME)": "fiona.smith@sussex.ac.uk",
+    "Column1": "PI",
+    "Institution": "University of Sussex",
+    "Email (as per SESAME)": "fiona.smith@University of Sussex.ac.uk",
     "Platform Alignment": "P5",
     "Actions": null,
     "Healthy Diets": null,
@@ -1469,13 +1693,23 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "RPO Lead",
-    "Brief description of intervention(s) they are working on": "Map and review animal health and welfare regulations affecting cross-border trade (pigs especially). Sanitary and Phytosanitary framework. "
+    "Brief description of intervention(s) they are working on": "Map and review animal health and welfare regulations affecting cross-border trade (pigs especially). Sanitary and Phytosanitary framework. ",
+    "AllFactor": null,
+    "Email": "fiona.smith@University of Sussex.ac.uk",
+    "emailLower": "fiona.smith@university of sussex.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc5"
+    },
     "Name": "Ramon Muns",
     "Funder Category": "Official Collaborator",
-    "Institution": "AFBI",
-    "Email (as per SESAME)": "ramon.muns@afbini.gov.uk",
+    "Column1": null,
+    "Institution": "Agri-Food and Biosciences Institute",
+    "Email (as per SESAME)": "ramon.muns@Agri-Food and Biosciences Instituteni.gov.uk",
     "Platform Alignment": "P1",
     "Actions": null,
     "Healthy Diets": null,
@@ -1533,12 +1767,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "ramon.muns@Agri-Food and Biosciences Instituteni.gov.uk",
+    "emailLower": "ramon.muns@agri-food and biosciences instituteni.gov.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc6"
+    },
     "Name": "Paul Nicholson",
     "Funder Category": "Official Collaborator",
-    "Institution": "JIC",
+    "Column1": null,
+    "Institution": "John Innes Centre",
     "Email (as per SESAME)": "paul.nicholson@jic.ac.uk",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -1597,12 +1841,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "paul.nicholson@jic.ac.uk",
+    "emailLower": "paul.nicholson@jic.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc7"
+    },
     "Name": "Neil Boyle",
     "Funder Category": "Senior Research Fellow",
-    "Institution": "Sheffield",
+    "Column1": "Post Doc",
+    "Institution": "University of Sheffield ",
     "Email (as per SESAME)": "n.boyle@sheffield.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -1661,12 +1915,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "School and food-based interventions"
+    "Brief description of intervention(s) they are working on": "School and food-based interventions",
+    "AllFactor": null,
+    "Email": "n.boyle@sheffield.ac.uk",
+    "emailLower": "n.boyle@sheffield.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc8"
+    },
     "Name": "Di Wu",
     "Funder Category": "Official Collaborator",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "d.wu@qub.ac.uk",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -1725,12 +1989,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "d.wu@qub.ac.uk",
+    "emailLower": "d.wu@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fc9"
+    },
     "Name": "Simon Haughey",
     "Funder Category": "Senior Research Fellow",
-    "Institution": "QUB",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "s.a.haughey@qub.ac.uk",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -1789,12 +2063,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "The aim of the research is to develop predictive tools that support industry in identifying and managing emerging contamination risks in feed and food. To do this we will assess whether predictive analytics can combine historical contaminant data (e.g., mycotoxins, heavy metals, pesticides, dioxins/PCBs) with additional datasets to forecast future feed safety risks."
+    "Brief description of intervention(s) they are working on": "The aim of the research is to develop predictive tools that support industry in identifying and managing emerging contamination risks in feed and food. To do this we will assess whether predictive analytics can combine historical contaminant data (e.g., mycotoxins, heavy metals, pesticides, dioxins/PCBs) with additional datasets to forecast future feed safety risks.",
+    "AllFactor": null,
+    "Email": "s.a.haughey@qub.ac.uk",
+    "emailLower": "s.a.haughey@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fca"
+    },
     "Name": "Cuong Cao",
     "Funder Category": "Official Collaborator",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "c.cao@qub.ac.uk",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -1853,12 +2137,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "c.cao@qub.ac.uk",
+    "emailLower": "c.cao@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fcb"
+    },
     "Name": "Amy Jennings",
     "Funder Category": "Senior Research Fellow",
-    "Institution": "QUB",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "a.jennings@qub.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -1917,12 +2211,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Population based research plant-rich diets and healthy ageing "
+    "Brief description of intervention(s) they are working on": "Population based research plant-rich diets and healthy ageing ",
+    "AllFactor": null,
+    "Email": "a.jennings@qub.ac.uk",
+    "emailLower": "a.jennings@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fcc"
+    },
     "Name": "Mary Ward",
     "Funder Category": "Co-PI",
-    "Institution": "UU",
+    "Column1": "PI",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "mw.ward@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -1981,12 +2285,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Nutrition random control trial"
+    "Brief description of intervention(s) they are working on": "Nutrition random control trial",
+    "AllFactor": null,
+    "Email": "mw.ward@ulster.ac.uk",
+    "emailLower": "mw.ward@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fcd"
+    },
     "Name": "Kieran Tuohy",
     "Funder Category": "Funded Investigator",
-    "Institution": "Leeds",
+    "Column1": "Investigator",
+    "Institution": "University of Leeds",
     "Email (as per SESAME)": "k.m.tuohy@leeds.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -2045,12 +2359,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": "RPO Lead",
-    "Brief description of intervention(s) they are working on": "Non-invasive biomarkers of nutrition; Food processing, gut health, nutritient delivery"
+    "Brief description of intervention(s) they are working on": "Non-invasive biomarkers of nutrition; Food processing, gut health, nutritient delivery",
+    "AllFactor": null,
+    "Email": "k.m.tuohy@leeds.ac.uk",
+    "emailLower": "k.m.tuohy@leeds.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fce"
+    },
     "Name": "Claire McEvoy",
     "Funder Category": "Official Collaborator",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "c.mcevoy@qub.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -2109,12 +2433,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "c.mcevoy@qub.ac.uk",
+    "emailLower": "c.mcevoy@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fcf"
+    },
     "Name": "Katerina Theodoridou",
     "Funder Category": "Official Collaborator",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "k.theodoridou@qub.ac.uk",
     "Platform Alignment": "P1.2",
     "Actions": null,
@@ -2173,12 +2507,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "k.theodoridou@qub.ac.uk",
+    "emailLower": "k.theodoridou@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd0"
+    },
     "Name": "Jayne Woodside",
     "Funder Category": "Funded Investigator",
-    "Institution": "QUB",
+    "Column1": "Investigator",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "j.woodside@qub.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -2237,12 +2581,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "j.woodside@qub.ac.uk",
+    "emailLower": "j.woodside@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd1"
+    },
     "Name": "Tilman Kuhn",
     "Funder Category": "Official Collaborator",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "t.kuhn@qub.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -2301,11 +2655,21 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "t.kuhn@qub.ac.uk",
+    "emailLower": "t.kuhn@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd2"
+    },
     "Name": "Ruth Hamill",
     "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "ruth.hamill@teagasc.ie",
     "Platform Alignment": "P1.2",
@@ -2365,11 +2729,21 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Platform Lead (RPC)",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "ruth.hamill@teagasc.ie",
+    "emailLower": "ruth.hamill@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd3"
+    },
     "Name": "Kaye Burgess",
     "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "kaye.burgess@teagasc.ie",
     "Platform Alignment": "P2",
@@ -2429,11 +2803,21 @@
     "Completed survey to some extent": 1,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Impact of more sustainable growth substrates on microbial risks in horticultural crop production"
+    "Brief description of intervention(s) they are working on": "Impact of more sustainable growth substrates on microbial risks in horticultural crop production",
+    "AllFactor": null,
+    "Email": "kaye.burgess@teagasc.ie",
+    "emailLower": "kaye.burgess@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd4"
+    },
     "Name": "Eimear Gallagher",
     "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "eimear.gallagher@teagasc.ie",
     "Platform Alignment": "P1.3",
@@ -2493,11 +2877,21 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Hybrid foods, sustainable food processing "
+    "Brief description of intervention(s) they are working on": "Hybrid foods, sustainable food processing ",
+    "AllFactor": null,
+    "Email": "eimear.gallagher@teagasc.ie",
+    "emailLower": "eimear.gallagher@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd5"
+    },
     "Name": "Laura Gomez-Mascaraque",
     "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "laura.mascaraque@teagasc.ie",
     "Platform Alignment": "P1.3",
@@ -2557,11 +2951,21 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "laura.mascaraque@teagasc.ie",
+    "emailLower": "laura.mascaraque@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd6"
+    },
     "Name": "David Meredith",
     "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "david.meredith@teagasc.ie",
     "Platform Alignment": "P1.4",
@@ -2621,12 +3025,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "david.meredith@teagasc.ie",
+    "emailLower": "david.meredith@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd7"
+    },
     "Name": "Jesus Maria Frias Celayeta",
     "Funder Category": "Funded Investigator",
-    "Institution": "TU Dublin ",
+    "Column1": "Investigator",
+    "Institution": "Technological University Dublin  ",
     "Email (as per SESAME)": "jesus.frias@tudublin.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -2685,12 +3099,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "RPO Lead",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "jesus.frias@tudublin.ie",
+    "emailLower": "jesus.frias@tudublin.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd8"
+    },
     "Name": "Lorraine Foley",
     "Funder Category": "Funded Investigator",
-    "Institution": "TU Dublin ",
+    "Column1": "Investigator",
+    "Institution": "Technological University Dublin  ",
     "Email (as per SESAME)": "lorraine.foley@tudublin.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -2749,12 +3173,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Our work involves testing the postharvest quality effect of biostimulant treatment on a range of horticultural goods using metabolomics.  This is the science of studying metabolites in plant cells in order to track health/stress indicators at very early stages. It is very useful as a predictive tool for postharvest potential of a range of horticultural products. "
+    "Brief description of intervention(s) they are working on": "Our work involves testing the postharvest quality effect of biostimulant treatment on a range of horticultural goods using metabolomics.  This is the science of studying metabolites in plant cells in order to track health/stress indicators at very early stages. It is very useful as a predictive tool for postharvest potential of a range of horticultural products. ",
+    "AllFactor": null,
+    "Email": "lorraine.foley@tudublin.ie",
+    "emailLower": "lorraine.foley@tudublin.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fd9"
+    },
     "Name": "Declan Devine",
     "Funder Category": "Official Collaborator",
-    "Institution": "TU Shannon",
+    "Column1": null,
+    "Institution": "Technological University of the Shannon",
     "Email (as per SESAME)": "ddevine@tus.ie",
     "Platform Alignment": "P1",
     "Actions": null,
@@ -2813,12 +3247,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "RPO Lead",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "ddevine@tus.ie",
+    "emailLower": "ddevine@tus.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fda"
+    },
     "Name": "Romina Pezzoli",
     "Funder Category": "Official Collaborator",
-    "Institution": "TU Shannon",
+    "Column1": null,
+    "Institution": "Technological University of the Shannon",
     "Email (as per SESAME)": "romina.pezzoli@tus.ie",
     "Platform Alignment": "P1",
     "Actions": null,
@@ -2877,12 +3321,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "romina.pezzoli@tus.ie",
+    "emailLower": "romina.pezzoli@tus.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fdb"
+    },
     "Name": "Alice Lucey",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCC",
+    "Column1": "Investigator",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "a.lucey@ucc.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -2941,12 +3395,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Household food cohort and household intervention study. Main areas: nutrition security within households; household food waste data collection"
+    "Brief description of intervention(s) they are working on": "Household food cohort and household intervention study. Main areas: nutrition security within households; household food waste data collection",
+    "AllFactor": null,
+    "Email": "a.lucey@ucc.ie",
+    "emailLower": "a.lucey@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fdc"
+    },
     "Name": "Aylin Sahin",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCC",
+    "Column1": "Investigator",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "aylin.sahin@ucc.ie",
     "Platform Alignment": "P1.3",
     "Actions": null,
@@ -3005,12 +3469,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Plant protein blends"
+    "Brief description of intervention(s) they are working on": "Plant protein blends",
+    "AllFactor": null,
+    "Email": "aylin.sahin@ucc.ie",
+    "emailLower": "aylin.sahin@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fdd"
+    },
     "Name": "Aine Hennessy",
     "Funder Category": "Official Collaborator",
-    "Institution": "UCC",
+    "Column1": null,
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "a.hennessy@ucc.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -3069,12 +3543,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "a.hennessy@ucc.ie",
+    "emailLower": "a.hennessy@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fde"
+    },
     "Name": "Tom O'Callaghan",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCC",
+    "Column1": "Investigator",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "tom_ocallaghan@ucc.ie",
     "Platform Alignment": "P1.3",
     "Actions": null,
@@ -3133,12 +3617,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Food processing "
+    "Brief description of intervention(s) they are working on": "Food processing ",
+    "AllFactor": null,
+    "Email": "tom_ocallaghan@ucc.ie",
+    "emailLower": "tom_ocallaghan@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fdf"
+    },
     "Name": "Elaine McCarthy",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCC",
+    "Column1": "Investigator",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "elaine.mccarthy@ucc.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -3197,12 +3691,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Household study dietary intervention"
+    "Brief description of intervention(s) they are working on": "Household study dietary intervention",
+    "AllFactor": null,
+    "Email": "elaine.mccarthy@ucc.ie",
+    "emailLower": "elaine.mccarthy@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe0"
+    },
     "Name": "Mary McCarthy",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCC",
+    "Column1": "Investigator",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "m.mccarthy@ucc.ie",
     "Platform Alignment": "P1.4",
     "Actions": null,
@@ -3261,12 +3765,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "m.mccarthy@ucc.ie",
+    "emailLower": "m.mccarthy@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe1"
+    },
     "Name": "Angela Feechan",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "angela.feechan@ucd.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -3325,14 +3839,24 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "angela.feechan@ucd.ie",
+    "emailLower": "angela.feechan@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe2"
+    },
     "Name": "Breige McNulty",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "breige.mcnulty@ucd.ie",
-    "Platform Alignment": "P3, P4",
+    "Platform Alignment": "P3",
     "Actions": null,
     "Healthy Diets": null,
     "Nutrient intake throughout life": null,
@@ -3389,12 +3913,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "breige.mcnulty@ucd.ie",
+    "emailLower": "breige.mcnulty@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe3"
+    },
     "Name": "Aifric O'Sullivan",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "aifric.osullivan@ucd.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -3453,12 +3987,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Integrates a Household Panel Survey (Platform 3.1), Data FAIRification (Platform 3.2), and a randomised controlled trial (Platform 3.4). "
+    "Brief description of intervention(s) they are working on": "Integrates a Household Panel Survey (Platform 3.1), Data FAIRification (Platform 3.2), and a randomised controlled trial (Platform 3.4). ",
+    "AllFactor": null,
+    "Email": "aifric.osullivan@ucd.ie",
+    "emailLower": "aifric.osullivan@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe4"
+    },
     "Name": "Saoirse Tracy",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "saoirse.tracy@ucd.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -3517,12 +4061,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "saoirse.tracy@ucd.ie",
+    "emailLower": "saoirse.tracy@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe5"
+    },
     "Name": "Nicholas Holden",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "nick.holden@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -3581,12 +4135,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Ideally going to address many in house. Evaluation of scenarios. "
+    "Brief description of intervention(s) they are working on": "Ideally going to address many in house. Evaluation of scenarios. ",
+    "AllFactor": null,
+    "Email": "nick.holden@ucd.ie",
+    "emailLower": "nick.holden@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe6"
+    },
     "Name": "Séamus Fanning",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "sfanning@ucd.ie",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -3645,12 +4209,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "sfanning@ucd.ie",
+    "emailLower": "sfanning@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe7"
+    },
     "Name": "Joseph McMahon",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "joseph.mcmahon@ucd.ie",
     "Platform Alignment": "P5",
     "Actions": null,
@@ -3709,12 +4283,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Right to Food and Food Security"
+    "Brief description of intervention(s) they are working on": "Right to Food and Food Security",
+    "AllFactor": null,
+    "Email": "joseph.mcmahon@ucd.ie",
+    "emailLower": "joseph.mcmahon@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe8"
+    },
     "Name": "Sinead Flannery ",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "sinead.flannery@ucd.ie",
     "Platform Alignment": "P1.4",
     "Actions": null,
@@ -3773,12 +4357,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Working with David Meredith"
+    "Brief description of intervention(s) they are working on": "Working with David Meredith",
+    "AllFactor": null,
+    "Email": "sinead.flannery@ucd.ie",
+    "emailLower": "sinead.flannery@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fe9"
+    },
     "Name": "Lynsey Hollywood",
     "Funder Category": "Official Collaborator",
-    "Institution": "UU",
+    "Column1": null,
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "l.hollywood@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -3837,12 +4431,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "l.hollywood@ulster.ac.uk",
+    "emailLower": "l.hollywood@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fea"
+    },
     "Name": "Helene McNulty",
     "Funder Category": "Funded Investigator",
-    "Institution": "UU",
+    "Column1": "Investigator",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "h.mcnulty@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -3901,12 +4505,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "h.mcnulty@ulster.ac.uk",
+    "emailLower": "h.mcnulty@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8feb"
+    },
     "Name": "Caomhan Logue",
     "Funder Category": "Official Collaborator",
-    "Institution": "UU",
+    "Column1": null,
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "c.logue@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -3965,12 +4579,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "c.logue@ulster.ac.uk",
+    "emailLower": "c.logue@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fec"
+    },
     "Name": "Rebecca Finley",
-    "Funder Category": "Postdoc",
-    "Institution": "UCD",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "rebecca.finlay@ucd.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4029,12 +4653,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Diet modelling to replace some meat products with hybrid (meat/plant) products"
+    "Brief description of intervention(s) they are working on": "Diet modelling to replace some meat products with hybrid (meat/plant) products",
+    "AllFactor": null,
+    "Email": "rebecca.finlay@ucd.ie",
+    "emailLower": "rebecca.finlay@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fed"
+    },
     "Name": "Rachel Brady",
-    "Funder Category": "Postdoc",
-    "Institution": "UCD",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "rachel.brady1@ucd.ie",
     "Platform Alignment": "P5",
     "Actions": null,
@@ -4093,12 +4727,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Intellectual property and agri-food biotech regulation / right to food on IOI (food security)"
+    "Brief description of intervention(s) they are working on": "Intellectual property and agri-food biotech regulation / right to food on IOI (food security)",
+    "AllFactor": null,
+    "Email": "rachel.brady1@ucd.ie",
+    "emailLower": "rachel.brady1@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fee"
+    },
     "Name": "Vera Thole",
-    "Funder Category": "Postdoc",
-    "Institution": "JIC",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "John Innes Centre",
     "Email (as per SESAME)": "vera.thole@jic.ac.uk",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -4157,11 +4801,21 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Focuses on ‘Sustainable potato production – gene editing in potato’ and includes technology development"
+    "Brief description of intervention(s) they are working on": "Focuses on ‘Sustainable potato production – gene editing in potato’ and includes technology development",
+    "AllFactor": null,
+    "Email": "vera.thole@jic.ac.uk",
+    "emailLower": "vera.thole@jic.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fef"
+    },
     "Name": "Sara Perez Vila",
-    "Funder Category": "Postdoc",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "sara.perezvila@teagasc.ie",
     "Platform Alignment": "P1.3",
@@ -4221,13 +4875,23 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "sara.perezvila@teagasc.ie",
+    "emailLower": "sara.perezvila@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff0"
+    },
     "Name": "Carolina Maciel",
-    "Funder Category": "Postdoc",
-    "Institution": "Sussex",
-    "Email (as per SESAME)": "carolina.maciel@sussex.ac.uk",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "University of Sussex",
+    "Email (as per SESAME)": "carolina.maciel@University of Sussex.ac.uk",
     "Platform Alignment": "P5",
     "Actions": null,
     "Healthy Diets": null,
@@ -4285,12 +4949,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Map and review animal health and welfare regulations affecting cross-border trade (pigs especially). Sanitary and Phytosanitary framework. "
+    "Brief description of intervention(s) they are working on": "Map and review animal health and welfare regulations affecting cross-border trade (pigs especially). Sanitary and Phytosanitary framework. ",
+    "AllFactor": null,
+    "Email": "carolina.maciel@University of Sussex.ac.uk",
+    "emailLower": "carolina.maciel@university of sussex.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff1"
+    },
     "Name": "Alysha Thompson",
-    "Funder Category": "Postdoc",
-    "Institution": "QUB",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "alysha.thompson@qub.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4349,12 +5023,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Nutritional epidemiology"
+    "Brief description of intervention(s) they are working on": "Nutritional epidemiology",
+    "AllFactor": null,
+    "Email": "alysha.thompson@qub.ac.uk",
+    "emailLower": "alysha.thompson@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff2"
+    },
     "Name": "Thanasis Tektonidis",
     "Funder Category": "Senior Research Fellow",
-    "Institution": "QUB",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "t.tektonidis@qub.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4413,12 +5097,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Epidemiology working on dietary quality indicies and enviornment and economy and health outcomes "
+    "Brief description of intervention(s) they are working on": "Epidemiology working on dietary quality indicies and enviornment and economy and health outcomes ",
+    "AllFactor": null,
+    "Email": "t.tektonidis@qub.ac.uk",
+    "emailLower": "t.tektonidis@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff3"
+    },
     "Name": "Fiona Croden",
     "Funder Category": "Other ",
-    "Institution": "Leeds",
+    "Column1": "Researcher",
+    "Institution": "University of Leeds",
     "Email (as per SESAME)": "f.c.croden@leeds.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4477,12 +5171,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "f.c.croden@leeds.ac.uk",
+    "emailLower": "f.c.croden@leeds.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff4"
+    },
     "Name": "Megan McTernan",
     "Funder Category": "PhD",
-    "Institution": "UCC",
+    "Column1": "PhD",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "120443634@umail.ucc.ie",
     "Platform Alignment": "P1.3",
     "Actions": null,
@@ -4541,12 +5245,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Plant protein blends for sustainable dairy alternatives"
+    "Brief description of intervention(s) they are working on": "Plant protein blends for sustainable dairy alternatives",
+    "AllFactor": null,
+    "Email": "120443634@umail.ucc.ie",
+    "emailLower": "120443634@umail.ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff5"
+    },
     "Name": "Chiara Conti",
     "Funder Category": "PhD",
-    "Institution": "UCC",
+    "Column1": "PhD",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "cconti@ucc.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4605,12 +5319,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Evaluation of approaches for feasible and nutritionally adequate healthy diets from sustainable sources in Ireland (to identify vulnerabilites to low nutrition security due to physiology, diet and household context (e.g., food access, food skills, kitchen facilities, food literacy) among individuals and households"
+    "Brief description of intervention(s) they are working on": "Evaluation of approaches for feasible and nutritionally adequate healthy diets from sustainable sources in Ireland (to identify vulnerabilites to low nutrition security due to physiology, diet and household context (e.g., food access, food skills, kitchen facilities, food literacy) among individuals and households",
+    "AllFactor": null,
+    "Email": "cconti@ucc.ie",
+    "emailLower": "cconti@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff6"
+    },
     "Name": "Michael O'Neill",
     "Funder Category": "PhD",
-    "Institution": "UCD",
+    "Column1": "PhD",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "michael.oneill4@ucdconnect.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4669,12 +5393,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Household food and health study "
+    "Brief description of intervention(s) they are working on": "Household food and health study ",
+    "AllFactor": null,
+    "Email": "michael.oneill4@ucdconnect.ie",
+    "emailLower": "michael.oneill4@ucdconnect.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff7"
+    },
     "Name": "Clare Gollogly",
     "Funder Category": "PhD",
-    "Institution": "UCD",
+    "Column1": "PhD",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "clare.gollogly1@ucdconnect.ie",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4733,12 +5467,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Household food and health study "
+    "Brief description of intervention(s) they are working on": "Household food and health study ",
+    "AllFactor": null,
+    "Email": "clare.gollogly1@ucdconnect.ie",
+    "emailLower": "clare.gollogly1@ucdconnect.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff8"
+    },
     "Name": "Emily Kruger",
     "Funder Category": "PhD",
-    "Institution": "UU",
+    "Column1": "PhD",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "krueger-es@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4797,12 +5541,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Household food and health study "
+    "Brief description of intervention(s) they are working on": "Household food and health study ",
+    "AllFactor": null,
+    "Email": "krueger-es@ulster.ac.uk",
+    "emailLower": "krueger-es@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ff9"
+    },
     "Name": "Geraldine Horigan",
     "Funder Category": "Other ",
-    "Institution": "UU",
+    "Column1": "Post Doc",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "gb.horigan@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -4861,12 +5615,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Household food and health study "
+    "Brief description of intervention(s) they are working on": "Household food and health study ",
+    "AllFactor": null,
+    "Email": "gb.horigan@ulster.ac.uk",
+    "emailLower": "gb.horigan@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ffa"
+    },
     "Name": "Roger Sykes",
     "Funder Category": "Other ",
-    "Institution": "Oxford ",
+    "Column1": "Not a researcher",
+    "Institution": "University of Oxford  ",
     "Email (as per SESAME)": "roger.sykes@eci.ox.ac.uk",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -4925,12 +5689,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "roger.sykes@eci.ox.ac.uk",
+    "emailLower": "roger.sykes@eci.ox.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ffb"
+    },
     "Name": "Louise Rice",
     "Funder Category": "Operations",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "l.rice@qub.ac.uk",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -4989,12 +5763,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "EPE Manager",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "l.rice@qub.ac.uk",
+    "emailLower": "l.rice@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ffc"
+    },
     "Name": "Cathy Wilson",
     "Funder Category": "Operations",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "cathy.wilson@qub.ac.uk",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -5053,12 +5837,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Operations Manager",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "cathy.wilson@qub.ac.uk",
+    "emailLower": "cathy.wilson@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ffd"
+    },
     "Name": "Eloise Tann",
     "Funder Category": "Research Asst.",
-    "Institution": "Sheffield",
+    "Column1": "Researcher",
+    "Institution": "University of Sheffield ",
     "Email (as per SESAME)": "e.e.tann@sheffield.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -5117,12 +5911,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "School breakfast clubs (access and quality)"
+    "Brief description of intervention(s) they are working on": "School breakfast clubs (access and quality)",
+    "AllFactor": null,
+    "Email": "e.e.tann@sheffield.ac.uk",
+    "emailLower": "e.e.tann@sheffield.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8ffe"
+    },
     "Name": "Manus Carey",
     "Funder Category": "Research Fellow",
-    "Institution": "QUB",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "m.p.carey@qub.ac.uk",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -5181,11 +5985,21 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Identification and quantification of food contaminants"
+    "Brief description of intervention(s) they are working on": "Identification and quantification of food contaminants",
+    "AllFactor": null,
+    "Email": "m.p.carey@qub.ac.uk",
+    "emailLower": "m.p.carey@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa8fff"
+    },
     "Name": "Rayhan Uddin",
     "Funder Category": "PhD",
+    "Column1": "PhD",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "rayhan.uddin@teagasc.ie",
     "Platform Alignment": "P2",
@@ -5245,12 +6059,22 @@
     "Completed survey to some extent": 1,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Mycotoxins in cereals, method validation and assessing mycotoxins in Irish grown cereals"
+    "Brief description of intervention(s) they are working on": "Mycotoxins in cereals, method validation and assessing mycotoxins in Irish grown cereals",
+    "AllFactor": null,
+    "Email": "rayhan.uddin@teagasc.ie",
+    "emailLower": "rayhan.uddin@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9000"
+    },
     "Name": "James Gillespie",
     "Funder Category": "Research Fellow",
-    "Institution": "QUB",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "j.gillespie@qub.ac.uk",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -5309,14 +6133,24 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Data modelling - ontology / FAIR data / toxicity "
+    "Brief description of intervention(s) they are working on": "Data modelling - ontology / FAIR data / toxicity ",
+    "AllFactor": null,
+    "Email": "j.gillespie@qub.ac.uk",
+    "emailLower": "j.gillespie@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9001"
+    },
     "Name": "Martina Rooney",
-    "Funder Category": "Operations",
-    "Institution": "UCD",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "martina.rooney@ucd.ie",
-    "Platform Alignment": "Operations",
+    "Platform Alignment": "P3",
     "Actions": null,
     "Healthy Diets": null,
     "Nutrient intake throughout life": 1,
@@ -5373,12 +6207,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": "Research Programme & Grants Manager",
-    "Brief description of intervention(s) they are working on": "Effect of animal and plant sourced food on human and planetary health"
+    "Brief description of intervention(s) they are working on": "Effect of animal and plant sourced food on human and planetary health",
+    "AllFactor": null,
+    "Email": "martina.rooney@ucd.ie",
+    "emailLower": "martina.rooney@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9002"
+    },
     "Name": "Gillian Cosgrave",
     "Funder Category": "Operations",
-    "Institution": "UCD",
+    "Column1": null,
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "gillian.cosgrave1@ucd.ie",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -5437,12 +6281,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Centre Manager",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "gillian.cosgrave1@ucd.ie",
+    "emailLower": "gillian.cosgrave1@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9003"
+    },
     "Name": "Emily Rockett",
     "Funder Category": "Operations",
-    "Institution": "Sheffield",
+    "Column1": null,
+    "Institution": "University of Sheffield ",
     "Email (as per SESAME)": "e.r.rockett@sheffield.ac.uk",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -5501,12 +6355,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "EPE & Programme Administrator",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "e.r.rockett@sheffield.ac.uk",
+    "emailLower": "e.r.rockett@sheffield.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9004"
+    },
     "Name": "Aisling Clarke",
     "Funder Category": "Operations",
-    "Institution": "UCD",
+    "Column1": null,
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "aisling.clarke@ucd.ie",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -5565,12 +6429,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Finance and Reporting Manager",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "aisling.clarke@ucd.ie",
+    "emailLower": "aisling.clarke@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9005"
+    },
     "Name": "Anne Blenkinsopp",
     "Funder Category": "Operations",
-    "Institution": "Sheffield",
+    "Column1": null,
+    "Institution": "University of Sheffield ",
     "Email (as per SESAME)": "a.blenkinsopp2@sheffield.ac.uk",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -5629,12 +6503,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Research Programme Manager",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "a.blenkinsopp2@sheffield.ac.uk",
+    "emailLower": "a.blenkinsopp2@sheffield.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9006"
+    },
     "Name": "Alva O'Loughlin Kennedy",
     "Funder Category": "Operations",
-    "Institution": "UCD",
+    "Column1": null,
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "alva.oloughlinkennedy@ucd.ie",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -5693,12 +6577,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Events & Digital Marketing",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "alva.oloughlinkennedy@ucd.ie",
+    "emailLower": "alva.oloughlinkennedy@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9007"
+    },
     "Name": "Prachi Punetha",
     "Funder Category": "PhD",
-    "Institution": "UCC",
+    "Column1": "PhD",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "124133029@umail.ucc.ie",
     "Platform Alignment": "P1.3",
     "Actions": null,
@@ -5757,12 +6651,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Protein-mineral interaction for enhancing mineral bioavailability. Currently, working on iron bioavailability"
+    "Brief description of intervention(s) they are working on": "Protein-mineral interaction for enhancing mineral bioavailability. Currently, working on iron bioavailability",
+    "AllFactor": null,
+    "Email": "124133029@umail.ucc.ie",
+    "emailLower": "124133029@umail.ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9008"
+    },
     "Name": "Aileen Leonie",
     "Funder Category": "Other ",
-    "Institution": "UU",
+    "Column1": "Researcher",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "a.lonie@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -5821,14 +6725,24 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "a.lonie@ulster.ac.uk",
+    "emailLower": "a.lonie@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9009"
+    },
     "Name": "Eoin Murphy ",
     "Funder Category": "Official Collaborator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "eoin.murphy@teagasc.ie",
-    "Platform Alignment": "TBC",
+    "Platform Alignment": "P1.1",
     "Actions": null,
     "Healthy Diets": null,
     "Nutrient intake throughout life": null,
@@ -5885,14 +6799,24 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Plant protein extraction process development "
+    "Brief description of intervention(s) they are working on": "Plant protein extraction process development ",
+    "AllFactor": null,
+    "Email": "eoin.murphy@teagasc.ie",
+    "emailLower": "eoin.murphy@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa900a"
+    },
     "Name": "Carlos Alvarez Garcia",
     "Funder Category": "Official Collaborator",
+    "Column1": null,
     "Institution": "Teagasc",
     "Email (as per SESAME)": "carlos.alvarez@teagasc.ie",
-    "Platform Alignment": "TBC",
+    "Platform Alignment": "Has moved jobs and no longer with Co-Centre",
     "Actions": null,
     "Healthy Diets": null,
     "Nutrient intake throughout life": null,
@@ -5949,12 +6873,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "carlos.alvarez@teagasc.ie",
+    "emailLower": "carlos.alvarez@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa900b"
+    },
     "Name": "Michelle Clements",
-    "Funder Category": "Other ",
-    "Institution": "UU",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "m.clements@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -6013,12 +6947,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Household food and health survey - transition to plant-rich diets"
+    "Brief description of intervention(s) they are working on": "Household food and health survey - transition to plant-rich diets",
+    "AllFactor": null,
+    "Email": "m.clements@ulster.ac.uk",
+    "emailLower": "m.clements@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa900c"
+    },
     "Name": "Rukmini Brahmachari ",
     "Funder Category": "PhD",
-    "Institution": "TU Dublin ",
+    "Column1": "PhD",
+    "Institution": "Technological University Dublin  ",
     "Email (as per SESAME)": "d24131757@mytudublin.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -6077,12 +7021,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Reducing food waste during postharvest"
+    "Brief description of intervention(s) they are working on": "Reducing food waste during postharvest",
+    "AllFactor": null,
+    "Email": "d24131757@mytudublin.ie",
+    "emailLower": "d24131757@mytudublin.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa900d"
+    },
     "Name": "Indrani Bera",
     "Funder Category": "Research Scientist",
-    "Institution": "UCD",
+    "Column1": "Post Doc",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "indrani.bera@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -6141,12 +7095,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Analysing human samples with plant-based diets"
+    "Brief description of intervention(s) they are working on": "Analysing human samples with plant-based diets",
+    "AllFactor": null,
+    "Email": "indrani.bera@ucd.ie",
+    "emailLower": "indrani.bera@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa900e"
+    },
     "Name": "Rameesha Ahmad",
     "Funder Category": "PhD",
-    "Institution": "UCC",
+    "Column1": "PhD",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "125106262@umail.ucc.ie",
     "Platform Alignment": "P1.4",
     "Actions": null,
@@ -6160,7 +7124,7 @@
     "Nutrition and health claims": null,
     "Transparency  of production of products deriving from animals": null,
     "Agrifood investment": null,
-    "Knowledge and skills": null,
+    "Knowledge and skills": 1,
     "Business practices and technology": 1,
     "Investment attractiveness": null,
     "Profit": null,
@@ -6205,12 +7169,22 @@
     "Completed survey to some extent": 4,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Farmers, media framing. In-depth interviews"
+    "Brief description of intervention(s) they are working on": "Farmers, media framing. In-depth interviews",
+    "AllFactor": null,
+    "Email": "125106262@umail.ucc.ie",
+    "emailLower": "125106262@umail.ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa900f"
+    },
     "Name": "Conor Holohan",
     "Funder Category": "Operations",
-    "Institution": "UCD",
+    "Column1": null,
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "conor.holohan@ucd.ie",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -6269,12 +7243,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "Business Development Manager",
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "conor.holohan@ucd.ie",
+    "emailLower": "conor.holohan@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9010"
+    },
     "Name": "Michelle Savian",
     "Funder Category": "Post Doc",
-    "Institution": "UCD",
+    "Column1": "Post Doc",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "michelle.savian1@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
@@ -6302,19 +7286,19 @@
     "Commercial risk management": null,
     "Food self-sufficiency": null,
     "Trading relationships": null,
-    "Air quality": null,
+    "Air quality": 1,
     "Greenhouse gas emissions": 1,
     "Water vapour": null,
-    "Biomass": null,
-    "Functional biodiversity": null,
+    "Biomass": 1,
+    "Functional biodiversity": 1,
     "Genetic diversity": null,
     "Net primary productivity": null,
     "Species richness": null,
-    "Non-renewable resources": null,
+    "Non-renewable resources": 1,
     "Soil carbon": null,
     "Soil degradation": null,
     "Soil erosion and deposition": null,
-    "Freshwater extraction": null,
+    "Freshwater extraction": 1,
     "Nitrogen and phosphorous loading": 1,
     "Water quality": 1,
     "Water temperature": null,
@@ -6333,14 +7317,24 @@
     "Completed survey to some extent": 8,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Life cycle analysis"
+    "Brief description of intervention(s) they are working on": "Life cycle analysis",
+    "AllFactor": null,
+    "Email": "michelle.savian1@ucd.ie",
+    "emailLower": "michelle.savian1@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9011"
+    },
     "Name": "Niamh Zi Ching Yep ",
     "Funder Category": "PhD",
-    "Institution": "UCD",
+    "Column1": "PhD",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "niamh.yep@ucdconnect.ie",
-    "Platform Alignment": "P3, P4",
+    "Platform Alignment": "P3",
     "Actions": null,
     "Healthy Diets": 1,
     "Nutrient intake throughout life": null,
@@ -6397,12 +7391,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Transition towards HDSS "
+    "Brief description of intervention(s) they are working on": "Transition towards HDSS ",
+    "AllFactor": null,
+    "Email": "niamh.yep@ucdconnect.ie",
+    "emailLower": "niamh.yep@ucdconnect.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9012"
+    },
     "Name": "Nicky Bondonno",
     "Funder Category": "Research Fellow",
-    "Institution": "QUB",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "n.bondonno@qub.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -6461,12 +7465,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "n.bondonno@qub.ac.uk",
+    "emailLower": "n.bondonno@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9013"
+    },
     "Name": "Paul Donnelly",
     "Funder Category": "Post Doc",
-    "Institution": "QUB",
+    "Column1": "Post Doc",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "paul.donnelly@qub.ac.uk",
     "Platform Alignment": "P1.2",
     "Actions": null,
@@ -6525,12 +7539,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Methane supressing feed additives. Ruminant dietar interventions. Diversity and function. Ruminant metagenomics. "
+    "Brief description of intervention(s) they are working on": "Methane supressing feed additives. Ruminant dietar interventions. Diversity and function. Ruminant metagenomics. ",
+    "AllFactor": null,
+    "Email": "paul.donnelly@qub.ac.uk",
+    "emailLower": "paul.donnelly@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9014"
+    },
     "Name": "Marina Mitchell",
     "Funder Category": "PhD",
-    "Institution": "UCD",
+    "Column1": "PhD",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "marina.mitchell@ucdconnect.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -6589,12 +7613,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Working on producing resistant wheat cultivars again two major fungal diseases, one of which produces a toxin in grain that is harmful to humans and animals."
+    "Brief description of intervention(s) they are working on": "Working on producing resistant wheat cultivars again two major fungal diseases, one of which produces a toxin in grain that is harmful to humans and animals.",
+    "AllFactor": null,
+    "Email": "marina.mitchell@ucdconnect.ie",
+    "emailLower": "marina.mitchell@ucdconnect.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9015"
+    },
     "Name": "James McMullan",
     "Funder Category": "Post Doc",
-    "Institution": "UU",
+    "Column1": "PhD",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "j.mcmullan@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -6653,12 +7687,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Utilising marine by products as novel supplements for health to maximise marine resource use "
+    "Brief description of intervention(s) they are working on": "Utilising marine by products as novel supplements for health to maximise marine resource use ",
+    "AllFactor": null,
+    "Email": "j.mcmullan@ulster.ac.uk",
+    "emailLower": "j.mcmullan@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9016"
+    },
     "Name": "Megan Thompson",
-    "Funder Category": "Phd",
-    "Institution": "UU",
+    "Funder Category": "PhD",
+    "Column1": "PhD",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": "thompson-M54@ulster.ac.uk",
     "Platform Alignment": "P3",
     "Actions": null,
@@ -6717,11 +7761,21 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "thompson-M54@ulster.ac.uk",
+    "emailLower": "thompson-m54@ulster.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9017"
+    },
     "Name": "Elena Anedda",
     "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "elena.anedda@teagasc.ie",
     "Platform Alignment": "P2",
@@ -6781,11 +7835,21 @@
     "Completed survey to some extent": 1,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Microbiological risks assessment in pig production and horticultural production systems"
+    "Brief description of intervention(s) they are working on": "Microbiological risks assessment in pig production and horticultural production systems",
+    "AllFactor": null,
+    "Email": "elena.anedda@teagasc.ie",
+    "emailLower": "elena.anedda@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9018"
+    },
     "Name": "Fani Goltsios",
     "Funder Category": "PhD",
+    "Column1": "PhD",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "fani.goltsios@teagasc.ie",
     "Platform Alignment": "P2",
@@ -6845,11 +7909,21 @@
     "Completed survey to some extent": 1,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Microbiological risk assessment in horticultural crop production"
+    "Brief description of intervention(s) they are working on": "Microbiological risk assessment in horticultural crop production",
+    "AllFactor": null,
+    "Email": "fani.goltsios@teagasc.ie",
+    "emailLower": "fani.goltsios@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9019"
+    },
     "Name": "Rojaalsadat Mousavi",
     "Funder Category": "PhD",
+    "Column1": "PhD",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "rojaalsadat.mousavi@teagasc.ie",
     "Platform Alignment": "P2",
@@ -6909,12 +7983,22 @@
     "Completed survey to some extent": 1,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Microbiological risks in sustainable pig production systems "
+    "Brief description of intervention(s) they are working on": "Microbiological risks in sustainable pig production systems ",
+    "AllFactor": null,
+    "Email": "rojaalsadat.mousavi@teagasc.ie",
+    "emailLower": "rojaalsadat.mousavi@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa901a"
+    },
     "Name": "Bhashika Sithijanee",
     "Funder Category": "PhD",
-    "Institution": "UCC",
+    "Column1": "PhD",
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "124133721@umail.ucc.ie",
     "Platform Alignment": "P1.3",
     "Actions": null,
@@ -6973,12 +8057,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Developing hybrids which focus towards sustainable and nutritional aspects with regards to micronutrient deficiency "
+    "Brief description of intervention(s) they are working on": "Developing hybrids which focus towards sustainable and nutritional aspects with regards to micronutrient deficiency ",
+    "AllFactor": null,
+    "Email": "124133721@umail.ucc.ie",
+    "emailLower": "124133721@umail.ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa901b"
+    },
     "Name": "Roshani Badgami",
     "Funder Category": "Post Doc",
-    "Institution": "JIC",
+    "Column1": "Post Doc",
+    "Institution": "John Innes Centre",
     "Email (as per SESAME)": "roshani.badgami@jic.ac.uk",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -7037,12 +8131,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "roshani.badgami@jic.ac.uk",
+    "emailLower": "roshani.badgami@jic.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa901c"
+    },
     "Name": "Stephen Lavery",
     "Funder Category": "Operations",
-    "Institution": "QUB",
+    "Column1": null,
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "s.lavery@qub.ac.uk",
     "Platform Alignment": "Operations",
     "Actions": null,
@@ -7101,12 +8205,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "s.lavery@qub.ac.uk",
+    "emailLower": "s.lavery@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa901d"
+    },
     "Name": "Aven Beech",
     "Funder Category": "PhD",
-    "Institution": "UCD",
+    "Column1": "PhD",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "aven.beech@ucdconnect.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -7165,12 +8279,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Rhizosphere microbiome as a support for barley crop yield, minimizing nitrogen fertilizer use"
+    "Brief description of intervention(s) they are working on": "Rhizosphere microbiome as a support for barley crop yield, minimizing nitrogen fertilizer use",
+    "AllFactor": null,
+    "Email": "aven.beech@ucdconnect.ie",
+    "emailLower": "aven.beech@ucdconnect.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa901e"
+    },
     "Name": "Holly Montgomery",
     "Funder Category": "PhD",
-    "Institution": "QUB",
+    "Column1": "PhD",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "hmontgomery08@qub.ac.uk",
     "Platform Alignment": "P2",
     "Actions": null,
@@ -7229,12 +8353,22 @@
     "Completed survey to some extent": 2,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Identifying chemical contaminants within the animal feed sector (case studies)"
+    "Brief description of intervention(s) they are working on": "Identifying chemical contaminants within the animal feed sector (case studies)",
+    "AllFactor": null,
+    "Email": "hmontgomery08@qub.ac.uk",
+    "emailLower": "hmontgomery08@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa901f"
+    },
     "Name": "Karen Gilmore",
     "Funder Category": "PhD",
-    "Institution": "QUB",
+    "Column1": "PhD",
+    "Institution": "Queens University Belfast",
     "Email (as per SESAME)": "kgilmore15@qub.ac.uk",
     "Platform Alignment": "P1.2",
     "Actions": null,
@@ -7293,12 +8427,22 @@
     "Completed survey to some extent": 1,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Enteric methane emission from rumen through diet"
+    "Brief description of intervention(s) they are working on": "Enteric methane emission from rumen through diet",
+    "AllFactor": null,
+    "Email": "kgilmore15@qub.ac.uk",
+    "emailLower": "kgilmore15@qub.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9020"
+    },
     "Name": "Tancredi Caruso",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "tancredi.caruso@ucd.ie",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -7357,11 +8501,21 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "tancredi.caruso@ucd.ie",
+    "emailLower": "tancredi.caruso@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9021"
+    },
     "Name": "Atikur Rahman",
-    "Funder Category": "R",
+    "Funder Category": "Official Collaborator",
+    "Column1": "Investigator",
     "Institution": "Teagasc",
     "Email (as per SESAME)": "atikur.rahman@teagasc.ie",
     "Platform Alignment": null,
@@ -7421,13 +8575,23 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Improved agronomy, high nutrition oat genetic materials, improving phosphorus and potassium efficiency"
+    "Brief description of intervention(s) they are working on": "Improved agronomy, high nutrition oat genetic materials, improving phosphorus and potassium efficiency",
+    "AllFactor": null,
+    "Email": "atikur.rahman@teagasc.ie",
+    "emailLower": "atikur.rahman@teagasc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9022"
+    },
     "Name": "Jordan Young",
     "Funder Category": "PhD",
-    "Institution": "AFBI",
-    "Email (as per SESAME)": "Jordan.Young@afbini.gov.uk",
+    "Column1": "PhD",
+    "Institution": "Agri-Food and Biosciences Institute",
+    "Email (as per SESAME)": "Jordan.Young@Agri-Food and Biosciences Instituteni.gov.uk",
     "Platform Alignment": "P1",
     "Actions": null,
     "Healthy Diets": null,
@@ -7485,12 +8649,22 @@
     "Completed survey to some extent": 3,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "Jordan.Young@Agri-Food and Biosciences Instituteni.gov.uk",
+    "emailLower": "jordan.young@agri-food and biosciences instituteni.gov.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9023"
+    },
     "Name": "Casey Barrett",
     "Funder Category": "Research Assistant",
-    "Institution": "UCD",
+    "Column1": "Researcher",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "casey.barrett@ucd.ie ",
     "Platform Alignment": "P1.1",
     "Actions": null,
@@ -7552,9 +8726,13 @@
     "Brief description of intervention(s) they are working on": "My research works on a host-directed genetic and biological intervention to enhance wheat’s innate defence mechanisms against Zymoseptoria tritici, the causal agent of Septoria tritici blotch disease (STB). STB is a major foliar disease of wheat currently managed primarily through fungicide application and resistance breeding. However the rapidly evolving nature of the pathogen leads to the need for identification of additional host genes in order to support sustainable resistance and reduce reliance on chemical fungicides. This project functionally characterises wheat genes involved in key regulatory pathways associated with stress adaptation. This intervention aligns with clean and healthy planet outcome by targeting host genetic diversity within the wheat biosphere. This enhances plant production under stress, reduces fungicide dependency and supports sustained cereal disease management."
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9024"
+    },
     "Name": "Sean Tanner",
     "Funder Category": "Official Collaborator",
-    "Institution": "UCC",
+    "Column1": null,
+    "Institution": "University College Cork",
     "Email (as per SESAME)": "sean.tanner@ucc.ie",
     "Platform Alignment": "P1.4",
     "Actions": null,
@@ -7613,76 +8791,22 @@
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": null
+    "Brief description of intervention(s) they are working on": null,
+    "AllFactor": null,
+    "Email": "sean.tanner@ucc.ie",
+    "emailLower": "sean.tanner@ucc.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
-    "Name": "Joanne Lemon",
-    "Funder Category": "Official Collaborator",
-    "Institution": "DAERA",
-    "Email (as per SESAME)": null,
-    "Platform Alignment": null,
-    "Actions": null,
-    "Healthy Diets": null,
-    "Nutrient intake throughout life": null,
-    "Diet-related chronic disease": null,
-    "Population weight status": null,
-    "Foodborne microbiological physical and chemical contaminents": null,
-    "Environmental sustainability claims": null,
-    "Food fraud": null,
-    "Nutrition and health claims": null,
-    "Transparency  of production of products deriving from animals": null,
-    "Agrifood investment": null,
-    "Knowledge and skills": null,
-    "Business practices and technology": null,
-    "Investment attractiveness": null,
-    "Profit": 1,
-    "Revenue": null,
-    "Yield": null,
-    "Consumer habits": null,
-    "Degree of structural reconfiguration": null,
-    "Food loss": null,
-    "Packaging": null,
-    "Responsible sourcing": null,
-    "Commercial risk management": null,
-    "Food self-sufficiency": null,
-    "Trading relationships": null,
-    "Air quality": null,
-    "Greenhouse gas emissions": null,
-    "Water vapour": null,
-    "Biomass": null,
-    "Functional biodiversity": null,
-    "Genetic diversity": null,
-    "Net primary productivity": null,
-    "Species richness": null,
-    "Non-renewable resources": null,
-    "Soil carbon": null,
-    "Soil degradation": null,
-    "Soil erosion and deposition": null,
-    "Freshwater extraction": null,
-    "Nitrogen and phosphorous loading": 1,
-    "Water quality": null,
-    "Water temperature": null,
-    "Access": null,
-    "Agency": null,
-    "Cultural appropriateness": null,
-    "Food behaviour": null,
-    "Food environment": null,
-    "Food literacy": 1,
-    "Food waste": null,
-    "Dignified work environments": null,
-    "Social externalities": null,
-    "Environmental externalities": null,
-    "Recognition of nature's contribution to human wellbeing": null,
-    "Treatment during production, transport and slaughter": null,
-    "Completed survey to some extent": 3,
-    "Contacted?": null,
-    "Co-Centre Role": null,
-    "Brief description of intervention(s) they are working on": "Smart agriculture, methane-supressing food additives, crops (protein, whit eclover integration) and other feed interventions"
-  },
-  {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9025"
+    },
     "Name": "Catherine Hughes",
-    "Funder Category": "R",
-    "Institution": "UU",
+    "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
+    "Institution": "Ulster University",
     "Email (as per SESAME)": null,
     "Platform Alignment": "P3",
     "Actions": null,
@@ -7744,11 +8868,15 @@
     "Brief description of intervention(s) they are working on": "Household food study. Random control trial transition to sustainable diets"
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9026"
+    },
     "Name": "Cathal McCabe",
-    "Funder Category": "R",
-    "Institution": null,
+    "Funder Category": "Funded Investigator",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": null,
-    "Platform Alignment": null,
+    "Platform Alignment": "P1.1",
     "Actions": null,
     "Healthy Diets": null,
     "Nutrient intake throughout life": null,
@@ -7763,8 +8891,8 @@
     "Knowledge and skills": null,
     "Business practices and technology": null,
     "Investment attractiveness": null,
-    "Profit": null,
-    "Revenue": null,
+    "Profit": 1,
+    "Revenue": 1,
     "Yield": 1,
     "Consumer habits": null,
     "Degree of structural reconfiguration": null,
@@ -7808,47 +8936,232 @@
     "Brief description of intervention(s) they are working on": "Identifying more sustainable varieties"
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9027"
+    },
     "Name": "Alice Gilmour",
-    "Funder Category": "Postdoc",
-    "Institution": "Oxford",
+    "Funder Category": "Post Doc",
+    "Column1": "Post Doc",
+    "Institution": "University of Oxford ",
     "Email (as per SESAME)": "alice.gilmour@ouce.ox.ac.uk",
     "Platform Alignment": "P4",
     "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": null,
+    "Functional biodiversity": null,
+    "Genetic diversity": null,
+    "Net primary productivity": null,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
     "Brief description of intervention(s) they are working on": "Work cuts across/supports all areas",
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "alice.gilmour@ouce.ox.ac.uk",
+    "emailLower": "alice.gilmour@ouce.ox.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9028"
+    },
     "Name": "Yunan Li",
     "Funder Category": "Post Doc",
-    "Institution": "UCD",
+    "Column1": "Post Doc",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "yunan.li@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": null,
+    "Functional biodiversity": null,
+    "Genetic diversity": null,
+    "Net primary productivity": null,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
     "Brief description of intervention(s) they are working on": "Work is building the data visualization tool, which does not focus on only one Factor.",
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "yunan.li@ucd.ie",
+    "emailLower": "yunan.li@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa9029"
+    },
     "Name": "Michela Bertolotto",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "michela.bertolotto@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": null,
+    "Functional biodiversity": null,
+    "Genetic diversity": null,
+    "Net primary productivity": null,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
     "Brief description of intervention(s) they are working on": "our work is not addressing directly any of the food system issues in the compass but indirectly cuts across/supports all of them.",
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "michela.bertolotto@ucd.ie",
+    "emailLower": "michela.bertolotto@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa902a"
+    },
     "Name": "Jing Zhang",
-    "Funder Category": null,
     "Institution": "Oxford",
     "Email (as per SESAME)": "jing.zhang@biology.ox.ac.uk",
     "Platform Alignment": "P4",
@@ -7857,58 +9170,381 @@
     "Contacted?": null,
     "Co-Centre Role": null,
     "Brief description of intervention(s) they are working on": null,
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "jing.zhang@biology.ox.ac.uk",
+    "emailLower": "jing.zhang@biology.ox.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T10:27:56.341Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa902b"
+    },
     "Name": "Hung Ngo",
     "Funder Category": "Post Doc",
-    "Institution": "UCD",
+    "Column1": "Post Doc",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "hung.ngo@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": null,
+    "Functional biodiversity": null,
+    "Genetic diversity": null,
+    "Net primary productivity": null,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
     "Brief description of intervention(s) they are working on": "Work spans all areas",
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "hung.ngo@ucd.ie",
+    "emailLower": "hung.ngo@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa902c"
+    },
     "Name": "Tahar Kechadi",
     "Funder Category": "Funded Investigator",
-    "Institution": "UCD",
+    "Column1": "Investigator",
+    "Institution": "University College Dublin",
     "Email (as per SESAME)": "tahar.kechadi@ucd.ie",
     "Platform Alignment": "P4",
     "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": null,
+    "Functional biodiversity": null,
+    "Genetic diversity": null,
+    "Net primary productivity": null,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 0,
     "Contacted?": "YES",
     "Co-Centre Role": null,
     "Brief description of intervention(s) they are working on": "Data visualisation, knowledge representation, and analysis. We are in Platform 4, which is not explicitly represented in this Compass. As per your small picture representing the rings, we are working on the outer ring (Variables: Data and Metrics).",
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "tahar.kechadi@ucd.ie",
+    "emailLower": "tahar.kechadi@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa902d"
+    },
     "Name": "John Ingram",
     "Funder Category": "Co-PI",
-    "Institution": "Oxford",
+    "Column1": "PI",
+    "Institution": "University of Oxford ",
     "Email (as per SESAME)": "john.ingram@eci.ox.ac.uk",
     "Platform Alignment": "P4",
     "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": null,
+    "Functional biodiversity": null,
+    "Genetic diversity": null,
+    "Net primary productivity": null,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": "(EMC) & RPO Lead",
     "Brief description of intervention(s) they are working on": "Work cuts across/supports all areas",
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "john.ingram@eci.ox.ac.uk",
+    "emailLower": "john.ingram@eci.ox.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   },
   {
+    "_id": {
+      "$oid": "69b804eca8c3abe438aa902e"
+    },
     "Name": "Monika Zurek",
     "Funder Category": "Official Collaborator",
-    "Institution": "Oxford",
+    "Column1": "Investigator",
+    "Institution": "University of Oxford ",
     "Email (as per SESAME)": "monika.zurek@eci.ox.ac.uk",
     "Platform Alignment": "P4",
     "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": null,
+    "Functional biodiversity": null,
+    "Genetic diversity": null,
+    "Net primary productivity": null,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
     "Completed survey to some extent": 0,
     "Contacted?": null,
     "Co-Centre Role": null,
     "Brief description of intervention(s) they are working on": "Work cuts across/supports all areas",
-    "AllFactor": 1
+    "AllFactor": 1,
+    "Email": "monika.zurek@eci.ox.ac.uk",
+    "emailLower": "monika.zurek@eci.ox.ac.uk",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69bac0e13a4d8e3e7b8137ae"
+    },
+    "Name": "Casey Barrett",
+    "Funder Category": "Research Assistant",
+    "Column1": "Researcher",
+    "Institution": "University College Dublin",
+    "Email (as per SESAME)": "casey.barrett@ucd.ie ",
+    "Platform Alignment": "P1.1",
+    "Actions": null,
+    "Healthy Diets": null,
+    "Nutrient intake throughout life": null,
+    "Diet-related chronic disease": null,
+    "Population weight status": null,
+    "Foodborne microbiological physical and chemical contaminents": null,
+    "Environmental sustainability claims": null,
+    "Food fraud": null,
+    "Nutrition and health claims": null,
+    "Transparency  of production of products deriving from animals": null,
+    "Agrifood investment": null,
+    "Knowledge and skills": null,
+    "Business practices and technology": null,
+    "Investment attractiveness": null,
+    "Profit": null,
+    "Revenue": null,
+    "Yield": null,
+    "Consumer habits": null,
+    "Degree of structural reconfiguration": null,
+    "Food loss": null,
+    "Packaging": null,
+    "Responsible sourcing": null,
+    "Commercial risk management": null,
+    "Food self-sufficiency": null,
+    "Trading relationships": null,
+    "Air quality": null,
+    "Greenhouse gas emissions": null,
+    "Water vapour": null,
+    "Biomass": 1,
+    "Functional biodiversity": null,
+    "Genetic diversity": 1,
+    "Net primary productivity": 1,
+    "Species richness": null,
+    "Non-renewable resources": null,
+    "Soil carbon": null,
+    "Soil degradation": null,
+    "Soil erosion and deposition": null,
+    "Freshwater extraction": null,
+    "Nitrogen and phosphorous loading": null,
+    "Water quality": null,
+    "Water temperature": null,
+    "Access": null,
+    "Agency": null,
+    "Cultural appropriateness": null,
+    "Food behaviour": null,
+    "Food environment": null,
+    "Food literacy": null,
+    "Food waste": null,
+    "Dignified work environments": null,
+    "Social externalities": null,
+    "Environmental externalities": null,
+    "Recognition of nature's contribution to human wellbeing": null,
+    "Treatment during production, transport and slaughter": null,
+    "Completed survey to some extent": 3,
+    "Contacted?": null,
+    "Co-Centre Role": null,
+    "Brief description of intervention(s) they are working on": "My research works on a host-directed genetic and biological intervention to enhance wheat’s innate defence mechanisms against Zymoseptoria tritici, the causal agent of Septoria tritici blotch disease (STB). STB is a major foliar disease of wheat currently managed primarily through fungicide application and resistance breeding. However the rapidly evolving nature of the pathogen leads to the need for identification of additional host genes in order to support sustainable resistance and reduce reliance on chemical fungicides. This project functionally characterises wheat genes involved in key regulatory pathways associated with stress adaptation. This intervention aligns with clean and healthy planet outcome by targeting host genetic diversity within the wheat biosphere. This enhances plant production under stress, reduces fungicide dependency and supports sustained cereal disease management.",
+    "AllFactor": null,
+    "Email": "casey.barrett@ucd.ie",
+    "emailLower": "casey.barrett@ucd.ie",
+    "updatedAt": {
+      "$date": "2026-03-19T14:08:27.490Z"
+    }
   }
 ]

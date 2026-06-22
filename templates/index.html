@@ -5,50 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Co-Centre for Sustainable Food Systems</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        .search-container {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-        }
-        
-        .document-content {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        
-        .field-row {
-            margin: 8px 0;
-            padding: 5px 0;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .field-row:last-child {
-            border-bottom: none;
-        }
-        
-        .field-value {
-            word-break: break-all;
-            line-height: 1.4;
-        }
-        
-        .data-item {
-            margin: 15px 0;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        #keyword-search:focus {
-            outline: none;
-            border-color: #4a7c59;
-            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
-        }
-    </style>
+    
+<link rel="stylesheet" href="{{ url_for('static', filename='index.page.css') }}">
 </head>
 <body>
     <header>
@@ -96,7 +54,7 @@
                     </div>
                 </a>
                 
-                <a href="{{ url_for('d3viz2') }}" target="_blank" class="nav-link food-compass">
+                <a href="{{ url_for('intro') }}" target="_blank" class="nav-link food-compass">
                     <div class="link-content">
                         <h3>Food Co-Centre Sustainability Compass</h3>
                         <p>Interactive visualization of sustainable food systems</p>
@@ -131,7 +89,7 @@
                 <div class="search-container" style="margin: 20px 0;">
                     <h3>Keyword Search</h3>
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                        <input type="text" id="keyword-search" placeholder="Enter keyword to search..." style="flex: 1; min-width: 200px; padding: 8px; border: 2px solid #4a7c59; border-radius: 5px;">
+                        <input type="text" id="keyword-search" placeholder="Enter keywords (comma or space separated)..." style="flex: 1; min-width: 200px; padding: 8px; border: 2px solid #4a7c59; border-radius: 5px;">
                         <button onclick="searchKeyword()" class="dataset-btn" style="background: #4a7c59; color: white;">🔍 Search</button>
                         <button onclick="clearSearch()" class="dataset-btn" style="background: #6c757d; color: white;">Clear</button>
                     </div>
@@ -326,26 +284,100 @@
             }
             
             try {
-                const response = await fetch(`/api/dataset/filter?goal=${encodeURIComponent(keyword)}`);
+                // Support multi-keyword search (comma or space separated) via `keyword=...`
+                const response = await fetch(`/api/dataset/filter?keyword=${encodeURIComponent(keyword)}`);
                 const data = await response.json();
                 
                 if (data.success) {
                     document.getElementById('excel-preview').style.display = 'block';
                     document.getElementById('dataset-content').style.display = 'none';
                     
-                    // Convert data to table format
+                    // Convert data to table format (and split full/partial matches when multi-keyword)
                     const headers = data.available_fields || [];
-                    const tableData = data.records.map(record => 
-                        headers.map(header => record[header] || '')
-                    );
-                    
-                    displayExcelData(headers, tableData);
+                    const meta = data.keyword_search || null;
+                    const scoresById = meta?.scores_by_id || {};
+                    const total = meta?.total_keywords || 0;
+
+                    function buildHtmlTable(rows) {
+                        const safe = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                        let html = `<div class="excel-table-container"><table class="excel-table"><thead><tr>`;
+                        html += headers.map(h => `<th>${safe(h)}</th>`).join('');
+                        html += `</tr></thead><tbody>`;
+                        rows.forEach(record => {
+                            html += '<tr>';
+                            headers.forEach(h => {
+                                const cell = record[h] ?? '';
+                                const cellStr = (typeof cell === 'object') ? JSON.stringify(cell, null, 0) : String(cell);
+                                if (h === 'Url' && cellStr && cellStr.startsWith('http')) {
+                                    html += `<td><a href="${safe(cellStr)}" target="_blank" style="color:#007bff; text-decoration: underline;">${safe(cellStr)}</a></td>`;
+                                } else {
+                                    html += `<td>${safe(cellStr)}</td>`;
+                                }
+                            });
+                            html += '</tr>';
+                        });
+                        html += `</tbody></table></div>`;
+                        return html;
+                    }
+
+                    // Remove any previous grouped tables
+                    const oldGrouped = document.getElementById('keyword-search-grouped');
+                    if (oldGrouped && oldGrouped.parentNode) oldGrouped.parentNode.removeChild(oldGrouped);
+
+                    if (meta && total > 1) {
+                        const full = [];
+                        const partial = [];
+                        (data.records || []).forEach(r => {
+                            const sid = String(r._id || '');
+                            const score = scoresById[sid]?.match_count ?? 0;
+                            if (score >= total) full.push(r);
+                            else partial.push(r);
+                        });
+
+                        // Hide the built-in single table and render grouped tables instead
+                        const excelContainer = document.querySelector('#excel-preview .excel-table-container');
+                        if (excelContainer) excelContainer.style.display = 'none';
+
+                        const wrap = document.createElement('div');
+                        wrap.id = 'keyword-search-grouped';
+                        wrap.innerHTML = `
+                            <div style="margin: 10px 0 6px; font-weight: 800; color: #2f5f3a;">✅ Full match (matches all keywords): ${full.length}</div>
+                            ${full.length ? buildHtmlTable(full) : `<div style="padding:10px; background:#fff3cd; border-radius:6px; border:1px solid #ffeeba;">No articles match all keywords. Showing best partial matches below.</div>`}
+                            <div style="margin: 16px 0 6px; font-weight: 800; color: #6b4b00;">🟨 Partial match (ranked by match count): ${partial.length}</div>
+                            ${partial.length ? buildHtmlTable(partial) : `<div style="padding:10px; background:#f8d7da; border-radius:6px; border:1px solid #f5c6cb;">No partial matches.</div>`}
+                        `;
+                        document.getElementById('excel-preview').appendChild(wrap);
+                    } else {
+                        // Show the built-in single table
+                        const excelContainer = document.querySelector('#excel-preview .excel-table-container');
+                        if (excelContainer) excelContainer.style.display = 'block';
+
+                        const tableData = data.records.map(record =>
+                            headers.map(header => record[header] || '')
+                        );
+                        displayExcelData(headers, tableData);
+                    }
                     
                     // Show search results info
+                    const existing = document.getElementById('keyword-search-info');
+                    if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+                    let summary = `${data.count} records found`;
+                    if (meta && meta.total_keywords > 1) {
+                        if (meta.mode === 'all_keywords') {
+                            summary = `${data.count} records found. ${meta.full_match_count} match all keywords (${meta.total_keywords}/${meta.total_keywords}).`;
+                        } else if (meta.mode === 'partial_best_match') {
+                            summary = `The articles that most match the keywords: best match ${meta.best_match_count}/${meta.total_keywords}. Showing ${data.count} records that match at least one keyword.`;
+                        } else {
+                            summary = `No records match any of the keywords.`;
+                        }
+                    }
+                    const keywordsList = meta?.keywords?.length ? meta.keywords.join(', ') : keyword;
                     const searchInfo = document.createElement('div');
+                    searchInfo.id = 'keyword-search-info';
                     searchInfo.innerHTML = `
                         <div style="background: #e8f5e8; padding: 10px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #4a7c59;">
-                            <strong>Search Results for "${keyword}":</strong> ${data.count} records found
+                            <strong>Search Results:</strong> ${summary}<br/>
+                            <span style="color:#2f5f3a;"><strong>Keywords:</strong> ${keywordsList}</span>
                         </div>
                     `;
                     document.getElementById('excel-preview').insertBefore(searchInfo, document.getElementById('excel-preview').firstChild);
@@ -362,6 +394,12 @@
             document.getElementById('keyword-search').value = '';
             document.getElementById('excel-preview').style.display = 'none';
             document.getElementById('dataset-content').style.display = 'none';
+            const existing = document.getElementById('keyword-search-info');
+            if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+            const grouped = document.getElementById('keyword-search-grouped');
+            if (grouped && grouped.parentNode) grouped.parentNode.removeChild(grouped);
+            const excelContainer = document.querySelector('#excel-preview .excel-table-container');
+            if (excelContainer) excelContainer.style.display = 'block';
         }
 
         // Check database connection on page load

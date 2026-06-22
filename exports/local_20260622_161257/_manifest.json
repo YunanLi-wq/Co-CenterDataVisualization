@@ -1,0 +1,13 @@
+{
+  "database": "local",
+  "exported_at": "2026-06-22T16:12:57",
+  "collections": {
+    "rolNLDraft": 125,
+    "Researcher": 130,
+    "Compass": 4,
+    "Manager": 1,
+    "HigherManager": 1,
+    "PendingItems": 2,
+    "description": 4
+  }
+}

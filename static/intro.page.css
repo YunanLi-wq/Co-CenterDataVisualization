@@ -1,0 +1,291 @@
+:root {
+      --font-body: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --font-heading: "Jeko", "Jeko Bold", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    @font-face {
+      font-family: "Jeko";
+      font-style: normal;
+      font-weight: 700;
+      src: local("Jeko Bold"), local("Jeko-Bold"), local("Jeko");
+    }
+
+    body {
+      font-family: var(--font-body);
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6b8e23 100%);
+      min-height: 100vh;
+      color: #fff;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+    }
+
+    .page-wrap {
+      /* Give the header a bit more breathing room on wide screens */
+      width: min(100%, 1180px);
+      margin: 0 auto;
+    }
+
+    .hero-section {
+      height: calc(100vh - 40px);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 14px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-top: 4px;
+      /* Keep buttons + title on the same row */
+      flex-wrap: nowrap;
+    }
+
+    .header-content {
+      text-align: center;
+      max-width: 100%;
+      /* Allow the title block to shrink so the text can wrap */
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+
+    .header h1 {
+      /*
+        Avoid "too-wide screen => too-large font" when the container width is capped.
+        Keep a firm max so the title/buttons don't wrap into two lines.
+      */
+      font-size: clamp(1.85rem, 2.2vw, 2.35rem);
+      margin: 0 0 8px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      max-width: 100%;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      opacity: 0.9;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      margin: 0;
+      /* Don't wrap into multiple rows; switch to vertical layout instead (see media query below) */
+      flex-wrap: nowrap;
+      justify-content: center;
+    }
+
+    .header-action-btn {
+      padding: 14px 22px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.92);
+      color: #1f3a13;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .header-action-btn:hover {
+      background: #ffffff;
+    }
+
+    .header-action-btn.active {
+      background: #2d5016;
+      color: #fff;
+      border-color: #1f3a13;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .intro-module {
+      margin-top: 0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+      line-height: 1.45;
+      font-size: clamp(0.8rem, 1.1vw, 0.96rem);
+    }
+
+    .intro-question {
+      margin: 0 0 8px 0;
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      font-weight: 800;
+      color: #f0ffe8;
+    }
+
+    .intro-answer {
+      margin: 0;
+    }
+
+    .figure-section {
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    .figure-layout {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .figure-main-wrap,
+    .figure-key-wrap {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    .figure-key-wrap {
+      align-items: flex-start;
+    }
+
+    .figure-main-img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .figure-key-img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 6px;
+    }
+
+    .qa-section {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .qa-card {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+      padding: 16px 18px;
+    }
+
+    .qa-question {
+      margin: 0 0 10px 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f0ffe8;
+    }
+
+    .qa-answer {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+
+    .qa-answer-list {
+      margin: 10px 0 0 20px;
+      padding: 0;
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      padding-bottom: 10px;
+    }
+
+    .nav-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-button:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      color: #2d5016;
+    }
+
+    .back-button {
+      background: linear-gradient(135deg, #2d5016, #4a7c59);
+      color: white;
+    }
+
+    .back-button:hover {
+      background: linear-gradient(135deg, #1e3a0a, #3a6b49);
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      .figure-layout {
+        grid-template-columns: 1fr 0.5fr;
+      }
+    }
+
+    /* On wider screens, keep the 3 header buttons in one row */
+    @media (min-width: 901px) {
+      .header-actions {
+        flex-wrap: nowrap;
+      }
+    }
+
+    /* If there's not enough width for the 3 header buttons in one row, stack them vertically */
+    @media (max-width: 560px) {
+      .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-action-btn {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+      }
+    }

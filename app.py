@@ -39,6 +39,11 @@ def d3viz():
     # The up-to-date Compass UI lives in d3viz2.html
     return render_template('d3viz2.html')
 
+@app.route('/intro')
+def intro():
+    """Serve the Compass introduction page."""
+    return render_template('intro.html')
+
 @app.route('/d3viz2')
 def d3viz2():
     """Serve the Food Co-Centre Sustainability Compass visualization page (with per-wedge count bubbles)"""
@@ -112,25 +117,33 @@ def get_researcher_factor_counts():
             # (^|,)\s*<v>(\b|[.\d]) ensures token-boundary-ish matching and supports 'P1.1'
             return {"$regex": rf'(^|,)\s*{re.escape(v)}(\b|[.\d])', "$options": "i"}
 
-        match_conditions = {'Factor': {'$exists': True, '$ne': None, '$ne': ''}}
+        # Build base filter clauses (so we can safely combine multiple $or constraints via $and)
+        base_clauses = []
         if platform_alignment:
             rx = platform_alignment_regex(platform_alignment)
             if rx:
-                match_conditions['Platform Alignment'] = rx
+                base_clauses.append({'Platform Alignment': rx})
         if institution:
             rx = exact_value_regex(institution)
             if rx:
-                # Backward compatible: some datasets may still use University or have trailing-space column names
-                match_conditions['$or'] = [
+                base_clauses.append({'$or': [
                     {'Institution': rx},
                     {'Institution ': rx},
                     {'University': rx},
                     {'University ': rx},
-                ]
+                ]})
         if funder_category:
             rx = exact_value_regex(funder_category)
             if rx:
-                match_conditions['Funder Category'] = rx
+                # Career Stage is stored in "Column1" (backward compatible with old "Funder Category")
+                base_clauses.append({'$or': [
+                    {'Column1': rx},
+                    {'Column1 ': rx},
+                    {'Funder Category': rx},
+                    {'Funder Category ': rx},
+                ]})
+
+        match_conditions = {'$and': [{'Factor': {'$exists': True, '$ne': None, '$ne': ''}}] + base_clauses} if base_clauses else {'Factor': {'$exists': True, '$ne': None, '$ne': ''}}
 
         # all_factor_count is computed in wide-schema section (supports AllFacor/AllFactor + safe $or merging)
         all_factor_count = 0
@@ -164,11 +177,8 @@ def get_researcher_factor_counts():
                 counts[k] = int(r.get('count', 0))
             # Center AllFactor count for narrow schema (respects filters)
             try:
-                base_for_all = dict(match_conditions) if match_conditions else {}
-                # match_conditions currently includes Factor exists; remove it for all-factor count
-                base_for_all.pop('Factor', None)
                 membership_values_any = [1, 1.0, '1', '1.0', True]
-                all_q = {'$and': [base_for_all, {'AllFactor': {'$in': membership_values_any}}]} if base_for_all else {'AllFactor': {'$in': membership_values_any}}
+                all_q = {'$and': base_clauses + [{'AllFactor': {'$in': membership_values_any}}]} if base_clauses else {'AllFactor': {'$in': membership_values_any}}
                 all_factor_count = int(researcher_collection.count_documents(all_q))
             except Exception:
                 all_factor_count = 0
@@ -269,26 +279,7 @@ def get_researcher_factor_counts():
 
         counts = {}
         key_map = {}  # display factor -> actual field/column name used for counting
-        base_query = {}
-        # Rebuild base_query from match_conditions but without requiring a 'Factor' field
-        # (Wide schema doesn't have 'Factor' field at all.)
-        if platform_alignment:
-            rx = platform_alignment_regex(platform_alignment)
-            if rx:
-                base_query['Platform Alignment'] = rx
-        if institution:
-            rx = exact_value_regex(institution)
-            if rx:
-                base_query['$or'] = [
-                    {'Institution': rx},
-                    {'Institution ': rx},
-                    {'University': rx},
-                    {'University ': rx},
-                ]
-        if funder_category:
-            rx = exact_value_regex(funder_category)
-            if rx:
-                base_query['Funder Category'] = rx
+        base_query = {'$and': base_clauses} if base_clauses else {}
 
         membership_values = [1, 1.0, '1', '1.0', True]
 
@@ -566,7 +557,12 @@ def get_researchers_by_factor():
         if funder_category:
             rx = exact_value_regex(funder_category)
             if rx:
-                and_clauses.append({'Funder Category': rx})
+                and_clauses.append({'$or': [
+                    {'Column1': rx},
+                    {'Column1 ': rx},
+                    {'Funder Category': rx},
+                    {'Funder Category ': rx},
+                ]})
         query = {'$and': and_clauses} if len(and_clauses) > 1 else (and_clauses[0] if and_clauses else {})
 
         projection = {
@@ -574,6 +570,9 @@ def get_researchers_by_factor():
             'Name': 1,
             'Institution': 1,
             'Funder Category': 1,
+            'Funder Category ': 1,
+            'Column1': 1,
+            'Column1 ': 1,
             'Platform Alignment': 1,
             'Email (as per SESAME)': 1,
             'Co-Centre Role': 1,
@@ -584,10 +583,18 @@ def get_researchers_by_factor():
 
         # Normalize output fields
         def norm(doc):
+            career_stage = doc.get('Column1')
+            if career_stage is None:
+                career_stage = doc.get('Column1 ')
+            if career_stage is None:
+                career_stage = doc.get('Funder Category')
+            if career_stage is None:
+                career_stage = doc.get('Funder Category ')
             return {
                 'Name': doc.get('Name', '') or '',
                 'Institution': doc.get('Institution', '') or '',
-                'Funder Category': doc.get('Funder Category', '') or '',
+                # Keep response key stable for frontend; underlying field is now "Column1"
+                'Funder Category': career_stage or '',
                 'Email (as per SESAME)': doc.get('Email (as per SESAME)', '') or '',
                 'Platform Alignment': doc.get('Platform Alignment', '') or '',
                 'Co-Centre Role': doc.get('Co-Centre Role', '') or '',
@@ -624,32 +631,41 @@ def get_researchers_allfactor():
             return {"$regex": rf'(^|,)\s*{re.escape(v)}(\b|[.\d])', "$options": "i"}
 
         membership_values = [1, 1.0, '1', '1.0', True]
-        query = {'AllFactor': {'$in': membership_values}}
+        and_clauses = [{'AllFactor': {'$in': membership_values}}]
 
         if platform_alignment:
             rx = platform_alignment_regex(platform_alignment)
             if rx:
-                query['Platform Alignment'] = rx
+                and_clauses.append({'Platform Alignment': rx})
         if institution:
             rx = exact_value_regex(institution)
             if rx:
                 # Backward compatible: some datasets may still use University or trailing-space variants
-                query['$or'] = [
+                and_clauses.append({'$or': [
                     {'Institution': rx},
                     {'Institution ': rx},
                     {'University': rx},
                     {'University ': rx},
-                ]
+                ]})
         if funder_category:
             rx = exact_value_regex(funder_category)
             if rx:
-                query['Funder Category'] = rx
+                and_clauses.append({'$or': [
+                    {'Column1': rx},
+                    {'Column1 ': rx},
+                    {'Funder Category': rx},
+                    {'Funder Category ': rx},
+                ]})
+        query = {'$and': and_clauses} if len(and_clauses) > 1 else and_clauses[0]
 
         projection = {
             '_id': 0,
             'Name': 1,
             'Institution': 1,
             'Funder Category': 1,
+            'Funder Category ': 1,
+            'Column1': 1,
+            'Column1 ': 1,
             'Email (as per SESAME)': 1,
             'Platform Alignment': 1,
             'Co-Centre Role': 1,
@@ -658,10 +674,17 @@ def get_researchers_allfactor():
         docs = list(researcher_collection.find(query, projection))
 
         def norm(doc):
+            career_stage = doc.get('Column1')
+            if career_stage is None:
+                career_stage = doc.get('Column1 ')
+            if career_stage is None:
+                career_stage = doc.get('Funder Category')
+            if career_stage is None:
+                career_stage = doc.get('Funder Category ')
             return {
                 'Name': doc.get('Name', '') or '',
                 'Institution': doc.get('Institution', '') or '',
-                'Funder Category': doc.get('Funder Category', '') or '',
+                'Funder Category': career_stage or '',
                 'Email (as per SESAME)': doc.get('Email (as per SESAME)', '') or '',
                 'Platform Alignment': doc.get('Platform Alignment', '') or '',
                 'Co-Centre Role': doc.get('Co-Centre Role', '') or '',
@@ -696,30 +719,39 @@ def get_researchers_all():
                 return None
             return {"$regex": rf'(^|,)\s*{re.escape(v)}(\b|[.\d])', "$options": "i"}
 
-        query = {}
+        and_clauses = []
         if platform_alignment:
             rx = platform_alignment_regex(platform_alignment)
             if rx:
-                query['Platform Alignment'] = rx
+                and_clauses.append({'Platform Alignment': rx})
         if institution:
             rx = exact_value_regex(institution)
             if rx:
-                query['$or'] = [
+                and_clauses.append({'$or': [
                     {'Institution': rx},
                     {'Institution ': rx},
                     {'University': rx},
                     {'University ': rx},
-                ]
+                ]})
         if funder_category:
             rx = exact_value_regex(funder_category)
             if rx:
-                query['Funder Category'] = rx
+                and_clauses.append({'$or': [
+                    {'Column1': rx},
+                    {'Column1 ': rx},
+                    {'Funder Category': rx},
+                    {'Funder Category ': rx},
+                ]})
+        query = {'$and': and_clauses} if and_clauses else {}
 
         projection = {
             '_id': 0,
             'Name': 1,
             'Institution': 1,
             'Funder Category': 1,
+            'Funder Category ': 1,
+            'Column1': 1,
+            'Column1 ': 1,
             'Email (as per SESAME)': 1,
             'Platform Alignment': 1,
             'Co-Centre Role': 1,
@@ -728,10 +760,17 @@ def get_researchers_all():
         docs = list(researcher_collection.find(query, projection))
 
         def norm(doc):
+            career_stage = doc.get('Column1')
+            if career_stage is None:
+                career_stage = doc.get('Column1 ')
+            if career_stage is None:
+                career_stage = doc.get('Funder Category')
+            if career_stage is None:
+                career_stage = doc.get('Funder Category ')
             return {
                 'Name': doc.get('Name', '') or '',
                 'Institution': doc.get('Institution', '') or '',
-                'Funder Category': doc.get('Funder Category', '') or '',
+                'Funder Category': career_stage or '',
                 'Email (as per SESAME)': doc.get('Email (as per SESAME)', '') or '',
                 'Platform Alignment': doc.get('Platform Alignment', '') or '',
                 'Co-Centre Role': doc.get('Co-Centre Role', '') or '',
@@ -740,6 +779,114 @@ def get_researchers_all():
 
         researchers = [norm(d) for d in docs]
         return jsonify({'success': True, 'count': len(researchers), 'researchers': researchers})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/api/researchers/platform-summary')
+def get_researcher_platform_summary():
+    """Return total researchers + platform counts (P1..P5).
+
+    Notes:
+    - Applies optional filters: platform_alignment / institution / funder_category.
+    - If scope=factor, requires factor_key and excludes AllFactor=1 (so it matches factor bubbles).
+    - If scope=allfactor, counts only AllFactor=1.
+    - Platform counts are NOT mutually exclusive (a person can be counted in multiple platforms).
+    """
+    try:
+        if not mongo_connected:
+            return jsonify({'success': False, 'error': 'MongoDB not connected'})
+
+        scope = request.args.get('scope', 'all').strip().lower()  # all | factor | allfactor
+        factor_key = request.args.get('factor_key', '').strip()
+
+        platform_alignment = request.args.get('platform_alignment', '').strip()
+        institution = request.args.get('institution', '').strip()
+        funder_category = request.args.get('funder_category', '').strip()
+
+        def exact_value_regex(value: str):
+            v = (value or '').strip()
+            if not v:
+                return None
+            return {"$regex": rf'^\s*{re.escape(v)}\s*$', "$options": "i"}
+
+        def platform_alignment_regex(value: str):
+            v = (value or '').strip()
+            if not v:
+                return None
+            return {"$regex": rf'(^|,)\s*{re.escape(v)}(\b|[.\d])', "$options": "i"}
+
+        membership_values = [1, 1.0, '1', '1.0', True]
+        and_clauses = []
+
+        # Scope filter
+        if scope == 'allfactor':
+            and_clauses.append({'AllFactor': {'$in': membership_values}})
+        elif scope == 'factor':
+            if not factor_key:
+                return jsonify({'success': False, 'error': 'factor_key is required when scope=factor'})
+            and_clauses.append({factor_key: {'$in': membership_values}})
+            # Factor bubbles exclude AllFactor researchers
+            and_clauses.append({'AllFactor': {'$nin': membership_values}})
+        else:
+            # all researchers (no scope clause)
+            pass
+
+        # Optional filters
+        if platform_alignment:
+            rx = platform_alignment_regex(platform_alignment)
+            if rx:
+                and_clauses.append({'Platform Alignment': rx})
+        if institution:
+            rx = exact_value_regex(institution)
+            if rx:
+                and_clauses.append({'$or': [
+                    {'Institution': rx},
+                    {'Institution ': rx},
+                    {'University': rx},
+                    {'University ': rx},
+                ]})
+        if funder_category:
+            rx = exact_value_regex(funder_category)
+            if rx:
+                and_clauses.append({'$or': [
+                    {'Column1': rx},
+                    {'Column1 ': rx},
+                    {'Funder Category': rx},
+                    {'Funder Category ': rx},
+                ]})
+
+        query = {'$and': and_clauses} if and_clauses else {}
+
+        # Only need Platform Alignment for counting
+        docs = list(researcher_collection.find(query, {'_id': 0, 'Platform Alignment': 1}))
+
+        def platforms_for_doc(doc):
+            raw = doc.get('Platform Alignment')
+            if raw is None:
+                return set()
+            s = str(raw).strip()
+            if not s:
+                return set()
+            parts = [p.strip() for p in s.split(',') if p.strip()]
+            out = set()
+            for p in parts:
+                m = re.match(r'^(P\d+)', p, flags=re.IGNORECASE)
+                if m:
+                    out.add(m.group(1).upper())
+            return out
+
+        total = len(docs)
+        platform_counts = {f'P{i}': 0 for i in range(1, 6)}
+        for d in docs:
+            for p in platforms_for_doc(d):
+                if p in platform_counts:
+                    platform_counts[p] += 1
+
+        return jsonify({
+            'success': True,
+            'total': total,
+            'platform_counts': platform_counts
+        })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
@@ -767,29 +914,12 @@ def get_researcher_unique_values():
             out.sort()
             return out
 
-        # Platform Alignment: may store multiple values like "P1.1, P3"
-        platform_alignment_raw = researcher_collection.distinct('Platform Alignment')
-        platform_tokens = []
-        for v in platform_alignment_raw:
-            if v is None:
-                continue
-            s = str(v).strip()
-            if not s:
-                continue
-            # Split on commas and normalize whitespace
-            parts = [p.strip() for p in s.split(',') if p.strip()]
-            for p in parts:
-                # Only keep top-level platform prefix, e.g. P1 from P1.1
-                m = re.match(r'^(P\d+)', p.strip(), flags=re.IGNORECASE)
-                if m:
-                    platform_tokens.append(m.group(1).upper())
-                else:
-                    # Fallback: keep non-standard tokens as-is
-                    platform_tokens.append(p)
-
-        platform_alignments = clean(platform_tokens)
-        # Institution: support legacy fields + trailing-space variants
-        # Only include institutions that actually have at least one Factor membership (one-hot column == 1)
+        # Only include Platform Alignment / Institution / Career Stage values for researchers
+        # that actually have at least one *real Factor* membership (one-hot column == 1).
+        #
+        # Important: the Researcher dataset may contain other 0/1 fields like
+        # "Completed survey to some extent" or "Contacted?" which must NOT be treated as Factor membership.
+        # We therefore gate membership by checking keys against the Compass Factor list.
         membership_values = {1, 1.0, '1', '1.0', True}
         exclude_fields = {
             'Name',
@@ -798,6 +928,9 @@ def get_researcher_unique_values():
             'University',
             'University ',
             'Funder Category',
+            'Funder Category ',
+            'Column1',
+            'Column1 ',
             'Platform Alignment',
             'Email (as per SESAME)',
             'Co-Centre Role',
@@ -806,19 +939,74 @@ def get_researcher_unique_values():
             'Factor'
         }
 
+        # Build a normalized set of known Factor names from Compass collection
+        def norm_factor_key(s: str) -> str:
+            # Lowercase, remove punctuation/symbols, collapse spaces
+            s2 = re.sub(r'[^0-9a-zA-Z\\s]+', ' ', str(s or '')).lower()
+            return ' '.join(s2.split())
+
+        try:
+            compass_factors = [f for f in compass_collection.distinct('Factor') if f]
+        except Exception:
+            compass_factors = []
+        factor_norm_set = {norm_factor_key(f) for f in compass_factors if norm_factor_key(f)}
+
+        platform_tokens = []
+        p1_sub_tokens = []
         institutions_with_factors = []
+        funder_categories_with_factors = []
         seen_inst = set()
-        for doc in researcher_collection.find({}, {'_id': 0}):
-            has_factor_membership = False
+        seen_fc = set()
+
+        def has_factor_membership(doc: dict) -> bool:
+            # If we have a Compass factor list, only count membership on those keys
+            if factor_norm_set:
+                for k, v in (doc or {}).items():
+                    if not k or k in exclude_fields or str(k).startswith('_'):
+                        continue
+                    if v not in membership_values:
+                        continue
+                    if norm_factor_key(k) in factor_norm_set:
+                        return True
+                return False
+
+            # Fallback (if Compass factors not available): previous heuristic, plus exclude common non-factor fields
+            non_factor_like = {
+                'Actions',
+                'Contacted?',
+                'Completed survey to some extent'
+            }
             for k, v in (doc or {}).items():
-                if not k or k in exclude_fields or str(k).startswith('_'):
+                if not k or k in exclude_fields or k in non_factor_like or str(k).startswith('_'):
                     continue
                 if v in membership_values:
-                    has_factor_membership = True
-                    break
-            if not has_factor_membership:
+                    return True
+            return False
+
+        for doc in researcher_collection.find({}, {'_id': 0}):
+            if not has_factor_membership(doc):
                 continue
 
+            # Platform Alignment: may store multiple values like "P1.1, P3"
+            pa = doc.get('Platform Alignment')
+            if pa is not None:
+                s = str(pa).strip()
+                if s:
+                    parts = [p.strip() for p in s.split(',') if p.strip()]
+                    for p in parts:
+                        # Top-level platform prefix, e.g. P1 from P1.1
+                        m = re.match(r'^(P\d+)', p, flags=re.IGNORECASE)
+                        if m:
+                            platform_tokens.append(m.group(1).upper())
+                        else:
+                            platform_tokens.append(p)
+
+                        # Collect P1 sub-platforms (e.g. P1.1, P1.2 ...)
+                        msub = re.match(r'^(P1)\.(\d+)$', p, flags=re.IGNORECASE)
+                        if msub:
+                            p1_sub_tokens.append(f"P1.{int(msub.group(2))}")
+
+            # Institution: support legacy fields + trailing-space variants
             for field in ('Institution', 'Institution ', 'University', 'University '):
                 v = doc.get(field)
                 if v is None:
@@ -832,42 +1020,42 @@ def get_researcher_unique_values():
                 seen_inst.add(key)
                 institutions_with_factors.append(s)
 
-        institutions = clean(institutions_with_factors)
-
-        funder_categories_with_factors = []
-        seen_fc = set()
-        # Use the same membership logic as Institution: only include categories with at least one Factor=1
-        for doc in researcher_collection.find({}, {'_id': 0}):
-            has_factor_membership = False
-            for k, v in (doc or {}).items():
-                if not k or k in exclude_fields or str(k).startswith('_'):
-                    continue
-                if v in membership_values:
-                    has_factor_membership = True
-                    break
-            if not has_factor_membership:
-                continue
-
-            # Support trailing-space variant just in case
-            v = doc.get('Funder Category')
+            # Career Stage (stored in "Column1"; fallback to old "Funder Category")
+            v = doc.get('Column1')
+            if v is None:
+                v = doc.get('Column1 ')
+            if v is None:
+                v = doc.get('Funder Category')
             if v is None:
                 v = doc.get('Funder Category ')
-            if v is None:
-                continue
-            s = str(v).strip()
-            if not s:
-                continue
-            key = s.lower()
-            if key in seen_fc:
-                continue
-            seen_fc.add(key)
-            funder_categories_with_factors.append(s)
+            if v is not None:
+                s = str(v).strip()
+                if s:
+                    key = s.lower()
+                    if key not in seen_fc:
+                        seen_fc.add(key)
+                        funder_categories_with_factors.append(s)
 
+        platform_alignments = clean(platform_tokens)
+
+        # Sort P1 sub-options numerically by suffix
+        def sort_p1_sub(values):
+            uniq = clean(values)
+
+            def keyfn(x):
+                m = re.match(r'^P1\.(\d+)$', x.strip(), flags=re.IGNORECASE)
+                return int(m.group(1)) if m else 10**9
+
+            return sorted(uniq, key=keyfn)
+
+        platform_p1_sub_alignments = sort_p1_sub(p1_sub_tokens)
+        institutions = clean(institutions_with_factors)
         funder_categories = clean(funder_categories_with_factors)
 
         return jsonify({
             'success': True,
             'platform_alignments': platform_alignments,
+            'platform_p1_sub_alignments': platform_p1_sub_alignments,
             'institutions': institutions,
             'funder_categories': funder_categories
         })
@@ -906,6 +1094,11 @@ def higher_manager_login():
 def static_files(filename):
     """Serve static files like CSS"""
     return send_from_directory('static', filename)
+
+@app.route('/figure/<path:filename>')
+def figure_files(filename):
+    """Serve figure images used by intro page"""
+    return send_from_directory('figure', filename)
 
 @app.route('/api/dataset/status')
 def dataset_status():
@@ -1311,56 +1504,298 @@ def higher_manager_auth_login():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
+def _build_global_or_query(goal, available_fields):
+    """Build {$or: [...]} matching goal as substring (regex) across all non-internal fields."""
+    or_conditions = []
+    goal_lower = goal.lower().strip()
+    if 'Location' in available_fields:
+        if goal_lower == 'ireland':
+            or_conditions.append({
+                'Location': {"$regex": r'^Ireland$', "$options": "i"}
+            })
+        elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
+            or_conditions.append({
+                'Location': {"$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$', "$options": "i"}
+            })
+        else:
+            or_conditions.append({'Location': {"$regex": goal, "$options": "i"}})
+    for fname in available_fields:
+        if fname != 'Location':
+            or_conditions.append({fname: {"$regex": goal, "$options": "i"}})
+    if not or_conditions:
+        return None
+    return {"$or": or_conditions}
+
+def _build_global_or_query_multi(keywords, available_fields):
+    """Build {$or: [...]} matching ANY of the keywords across all fields (case-insensitive).
+
+    This is used for multi-keyword search (we later score matches per-document in Python).
+    """
+    if not keywords:
+        return None
+    if isinstance(keywords, str):
+        keywords = [keywords]
+    kws = [str(k).strip() for k in keywords if str(k).strip()]
+    if not kws:
+        return None
+    # Build a single safe regex alternation to avoid field_count * keyword_count explosion.
+    if len(kws) == 1:
+        pattern = re.escape(kws[0])
+    else:
+        pattern = r'(?:' + '|'.join(re.escape(k) for k in kws) + r')'
+    or_conditions = []
+    for fname in available_fields:
+        or_conditions.append({fname: {"$regex": pattern, "$options": "i"}})
+    return {"$or": or_conditions} if or_conditions else None
+
+
 @app.route('/api/dataset/filter')
 def filter_data():
-    """Filter data by searching ALL columns for the specified keyword"""
+    """Filter data: goal-only (global or scoped), or keyword-only (global), or keyword scoped to Quadrant/Segment/Factor."""
     try:
         if not mongo_connected:
             return jsonify({'success': False, 'error': 'MongoDB not connected'})
-        
-        # Get the goal parameter from query string
-        goal = request.args.get('goal', '')
-        if not goal:
-            return jsonify({'success': False, 'error': 'No goal parameter provided'})
-        
-        # Optional: restrict matching to a specific field (Quadrant/Segment/Factor/Location)
+
+        goal = request.args.get('goal', '').strip()
+        keyword = request.args.get('keyword', '').strip()
         field = request.args.get('field', '').strip()
         allowed_fields = {'Quadrant', 'Segment', 'Factor', 'Location'}
-
-        # Get additional filter parameters (quadrant, segment, factor)
         quadrant = request.args.get('quadrant', '').strip()
         segment = request.args.get('segment', '').strip()
         factor = request.args.get('factor', '').strip()
-        
-        # First, let's check what fields actually exist in the database
+
+        # Allow "scope-only" filtering (Quadrant/Segment/Factor) without requiring goal/keyword.
+        # This is used by the table page when viewing "All Records".
+        has_scope_only = bool(quadrant or segment or factor)
+        if not goal and not keyword and not has_scope_only:
+            return jsonify({'success': False, 'error': 'No goal, keyword, or scope filters provided'})
+
+        def exact_value_regex(value: str):
+            v = (value or '').strip()
+            if not v:
+                return None
+            return {"$regex": rf'^\s*{re.escape(v)}\s*$', "$options": "i"}
+
         sample_docs = list(collection.find().limit(5))
         available_fields = set()
         for doc in sample_docs:
             available_fields.update(doc.keys())
-        
-        # Remove MongoDB internal fields
         available_fields.discard('_id')
         available_fields.discard('_created')
         available_fields.discard('_updated')
         available_fields.discard('id')
-        
-        # Build query to search ALL fields for the keyword
+
+        # --- Scope-only filtering (no goal and no keyword) ---
+        if not goal and not keyword and has_scope_only:
+            scope_parts = []
+            if quadrant and 'Quadrant' in available_fields:
+                rx = exact_value_regex(quadrant)
+                if rx:
+                    scope_parts.append({'Quadrant': rx})
+            if segment and 'Segment' in available_fields:
+                rx = exact_value_regex(segment)
+                if rx:
+                    scope_parts.append({'Segment': rx})
+            if factor and 'Factor' in available_fields:
+                rx = exact_value_regex(factor)
+                if rx:
+                    scope_parts.append({'Factor': rx})
+
+            query = {'$and': scope_parts} if len(scope_parts) > 1 else (scope_parts[0] if scope_parts else {})
+            documents = list(collection.find(query))
+            for doc in documents:
+                if '_id' in doc:
+                    doc['_id'] = str(doc['_id'])
+            return jsonify({
+                'success': True,
+                'records': documents,
+                'count': len(documents),
+                'query_used': query,
+                'available_fields': list(available_fields)
+            })
+
+        # --- Keyword search: global OR scoped to current Factor/Segment/Quadrant ---
+        if keyword:
+            def split_keywords(raw: str):
+                """Split raw keyword string into multiple keywords.
+
+                - If the user uses comma/Chinese comma/semicolon/newline separators, split on those
+                  (so phrases like "food safety" can remain intact).
+                - Otherwise, split on whitespace.
+                """
+                s = (raw or '').strip()
+                if not s:
+                    return []
+                # Normalize separators to commas
+                for sep in ['，', ';', '；', '\n', '\t', '|']:
+                    s = s.replace(sep, ',')
+                if ',' in s:
+                    parts = [p.strip() for p in s.split(',')]
+                else:
+                    parts = re.split(r'\s+', s)
+                out = []
+                seen = set()
+                for p in parts:
+                    if not p:
+                        continue
+                    key = p.strip().lower()
+                    if not key or key in seen:
+                        continue
+                    seen.add(key)
+                    out.append(p.strip())
+                return out
+
+            keywords = split_keywords(keyword)
+            # Backward-compatible: if parsing yields nothing, treat as a single keyword.
+            if not keywords:
+                keywords = [keyword]
+
+            keyword_query = (
+                _build_global_or_query(keywords[0], available_fields)
+                if len(keywords) == 1
+                else _build_global_or_query_multi(keywords, available_fields)
+            )
+            if not keyword_query:
+                return jsonify({
+                    'success': False,
+                    'error': f'No matching fields found. Available fields: {list(available_fields)}',
+                    'available_fields': list(available_fields),
+                    'sample_doc': sample_docs[0] if sample_docs else None
+                })
+
+            has_scope = (
+                (field and field in allowed_fields and field in available_fields and bool(goal))
+                or bool(quadrant or segment or factor)
+            )
+
+            if not has_scope:
+                query = keyword_query
+            else:
+                scope_parts = []
+                if field and field in allowed_fields and field in available_fields and goal:
+                    goal_lower = goal.lower().strip()
+                    if field == 'Location':
+                        if goal_lower == 'ireland':
+                            scope_parts.append({'Location': {"$regex": r'^Ireland$', "$options": "i"}})
+                        elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
+                            scope_parts.append({'Location': {"$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$', "$options": "i"}})
+                        elif goal_lower in ['united kingdom', 'uk']:
+                            scope_parts.append({'Location': {"$regex": r'^(United Kingdom|UK)$', "$options": "i"}})
+                        else:
+                            scope_parts.append({'Location': {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}})
+                    else:
+                        scope_parts.append({field: {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}})
+                if quadrant:
+                    rx = exact_value_regex(quadrant)
+                    scope_parts.append({'Quadrant': rx} if rx else {'Quadrant': quadrant})
+                if segment:
+                    rx = exact_value_regex(segment)
+                    scope_parts.append({'Segment': rx} if rx else {'Segment': segment})
+                if factor:
+                    rx = exact_value_regex(factor)
+                    scope_parts.append({'Factor': rx} if rx else {'Factor': factor})
+
+                if not scope_parts:
+                    query = keyword_query
+                elif len(scope_parts) == 1:
+                    query = {"$and": [scope_parts[0], keyword_query]}
+                else:
+                    query = {"$and": [{'$and': scope_parts}, keyword_query]}
+
+            documents = list(collection.find(query))
+
+            # Rank results by how many keywords they match (best match first).
+            # We do this in Python to support "best match" behaviour without complex aggregation.
+            def doc_to_search_text(doc):
+                chunks = []
+                for fname in available_fields:
+                    if fname not in doc:
+                        continue
+                    v = doc.get(fname)
+                    if v is None:
+                        continue
+                    if isinstance(v, (dict, list)):
+                        try:
+                            chunks.append(json.dumps(v, ensure_ascii=False))
+                        except Exception:
+                            chunks.append(str(v))
+                    else:
+                        chunks.append(str(v))
+                return '\n'.join(chunks).lower()
+
+            scored = []
+            for doc in documents:
+                text = doc_to_search_text(doc)
+                match_count = 0
+                matched = []
+                for kw in keywords:
+                    if kw.lower() in text:
+                        match_count += 1
+                        matched.append(kw)
+                scored.append((match_count, doc))
+
+            scored.sort(key=lambda t: t[0], reverse=True)
+            documents = [d for (score, d) in scored if score > 0]
+            best_match_count = scored[0][0] if scored else 0
+            full_match_count = sum(1 for (score, _d) in scored if score == len(keywords)) if keywords else 0
+            match_mode = (
+                'none' if not documents
+                else ('all_keywords' if full_match_count > 0 else 'partial_best_match')
+            )
+
+            # Provide per-record match info without adding extra columns to records.
+            scores_by_id = {}
+            for (score, doc) in scored:
+                if score <= 0:
+                    continue
+                try:
+                    doc_id = str(doc.get('_id'))
+                except Exception:
+                    doc_id = None
+                if not doc_id:
+                    continue
+                text = doc_to_search_text(doc)
+                matched = []
+                for kw in keywords:
+                    if kw.lower() in text:
+                        matched.append(kw)
+                scores_by_id[doc_id] = {
+                    'match_count': int(score),
+                    'matched_keywords': matched
+                }
+
+            for doc in documents:
+                if '_id' in doc:
+                    doc['_id'] = str(doc['_id'])
+            return jsonify({
+                'success': True,
+                'records': documents,
+                'count': len(documents),
+                'query_used': query,
+                'available_fields': list(available_fields),
+                'scoped_keyword_search': bool(keyword and has_scope),
+                'keyword_search': {
+                    'keywords': keywords,
+                    'total_keywords': len(keywords),
+                    'best_match_count': int(best_match_count),
+                    'full_match_count': int(full_match_count),
+                    'mode': match_mode,
+                    'scores_by_id': scores_by_id
+                }
+            })
+
+        # --- No keyword: original goal-based behaviour ---
         or_conditions = []
         goal_lower = goal.lower().strip()
-        
-        # Known location values in the database
-        known_locations = ['ireland', 'northern ireland', 'united kingdom', 'uk']
-        
-        # Check if the goal is a known location - if so, only search Location field
-        is_location_search = goal_lower in known_locations or \
-                           goal_lower == 'n. ireland' or \
-                           goal_lower == 'n ireland' or \
-                           'northern ireland' in goal_lower
+        is_location_search = (
+            goal_lower in ['ireland', 'northern ireland', 'united kingdom', 'uk']
+            or goal_lower == 'n. ireland'
+            or goal_lower == 'n ireland'
+            or 'northern ireland' in goal_lower
+        )
 
-        # If a specific field is requested, do a field-specific exact match (case-insensitive)
         if field and field in allowed_fields and field in available_fields:
             if field == 'Location':
-                # Preserve special handling for Ireland vs Northern Ireland
                 if goal_lower == 'ireland':
                     query = {'Location': {"$regex": r'^Ireland$', "$options": "i"}}
                 elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
@@ -1373,80 +1808,34 @@ def filter_data():
                 query = {field: {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
 
         elif is_location_search and 'Location' in available_fields:
-            # For location searches, ONLY search in Location field with exact match
             if goal_lower == 'ireland':
-                # For "Ireland", match exactly "Ireland" but exclude "Northern Ireland"
-                query = {
-                    'Location': {
-                        "$regex": r'^Ireland$',
-                        "$options": "i"
-                    }
-                }
+                query = {'Location': {"$regex": r'^Ireland$', "$options": "i"}}
             elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
-                # For "Northern Ireland", match only "Northern Ireland" variations
-                query = {
-                    'Location': {
-                        "$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$',
-                        "$options": "i"
-                    }
-                }
+                query = {'Location': {"$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$', "$options": "i"}}
             elif goal_lower in ['united kingdom', 'uk']:
-                # For "United Kingdom" or "UK", match exactly
-                query = {
-                    'Location': {
-                        "$regex": r'^(United Kingdom|UK)$',
-                        "$options": "i"
-                    }
-                }
+                query = {'Location': {"$regex": r'^(United Kingdom|UK)$', "$options": "i"}}
             else:
-                # Fallback: exact match for location
-                query = {
-                    'Location': {
-                        "$regex": f'^{re.escape(goal.strip())}$',
-                        "$options": "i"
-                    }
-                }
+                query = {'Location': {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
         else:
-            # For non-location searches, search ALL fields
-            # Special handling for Location field to distinguish Ireland from Northern Ireland
             if 'Location' in available_fields:
                 if goal_lower == 'ireland':
-                    # For "Ireland", match exactly "Ireland" but exclude "Northern Ireland"
-                    or_conditions.append({
-                        'Location': {
-                            "$regex": r'^Ireland$',
-                            "$options": "i"
-                        }
-                    })
+                    or_conditions.append({'Location': {"$regex": r'^Ireland$', "$options": "i"}})
                 elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
-                    # For "Northern Ireland", match only "Northern Ireland" variations
-                    or_conditions.append({
-                        'Location': {
-                            "$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$',
-                            "$options": "i"
-                        }
-                    })
+                    or_conditions.append({'Location': {"$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$', "$options": "i"}})
                 else:
-                    # For other locations, use normal regex matching
                     or_conditions.append({'Location': {"$regex": goal, "$options": "i"}})
-            
-            # For all other fields, use normal regex matching
-            for field in available_fields:
-                if field != 'Location':  # Location already handled above
-                    or_conditions.append({field: {"$regex": goal, "$options": "i"}})
-            
+            for fname in available_fields:
+                if fname != 'Location':
+                    or_conditions.append({fname: {"$regex": goal, "$options": "i"}})
             if not or_conditions:
-                # If no matching fields found, return available fields for debugging
                 return jsonify({
-                    'success': False, 
+                    'success': False,
                     'error': f'No matching fields found. Available fields: {list(available_fields)}',
                     'available_fields': list(available_fields),
                     'sample_doc': sample_docs[0] if sample_docs else None
                 })
-            
             query = {"$or": or_conditions}
-        
-        # Add additional filters (quadrant, segment, factor) if provided
+
         additional_filters = {}
         if quadrant:
             additional_filters['Quadrant'] = quadrant
@@ -1454,32 +1843,20 @@ def filter_data():
             additional_filters['Segment'] = segment
         if factor:
             additional_filters['Factor'] = factor
-        
-        # Combine the main query with additional filters
+
         if additional_filters:
             if isinstance(query, dict) and '$or' in query:
-                # If query has $or, combine with $and
-                query = {
-                    "$and": [
-                        query,
-                        additional_filters
-                    ]
-                }
+                query = {"$and": [query, additional_filters]}
             else:
-                # Otherwise, merge the filters
-                query.update(additional_filters)
-        
-        # Note: query is already set above for both location_search and non-location_search cases
+                query = {**query, **additional_filters}
+
         documents = list(collection.find(query))
-        
-        # Convert ObjectId to string
         for doc in documents:
             if '_id' in doc:
                 doc['_id'] = str(doc['_id'])
-        
         return jsonify({
-            'success': True, 
-            'records': documents, 
+            'success': True,
+            'records': documents,
             'count': len(documents),
             'query_used': query,
             'available_fields': list(available_fields)
@@ -1523,9 +1900,8 @@ def export_filtered_data():
         
         # Get the goal parameter from query string
         goal = request.args.get('goal', '')
-        if not goal:
-            return jsonify({'success': False, 'error': 'No goal parameter provided'})
-
+        keyword = request.args.get('keyword', '').strip()
+        goal_label = goal.strip() or (keyword.strip()[:60] if keyword else 'ALL')
         # Optional: restrict matching to a specific field (Quadrant/Segment/Factor/Location)
         field = request.args.get('field', '').strip()
         allowed_fields = {'Quadrant', 'Segment', 'Factor', 'Location'}
@@ -1534,6 +1910,10 @@ def export_filtered_data():
         quadrant = request.args.get('quadrant', '').strip()
         segment = request.args.get('segment', '').strip()
         factor = request.args.get('factor', '').strip()
+
+        has_scope_only = bool(quadrant or segment or factor)
+        if not goal and not keyword and not has_scope_only:
+            return jsonify({'success': False, 'error': 'No goal, keyword, or scope filters provided'})
         
         # Get all available fields from sample documents
         sample_docs = list(collection.find().limit(5))
@@ -1546,115 +1926,254 @@ def export_filtered_data():
         available_fields.discard('_created')
         available_fields.discard('_updated')
         available_fields.discard('id')
-        
-        # Create search query for all fields
-        search_conditions = []
-        goal_lower = goal.lower().strip()
-        
-        # Known location values in the database
-        known_locations = ['ireland', 'northern ireland', 'united kingdom', 'uk']
-        
-        # Check if the goal is a known location - if so, only search Location field
-        is_location_search = goal_lower in known_locations or \
-                           goal_lower == 'n. ireland' or \
-                           goal_lower == 'n ireland' or \
-                           'northern ireland' in goal_lower
-        
-        # If a specific field is requested, do a field-specific exact match (case-insensitive)
-        if field and field in allowed_fields and field in available_fields:
-            if field == 'Location':
-                if goal_lower == 'ireland':
-                    query = {'Location': {"$regex": r'^Ireland$', "$options": "i"}}
-                elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
-                    query = {'Location': {"$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$', "$options": "i"}}
-                elif goal_lower in ['united kingdom', 'uk']:
-                    query = {'Location': {"$regex": r'^(United Kingdom|UK)$', "$options": "i"}}
-                else:
-                    query = {'Location': {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
-            else:
-                query = {field: {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
 
-        elif is_location_search and 'Location' in available_fields:
-            # For location searches, ONLY search in Location field with exact match
-            if goal_lower == 'ireland':
-                # For "Ireland", match exactly "Ireland" but exclude "Northern Ireland"
-                query = {
-                    'Location': {
-                        "$regex": r'^Ireland$',
-                        "$options": "i"
-                    }
-                }
-            elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
-                # For "Northern Ireland", match only "Northern Ireland" variations
-                query = {
-                    'Location': {
-                        "$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$',
-                        "$options": "i"
-                    }
-                }
-            elif goal_lower in ['united kingdom', 'uk']:
-                # For "United Kingdom" or "UK", match exactly
-                query = {
-                    'Location': {
-                        "$regex": r'^(United Kingdom|UK)$',
-                        "$options": "i"
-                    }
-                }
-            else:
-                # Fallback: exact match for location
-                query = {
-                    'Location': {
-                        "$regex": f'^{re.escape(goal.strip())}$',
-                        "$options": "i"
-                    }
-                }
+        def exact_value_regex(value: str):
+            v = (value or '').strip()
+            if not v:
+                return None
+            return {"$regex": rf'^\s*{re.escape(v)}\s*$', "$options": "i"}
+
+        # Scope-only export (no goal/keyword): just export rows matching Quadrant/Segment/Factor filters
+        if not goal and not keyword and has_scope_only:
+            parts = []
+            if quadrant and 'Quadrant' in available_fields:
+                rx = exact_value_regex(quadrant)
+                if rx:
+                    parts.append({'Quadrant': rx})
+            if segment and 'Segment' in available_fields:
+                rx = exact_value_regex(segment)
+                if rx:
+                    parts.append({'Segment': rx})
+            if factor and 'Factor' in available_fields:
+                rx = exact_value_regex(factor)
+                if rx:
+                    parts.append({'Factor': rx})
+
+            query = {'$and': parts} if len(parts) > 1 else (parts[0] if parts else {})
+            documents = list(collection.find(query))
+            # Continue to the common Excel generation code below using `documents`
         else:
-            # For non-location searches, search ALL fields
-            # Special handling for Location field to distinguish Ireland from Northern Ireland
-            if 'Location' in available_fields:
+            documents = None  # will be computed by existing logic below
+        
+        if documents is None:
+            # --- Keyword export: same behaviour as keyword filtering on the table page ---
+            if keyword:
+                def split_keywords(raw: str):
+                    s = (raw or '').strip()
+                    if not s:
+                        return []
+                    for sep in ['，', ';', '；', '\n', '\t', '|']:
+                        s = s.replace(sep, ',')
+                    if ',' in s:
+                        parts = [p.strip() for p in s.split(',')]
+                    else:
+                        parts = re.split(r'\s+', s)
+                    out = []
+                    seen = set()
+                    for p in parts:
+                        if not p:
+                            continue
+                        key = p.strip().lower()
+                        if not key or key in seen:
+                            continue
+                        seen.add(key)
+                        out.append(p.strip())
+                    return out
+
+                keywords = split_keywords(keyword) or [keyword]
+
+                # Build a query that matches ANY keyword across ANY field, then rank in Python.
+                if len(keywords) == 1:
+                    keyword_query = _build_global_or_query(keywords[0], available_fields)
+                else:
+                    keyword_query = _build_global_or_query_multi(keywords, available_fields)
+                if not keyword_query:
+                    return jsonify({'success': False, 'error': 'No searchable fields found for keyword export'})
+
+                has_scope = (
+                    (field and field in allowed_fields and field in available_fields and bool(goal))
+                    or bool(quadrant or segment or factor)
+                )
+
+                if not has_scope:
+                    query = keyword_query
+                else:
+                    scope_parts = []
+                    # Optional goal+field scoping (module lock)
+                    if field and field in allowed_fields and field in available_fields and goal:
+                        goal_lower = goal.lower().strip()
+                        if field == 'Location':
+                            if goal_lower == 'ireland':
+                                scope_parts.append({'Location': {"$regex": r'^Ireland$', "$options": "i"}})
+                            elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
+                                scope_parts.append({'Location': {"$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$', "$options": "i"}})
+                            elif goal_lower in ['united kingdom', 'uk']:
+                                scope_parts.append({'Location': {"$regex": r'^(United Kingdom|UK)$', "$options": "i"}})
+                            else:
+                                scope_parts.append({'Location': {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}})
+                        else:
+                            scope_parts.append({field: {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}})
+
+                    # Optional Q/S/F filters
+                    if quadrant:
+                        rx = exact_value_regex(quadrant)
+                        scope_parts.append({'Quadrant': rx} if rx else {'Quadrant': quadrant})
+                    if segment:
+                        rx = exact_value_regex(segment)
+                        scope_parts.append({'Segment': rx} if rx else {'Segment': segment})
+                    if factor:
+                        rx = exact_value_regex(factor)
+                        scope_parts.append({'Factor': rx} if rx else {'Factor': factor})
+
+                    if not scope_parts:
+                        query = keyword_query
+                    elif len(scope_parts) == 1:
+                        query = {"$and": [scope_parts[0], keyword_query]}
+                    else:
+                        query = {"$and": [{'$and': scope_parts}, keyword_query]}
+
+                raw_docs = list(collection.find(query))
+
+                def doc_to_search_text(doc):
+                    chunks = []
+                    for fname in available_fields:
+                        if fname not in doc:
+                            continue
+                        v = doc.get(fname)
+                        if v is None:
+                            continue
+                        if isinstance(v, (dict, list)):
+                            try:
+                                chunks.append(json.dumps(v, ensure_ascii=False))
+                            except Exception:
+                                chunks.append(str(v))
+                        else:
+                            chunks.append(str(v))
+                    return '\n'.join(chunks).lower()
+
+                scored = []
+                for doc in raw_docs:
+                    text = doc_to_search_text(doc)
+                    match_count = 0
+                    for kw in keywords:
+                        if kw.lower() in text:
+                            match_count += 1
+                    if match_count > 0:
+                        scored.append((match_count, doc))
+
+                scored.sort(key=lambda t: t[0], reverse=True)
+                documents = [d for (_s, d) in scored]
+
+            # --- No keyword: original goal-based behaviour ---
+            # Create search query for all fields
+            search_conditions = []
+            goal_lower = goal.lower().strip()
+            
+            # Known location values in the database
+            known_locations = ['ireland', 'northern ireland', 'united kingdom', 'uk']
+            
+            # Check if the goal is a known location - if so, only search Location field
+            is_location_search = goal_lower in known_locations or \
+                               goal_lower == 'n. ireland' or \
+                               goal_lower == 'n ireland' or \
+                               'northern ireland' in goal_lower
+            
+            # If a specific field is requested, do a field-specific exact match (case-insensitive)
+            if field and field in allowed_fields and field in available_fields:
+                if field == 'Location':
+                    if goal_lower == 'ireland':
+                        query = {'Location': {"$regex": r'^Ireland$', "$options": "i"}}
+                    elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
+                        query = {'Location': {"$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$', "$options": "i"}}
+                    elif goal_lower in ['united kingdom', 'uk']:
+                        query = {'Location': {"$regex": r'^(United Kingdom|UK)$', "$options": "i"}}
+                    else:
+                        query = {'Location': {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
+                else:
+                    query = {field: {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
+
+            elif is_location_search and 'Location' in available_fields:
+                # For location searches, ONLY search in Location field with exact match
                 if goal_lower == 'ireland':
                     # For "Ireland", match exactly "Ireland" but exclude "Northern Ireland"
-                    search_conditions.append({
+                    query = {
                         'Location': {
                             "$regex": r'^Ireland$',
                             "$options": "i"
                         }
-                    })
+                    }
                 elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
                     # For "Northern Ireland", match only "Northern Ireland" variations
-                    search_conditions.append({
+                    query = {
                         'Location': {
                             "$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$',
                             "$options": "i"
                         }
-                    })
+                    }
+                elif goal_lower in ['united kingdom', 'uk']:
+                    # For "United Kingdom" or "UK", match exactly
+                    query = {
+                        'Location': {
+                            "$regex": r'^(United Kingdom|UK)$',
+                            "$options": "i"
+                        }
+                    }
                 else:
-                    # For other locations, use normal regex matching
-                    search_conditions.append({'Location': {"$regex": goal, "$options": "i"}})
-            
-            # For all other fields, use normal regex matching
-            for field in available_fields:
-                if field != 'Location':  # Location already handled above
-                    search_conditions.append({field: {"$regex": goal, "$options": "i"}})
-            
-            query = {"$or": search_conditions} if search_conditions else {}
-
-        # Add additional filters (quadrant, segment, factor) if provided
-        additional_filters = {}
-        if quadrant:
-            additional_filters['Quadrant'] = quadrant
-        if segment:
-            additional_filters['Segment'] = segment
-        if factor:
-            additional_filters['Factor'] = factor
-
-        if additional_filters:
-            if isinstance(query, dict) and '$or' in query:
-                query = {"$and": [query, additional_filters]}
+                    # Fallback: exact match for location
+                    query = {
+                        'Location': {
+                            "$regex": f'^{re.escape(goal.strip())}$',
+                            "$options": "i"
+                        }
+                    }
             else:
-                query.update(additional_filters)
+                # For non-location searches, search ALL fields
+                # Special handling for Location field to distinguish Ireland from Northern Ireland
+                if 'Location' in available_fields:
+                    if goal_lower == 'ireland':
+                        # For "Ireland", match exactly "Ireland" but exclude "Northern Ireland"
+                        search_conditions.append({
+                            'Location': {
+                                "$regex": r'^Ireland$',
+                                "$options": "i"
+                            }
+                        })
+                    elif 'northern ireland' in goal_lower or goal_lower == 'n. ireland' or goal_lower == 'n ireland':
+                        # For "Northern Ireland", match only "Northern Ireland" variations
+                        search_conditions.append({
+                            'Location': {
+                                "$regex": r'^Northern Ireland$|^N\. Ireland$|^N Ireland$',
+                                "$options": "i"
+                            }
+                        })
+                    else:
+                        # For other locations, use normal regex matching
+                        search_conditions.append({'Location': {"$regex": goal, "$options": "i"}})
+                
+                # For all other fields, use normal regex matching
+                for field in available_fields:
+                    if field != 'Location':  # Location already handled above
+                        search_conditions.append({field: {"$regex": goal, "$options": "i"}})
+                
+                query = {"$or": search_conditions} if search_conditions else {}
 
-        documents = list(collection.find(query))
+            # Add additional filters (quadrant, segment, factor) if provided
+            additional_filters = {}
+            if quadrant:
+                additional_filters['Quadrant'] = quadrant
+            if segment:
+                additional_filters['Segment'] = segment
+            if factor:
+                additional_filters['Factor'] = factor
+
+            if additional_filters:
+                if isinstance(query, dict) and '$or' in query:
+                    query = {"$and": [query, additional_filters]}
+                else:
+                    query.update(additional_filters)
+
+            if documents is None:
+                documents = list(collection.find(query))
         
         if not documents:
             return jsonify({'success': False, 'error': 'No data found for the specified filter'})
@@ -1662,7 +2181,7 @@ def export_filtered_data():
         # Create Excel workbook
         wb = Workbook()
         ws = wb.active
-        ws.title = f"Filtered Data - {goal}"
+        ws.title = f"Filtered Data - {goal_label}"
         
         # Get all unique keys from all documents
         all_keys = set()
@@ -1735,7 +2254,7 @@ def export_filtered_data():
         return Response(
             output.getvalue(),
             mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            headers={'Content-Disposition': f'attachment; filename=filtered_data_{goal.replace(" ", "_")}.xlsx'}
+            headers={'Content-Disposition': f'attachment; filename=filtered_data_{goal_label.replace(" ", "_")}.xlsx'}
         )
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})

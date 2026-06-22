@@ -1,0 +1,26 @@
+[
+  {
+    "_id": {
+      "$oid": "6944b3faeced6a1fa6518cb2"
+    },
+    "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+    "Segment": "Right to food",
+    "Factor": "Agency",
+    "Location": "Ireland",
+    "Indicator": "test",
+    "submitted_at": "2025-12-18 23:10:02.335715"
+  },
+  {
+    "_id": {
+      "$oid": "69dca7a1ef92774a37b144d0"
+    },
+    "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+    "Segment": "Right to food",
+    "Factor": "Agency",
+    "Location": "United Kingdom",
+    "Indicator": "test",
+    "Title": "test",
+    "Datatype": "Website",
+    "submitted_at": "2026-04-13 16:21:53.852765"
+  }
+]

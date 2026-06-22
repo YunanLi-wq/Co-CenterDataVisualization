@@ -1,518 +1,22 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6b8e23 100%);
-    min-height: 100vh;
-    color: #333;
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-    color: white;
-  }
-  
-  .header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  }
-  
-  .header p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-  }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  /* Filter bar */
-  .filter-bar {
-    width: min(100%, 980px);
-    margin: 0 auto 16px auto;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 14px;
-    padding: 12px 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    backdrop-filter: blur(6px);
-  }
-
-  .filter-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .filter-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: #2d5016;
-    margin-bottom: 6px;
-  }
-
-  .filter-input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid #d7e2d5;
-    outline: none;
-    font-size: 13px;
-    background: white;
-  }
-
-  .filter-input:focus {
-    border-color: #4a7c59;
-    box-shadow: 0 0 0 3px rgba(74,124,89,0.18);
-  }
-
-  .filter-hint {
-    margin: 10px 0 0 0;
-    font-size: 12px;
-    color: #556;
-  }
-
-  .filter-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  .filter-action-btn {
-    padding: 8px 12px;
-    border-radius: 10px;
-    border: 2px solid #000;
-    background: #fff;
-    color: #111;
-    font-size: 13px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-
-  .filter-action-btn:hover {
-    background: #f3f3f3;
-  }
-  
-  .compass-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-    width: 100%;
-  }
-  
-  .compass-container svg {
-    width: min(100%, 900px);
-    height: auto;
-    font-size: 12px;
-  }
-  
-  .arc path {
-    stroke: #fff;
-  }
-  
-  .label {
-    font-size: 10px;
-    text-anchor: middle;
-    pointer-events: auto;
-  }
-
-  .clickable { cursor: pointer; }
-  .hovered { opacity: 0.85; filter: saturate(1.2); }
-  
-  .navigation-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-  }
-  
-  .nav-button {
-    display: inline-block;
-    padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #333;
-    text-decoration: none;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .nav-button:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    color: #2d5016;
-  }
-  
-  .back-button {
-    background: linear-gradient(135deg, #2d5016, #4a7c59);
-    color: white;
-  }
-  
-  .back-button:hover {
-    background: linear-gradient(135deg, #1e3a0a, #3a6b49);
-    color: white;
-  }
-  
-  .add-item-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-  }
-  
-  .add-item-button:hover {
-    background: linear-gradient(135deg, #1e7e34, #1aa179);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    color: white;
-  }
-  
-  .higher-manager-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    background: linear-gradient(135deg, #6f42c1, #5a32a3);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    font-size: 0.9rem;
-  }
-  
-  .higher-manager-button:hover {
-    background: linear-gradient(135deg, #5a32a3, #4a2c8a);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    color: white;
-  }
-  
-  /* Tooltip styles - Rounded design with improved positioning */
-  .tooltip {
-    position: fixed;
-    background: #f5f5f5;
-    color: #333;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    max-width: 300px;
-    pointer-events: auto;
-    z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border: 1px solid #ddd;
-  }
-  
-  .tooltip.show {
-    opacity: 1;
-  }
-  
-  .tooltip-title {
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 15px;
-  }
-  
-  .tooltip-description {
-    line-height: 1.4;
-    margin: 0;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  
-  .tooltip-button {
-    background: #4a7c59;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 500;
-    transition: background 0.3s ease;
-    margin-top: 8px;
-  }
-  
-  .tooltip-button:hover {
-    background: #3a6b49;
-  }
-  
-  /* Detail panel styles */
-  .detail-panel {
-    position: fixed;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 350px;
-    max-height: 80vh;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    z-index: 2000;
-    overflow-y: auto;
-    opacity: 0;
-    transform: translateY(-50%) translateX(-20px);
-    transition: all 0.3s ease;
-    pointer-events: none;
-    border: 1px solid #ddd;
-  }
-  
-  .detail-panel.show {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-    pointer-events: auto;
-  }
-  
-  .detail-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f0f0f0;
-  }
-  
-  .detail-panel-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #2d5016;
-    margin: 0;
-  }
-  
-  .detail-panel-close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #999;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-  }
-  
-  .detail-panel-close:hover {
-    background: #f5f5f5;
-    color: #333;
-  }
-  
-  .detail-panel-content {
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  .detail-panel-description {
-    font-size: 14px;
-    margin-bottom: 15px;
-  }
-  
-  .detail-panel-info {
-    font-size: 13px;
-    color: #666;
-    margin-top: 10px;
-  }
-  
-  .detail-panel-button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    background: #4a7c59;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .detail-panel-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  .detail-panel-actions .detail-panel-button {
-    flex: 1;
-    margin-top: 0;
-    width: auto;
-  }
-
-  .detail-panel-button.secondary {
-    background: #6b8e23;
-  }
-  
-  .detail-panel-button:hover {
-    background: #3a6b49;
-  }
-  
-  .detail-panel-button:active {
-    background: #2d5016;
-  }
-  
-  .detail-panel-color-bar {
-    height: 4px;
-    width: 100%;
-    border-radius: 2px;
-    margin-bottom: 15px;
-  }
-
-  /* Factor count bubbles (shown outside the pie) */
-  .count-bubble circle {
-    fill: rgba(255, 255, 255, 0.92);
-    stroke: #000;
-    stroke-width: 2px;
-  }
-
-  .count-bubble text {
-    fill: #2d5016;
-    font-weight: 700;
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
-  }
-
-  /* Center AllFactor bubble */
-  .allfactor-bubble circle {
-    fill: rgba(255, 255, 255, 0.95);
-    stroke: #000;
-    stroke-width: 2.5px;
-  }
-
-  .allfactor-bubble text {
-    fill: #000;
-    font-weight: 800;
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
-  }
-
-  /* Researcher List panel (left side) */
-  .researcher-panel {
-    position: fixed;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 380px;
-    max-height: 80vh;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    z-index: 2000;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .researcher-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f0f0f0;
-  }
-
-  .researcher-panel-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: #2d5016;
-    margin: 0;
-  }
-
-  .researcher-panel-close {
-    background: none;
-    border: none;
-    font-size: 22px;
-    color: #999;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-  }
-
-  .researcher-panel-close:hover {
-    background: #f5f5f5;
-    color: #333;
-  }
-
-  .researcher-panel-subtitle {
-    font-size: 13px;
-    color: #666;
-    margin: 0 0 10px 0;
-  }
-
-  .researcher-panel-content {
-    overflow-y: auto;
-    padding-right: 6px;
-  }
-
-  .researcher-item {
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #fafafa;
-  }
-
-  .researcher-name {
-    font-weight: 700;
-    color: #2d5016;
-    margin-bottom: 4px;
-  }
-
-  .researcher-meta {
-    font-size: 12.5px;
-    color: #444;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-
-  .researcher-meta strong { color: #333; }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='d3viz2.page.css') }}">
+</head>
 <body>
-<a href="/login" class="add-item-button">+ Add Item</a>
 <a href="/higher-manager-login" class="higher-manager-button">🔐 Higher Manager</a>
 
 <!-- Tooltip element -->
 <div id="tooltip" class="tooltip">
   <div class="tooltip-title"></div>
   <div class="tooltip-description"></div>
-  <button class="tooltip-button" id="more-info-btn">More Information</button>
+  <button class="tooltip-button" id="more-info-btn">Full definition</button>
 </div>
 
 <!-- Researcher List Panel (left side) -->
@@ -525,6 +29,15 @@
   <div class="researcher-panel-content" id="researcher-panel-content"></div>
 </div>
 
+<!-- Platform bar chart window (shown on bubble click) -->
+<div id="platform-chart-panel" class="platform-chart-panel">
+  <div class="platform-chart-header">
+    <h4 class="platform-chart-title" id="platform-chart-title">Platform distribution</h4>
+    <button class="platform-chart-close" id="platform-chart-close" aria-label="Close">×</button>
+  </div>
+  <p class="platform-chart-subtitle" id="platform-chart-subtitle"></p>
+  <svg id="platform-chart-svg" width="332" height="260"></svg>
+</div>
 <!-- Detail Panel -->
 <div id="detail-panel" class="detail-panel">
   <div class="detail-panel-header">
@@ -536,41 +49,78 @@
     <div class="detail-panel-description" id="detail-description"></div>
     <div class="detail-panel-info" id="detail-info"></div>
     <div class="detail-panel-actions">
-      <button class="detail-panel-button" id="show-table-btn">Show Table</button>
-      <button class="detail-panel-button secondary" id="show-map-btn">Show Map</button>
+      <button class="detail-panel-button" id="show-table-btn">Explore Data</button>
     </div>
   </div>
 </div>
 
 <div class="header">
-  <h1>Food Co-Centre Sustainability Compass</h1>
-  <p>Interactive visualization of sustainable food systems</p>
+  <div class="header-left-block">
+    <div class="header-left-actions">
+      <a class="header-action-btn" id="header-btn-introduction" href="/intro">Introduction</a>
+      <div class="interactive-stack">
+        <button class="header-action-btn active" id="header-btn-interactive" type="button" aria-expanded="false">Interactive</button>
+        <div class="interactive-extra-row">
+          <div class="interactive-subactions" id="interactive-subactions">
+            <button class="header-subaction-btn" id="header-btn-definitions" type="button">Definitions &amp; Explore Data</button>
+            <button class="header-subaction-btn" id="header-btn-research-outcomes" type="button">Researcher's Information</button>
+          </div>
+        </div>
+      </div>
+      <a class="header-action-btn" id="header-btn-data-search" href="{{ url_for('table', module_name='__ALL__') }}">Search Full Dataset</a>
+    </div>
+  </div>
+  <div class="header-content">
+    <h1>Food Co-Centre Sustainability Compass</h1>
+    <div class="definitions-hint" id="definitions-hint">
+      Hover over terms to see a brief definition; click to open the full definition
+    </div>
+  </div>
+</div>
+
+<!-- Researcher Filters: positioned under header buttons + hint strip -->
+<div class="header-below" id="header-below"></div>
+
+<a href="/login" class="add-item-button">+ Add Item</a>
+<div class="intro-panel" id="intro-panel">
+  This compass visualizes the Co-Centre sustainability framework across quadrants, segments, and factors.
+  Click any module to view details, and use Researcher Information plus filters to explore researcher distributions.
 </div>
 
 <!-- Filters (Researcher collection) -->
-<div class="filter-bar">
-  <div class="filter-row">
-    <div class="filter-group">
-      <label for="platform-alignment-filter">Platform Alignment</label>
-      <select id="platform-alignment-filter" class="filter-input"></select>
+<div class="filter-bar" id="researcher-filter-bar" style="display:none;">
+  <button class="filter-collapse-toggle" id="researcher-filter-collapse-toggle" type="button" aria-expanded="false">
+    <span>Researcher Filters</span>
+    <span class="filter-collapse-arrow">▼</span>
+  </button>
+  <div class="filter-collapse-content" id="researcher-filter-collapse-content">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label for="platform-alignment-filter">Platform Alignment</label>
+        <select id="platform-alignment-filter" class="filter-input"></select>
+        <div class="platform-sub-container" id="platform-sub-container">
+          <label for="platform-alignment-sub-filter">P1 sub-platform</label>
+          <select id="platform-alignment-sub-filter" class="filter-input"></select>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label for="institution-filter">Institution</label>
+        <select id="institution-filter" class="filter-input"></select>
+      </div>
+      <div class="filter-group">
+        <label for="funder-category-filter">Career Stage</label>
+        <select id="funder-category-filter" class="filter-input"></select>
+      </div>
     </div>
-    <div class="filter-group">
-      <label for="institution-filter">Institution</label>
-      <select id="institution-filter" class="filter-input"></select>
-    </div>
-    <div class="filter-group">
-      <label for="funder-category-filter">Funder Category</label>
-      <select id="funder-category-filter" class="filter-input"></select>
+    <div class="filter-actions">
+      <div class="filter-hint-inline">Tip: start typing to search options. Bubble counts + Researcher List update with filters.</div>
+      <button class="filter-action-btn" id="show-all-researchers-btn" type="button">Show All</button>
     </div>
   </div>
-  <div class="filter-actions">
-    <button class="filter-action-btn" id="show-all-researchers-btn" type="button">Show All</button>
-  </div>
-  <p class="filter-hint">Tip: start typing to search options. Bubble counts + Researcher List update with filters.</p>
 </div>
 
 <div class="compass-container">
-  <svg width="900" height="900"></svg>
+  <svg id="compass-svg" width="900" height="900"></svg>
 </div>
 
 <div class="navigation-buttons">
@@ -578,6 +128,12 @@
   <a href="https://foodcocentre.org/" class="nav-button" target="_blank">Visit Co-Centre Website</a>
   <a href="https://foodcocentre.org/research" class="nav-button" target="_blank">Research Overview</a>
   <a href="https://foodcocentre.org/contact" class="nav-button" target="_blank">Contact Us</a>
+</div>
+
+<div class="footer-logos" style="display:flex; flex-wrap:wrap; gap:22px; justify-content:center; align-items:center; margin:18px auto 0; padding:12px 0 26px;">
+  <img src="{{ url_for('figure_files', filename='COCENTRE_SFS_Ranged_3_WHITE_Aug24_300dpi.png') }}" alt="Co-Centre for Sustainable Food Systems logo" style="height:54px; width:auto; object-fit:contain;">
+  <img src="{{ url_for('figure_files', filename='university-college-dublin-seeklogo.png') }}" alt="University College Dublin logo" style="height:54px; width:auto; object-fit:contain;">
+  <img src="{{ url_for('figure_files', filename='Food Group Logo.png') }}" alt="Food Group logo" style="height:54px; width:auto; object-fit:contain;">
 </div>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script>
@@ -591,6 +147,143 @@ let detailPanel = null;
 let hideTooltipTimeout = null; // Timeout for hiding tooltip
 let factorKeyByName = {}; // map normalized factor display name -> actual factor key/column from API
 let tooltipPinned = false; // When true, tooltip stays until click-away/ESC
+let researcherInfoVisible = false;
+let researcherFiltersExpanded = false;
+
+function getPlatformColors() {
+  return {
+    P1: '#9FBE5C',
+    P2: '#49B3AD',
+    P3: '#B17C25',
+    P4: '#AC2C2C',
+    P5: '#7D6EA3'
+  };
+}
+
+function openPlatformChartWindow({ title, subtitle, total, platformCounts }) {
+  const panel = document.getElementById('platform-chart-panel');
+  const closeBtn = document.getElementById('platform-chart-close');
+  const titleEl = document.getElementById('platform-chart-title');
+  const subtitleEl = document.getElementById('platform-chart-subtitle');
+  const svgEl = document.getElementById('platform-chart-svg');
+  if (!panel || !closeBtn || !titleEl || !subtitleEl || !svgEl) return;
+
+  titleEl.textContent = title || 'Platform distribution';
+  subtitleEl.textContent = subtitle || `Total researchers: ${total}`;
+  panel.style.display = 'block';
+
+  closeBtn.onclick = () => { panel.style.display = 'none'; };
+
+  // Draw pie chart.
+  // Platform counts can overlap, so we compute percentages over total platform affiliations
+  // (sum of P1..P5 counts), so the pie always sums to 100%.
+  const colors = getPlatformColors();
+  const keys = ['P1', 'P2', 'P3', 'P4', 'P5'];
+  const counts = keys.map(k => Number(platformCounts?.[k] ?? 0));
+  const totalAffiliations = counts.reduce((a, b) => a + b, 0);
+  const data = keys.map((k, i) => ({
+    platform: k,
+    count: counts[i],
+    pct: totalAffiliations ? (counts[i] / totalAffiliations) * 100 : 0
+  })).filter(d => d.count > 0);
+
+  const width = Number(svgEl.getAttribute('width') || 332);
+  const height = Number(svgEl.getAttribute('height') || 260);
+
+  const svg = d3.select(svgEl);
+  svg.selectAll('*').remove();
+
+  if (totalAffiliations === 0 || data.length === 0) {
+    svg.append('text')
+      .attr('x', width / 2)
+      .attr('y', height / 2)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '13px')
+      .style('font-weight', '700')
+      .style('fill', '#444')
+      .text('No platform data.');
+    return;
+  }
+
+  // Update subtitle to reflect duplicate-counting basis
+  if (!subtitle) {
+    subtitleEl.textContent = `Researchers: ${total} • Platform affiliations: ${totalAffiliations}`;
+  }
+
+  const cx = width / 2;
+  const cy = height / 2 + 6;
+  const r = Math.min(width, height) * 0.38;
+  // Full pie (no donut hole)
+  const arc = d3.arc().innerRadius(0).outerRadius(r);
+  const pie = d3.pie().sort(null).value(d => d.count);
+
+  const g = svg.append('g').attr('transform', `translate(${cx},${cy})`);
+  const arcs = pie(data);
+
+  g.selectAll('path')
+    .data(arcs)
+    .join('path')
+    .attr('d', arc)
+    .attr('fill', d => colors[d.data.platform] || '#999')
+    .attr('fill-opacity', 0.92);
+
+  // Labels on slices: P1 + count + percent
+  const arcLabel = d3.arc().innerRadius(r * 0.62).outerRadius(r * 0.62);
+
+  const getLabelFill = (platform) => {
+    const col = d3.color(colors[platform] || '#999');
+    if (!col) return '#111';
+    const rgb = col.rgb();
+    const luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b) / 255;
+    return luminance < 0.55 ? '#fff' : '#111';
+  };
+
+  const labels = g.selectAll('text.slice-label')
+    .data(arcs)
+    .join('text')
+    .attr('class', 'slice-label')
+    .attr('transform', d => `translate(${arcLabel.centroid(d)})`)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '11px')
+    .style('font-weight', '900')
+    .style('fill', d => getLabelFill(d.data.platform))
+    .style('pointer-events', 'none');
+
+  labels.append('tspan')
+    .attr('x', 0)
+    .attr('dy', '-0.15em')
+    .text(d => d.data.platform);
+
+  labels.append('tspan')
+    .attr('x', 0)
+    .attr('dy', '1.2em')
+    .style('font-size', '10px')
+    .style('font-weight', '800')
+    .text(d => `${d.data.count} (${d.data.pct.toFixed(0)}%)`);
+}
+
+async function openPlatformChartForSelection({ scope, factorKey, label }) {
+  try {
+    const filters = getResearcherFilters();
+    const params = new URLSearchParams();
+    params.append('scope', scope);
+    if (factorKey) params.append('factor_key', factorKey);
+    if (filters.platformAlignment) params.append('platform_alignment', filters.platformAlignment);
+    if (filters.institution) params.append('institution', filters.institution);
+    if (filters.funderCategory) params.append('funder_category', filters.funderCategory);
+    const res = await fetch(`/api/researchers/platform-summary?${params.toString()}`);
+    const json = await res.json();
+    if (!json.success) return;
+    openPlatformChartWindow({
+      title: 'Platform distribution',
+      subtitle: label ? `${label} • Total researchers: ${json.total}` : `Total researchers: ${json.total}`,
+      total: json.total || 0,
+      platformCounts: json.platform_counts || {}
+    });
+  } catch (e) {
+    console.error('Failed to open platform chart', e);
+  }
+}
 
 // Load descriptions from API
 async function loadDescriptions() {
@@ -683,6 +376,16 @@ function calculateTooltipPosition(moduleX, moduleY, tooltipWidth, tooltipHeight,
   return { tooltipX, tooltipY };
 }
 
+function normalizeDefinitionText(value) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    // Normalize tricky whitespace that looks like an extra "blank"
+    .replace(/\u00a0/g, ' ') // NBSP
+    .replace(/[\u200B-\u200D\uFEFF]/g, '') // zero-width chars
+    .replace(/\r\n/g, '\n')
+    .trim();
+}
+
 // Show tooltip with clean positioning (no arrow)
 function showTooltip(event, d) {
   if (!tooltip) {
@@ -697,7 +400,7 @@ function showTooltip(event, d) {
   if (descriptions) {
     descData = findDescription(d.name, descriptions);
     if (descData) {
-      shortDescription = descData.short_description || '';
+      shortDescription = normalizeDefinitionText(descData.short_description || '');
     } else {
       console.log('No description found for:', d.name);
     }
@@ -713,7 +416,7 @@ function showTooltip(event, d) {
   console.log('Showing tooltip for:', d.name, 'with description:', shortDescription);
   
   // Get SVG element
-  const svgElement = d3.select("svg");
+  const svgElement = d3.select("#compass-svg");
   
   // Calculate module center position
   const compassCenterX = width / 2;
@@ -796,7 +499,7 @@ function showTooltip(event, d) {
     name: d.name,
     color: d.color || '#4a7c59',
     short_description: shortDescription,
-    definition: descData ? (descData.definition || '') : '',
+    definition: descData ? normalizeDefinitionText(descData.definition || '') : '',
     data: d
   };
   
@@ -843,7 +546,10 @@ function showDetailPanel() {
   detailPanel.select('#detail-color-bar').style('background-color', currentModule.color);
   
   // Set definition (from database)
-  detailPanel.select('#detail-description').text(currentModule.definition || 'No definition available.');
+  const normalizedDefinition = normalizeDefinitionText(currentModule.definition);
+  detailPanel
+    .select('#detail-description')
+    .text(normalizedDefinition || 'No definition available.');
   
   // Set additional info
   const info = detailPanel.select('#detail-info');
@@ -873,8 +579,7 @@ function showDetailPanel() {
   selectedModule = { ...currentModule };
   
   info.html(`
-    <strong>Module Type:</strong> ${moduleType}<br>
-    <strong>Color:</strong> <span style="color: ${currentModule.color}">${currentModule.color}</span>
+    <strong>Module Type:</strong> ${moduleType}
   `);
   
   // Show panel
@@ -914,21 +619,6 @@ function initDetailPanel() {
       const qs = field ? `?field=${field}` : '';
       window.location.href = `/table/${moduleName}${qs}`;
     }
-  });
-
-  // Bind show map button
-  d3.select('#show-map-btn').on('click', function() {
-    const moduleToOpen = selectedModule || currentModule;
-    if (!moduleToOpen || !moduleToOpen.name) return;
-
-    const fieldType = moduleToOpen.moduleType || determineModuleTypeByName(moduleToOpen.name);
-    const params = new URLSearchParams();
-    if (fieldType === 'Quadrant') params.set('quadrant', moduleToOpen.name);
-    else if (fieldType === 'Segment') params.set('segment', moduleToOpen.name);
-    else params.set('factor', moduleToOpen.name);
-
-    const qs = params.toString() ? `?${params.toString()}` : '';
-    window.location.href = `/map${qs}`;
   });
   
   // Bind more info button
@@ -1082,7 +772,7 @@ const data = [
 ];
 
 const width = 1200, height = 1200, radius = Math.min(width, height)/2;
-const rootSvg = d3.select("svg")
+const rootSvg = d3.select("#compass-svg")
   .attr("viewBox", `0 0 ${width} ${height}`)
   .attr("preserveAspectRatio", "xMidYMid meet")
   .style("width", "100%")
@@ -1427,16 +1117,26 @@ function drawCenterAllFactorBubble(count) {
     .attr('role', 'button')
     .attr('tabindex', 0);
 
-  bubble.append('circle')
+  const bubbleStyle = getActivePlatformBubbleStyle();
+  const centerCircle = bubble.append('circle')
     .attr('r', r)
     .style('pointer-events', 'all')
     .on('click', function(event) {
       event.stopPropagation();
       loadResearchersForAllFactor();
+      openPlatformChartForSelection({ scope: 'allfactor', label: 'AllFactor' });
     });
+  if (bubbleStyle.fill) {
+    centerCircle
+      .style('fill', bubbleStyle.fill)
+      .style('fill-opacity', bubbleStyle.fillOpacity ?? 1);
+  }
   bubble.append('text')
     .text(String(count))
     .style('font-size', '16px');
+  if (bubbleStyle.textFill) {
+    bubble.select('text').style('fill', bubbleStyle.textFill);
+  }
 }
 
 async function loadResearchersForAllFactor() {
@@ -1482,7 +1182,7 @@ async function loadResearchersForAllFactor() {
         <div class="researcher-item">
           <div class="researcher-name">${name || '(No Name)'}</div>
           <div class="researcher-meta">
-            <div><strong>Funder Category:</strong> ${funderCat || '-'}</div>
+            <div><strong>Career Stage:</strong> ${funderCat || '-'}</div>
             <div><strong>Institution:</strong> ${inst || '-'}</div>
             <div><strong>Email (as per SESAME):</strong> ${email || '-'}</div>
             <div><strong>Platform Alignment:</strong> ${platAlign || '-'}</div>
@@ -1516,8 +1216,83 @@ function initResearcherPanel() {
   });
 }
 
+function makePanelDraggable(panelEl, handleEl) {
+  if (!panelEl || !handleEl) return;
+
+  let dragging = false;
+  let startX = 0;
+  let startY = 0;
+  let startLeft = 0;
+  let startTop = 0;
+
+  const ensurePixelPosition = () => {
+    const rect = panelEl.getBoundingClientRect();
+    panelEl.style.left = `${rect.left}px`;
+    panelEl.style.top = `${rect.top}px`;
+    panelEl.style.right = 'auto';
+    panelEl.style.bottom = 'auto';
+    panelEl.style.transform = 'none';
+  };
+
+  handleEl.addEventListener('pointerdown', (e) => {
+    // Don't start drag when clicking buttons inside the header (close button)
+    const target = e.target;
+    if (target && (target.closest('button') || target.closest('a') || target.closest('input') || target.closest('select'))) return;
+
+    dragging = true;
+    handleEl.setPointerCapture?.(e.pointerId);
+    ensurePixelPosition();
+
+    const rect = panelEl.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = rect.left;
+    startTop = rect.top;
+    e.preventDefault();
+  });
+
+  handleEl.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    let left = startLeft + dx;
+    let top = startTop + dy;
+
+    // Clamp inside viewport with small padding
+    const pad = 8;
+    const rect = panelEl.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    left = Math.max(pad, Math.min(window.innerWidth - w - pad, left));
+    top = Math.max(pad, Math.min(window.innerHeight - h - pad, top));
+
+    panelEl.style.left = `${left}px`;
+    panelEl.style.top = `${top}px`;
+  });
+
+  const stop = (e) => {
+    if (!dragging) return;
+    dragging = false;
+    try { handleEl.releasePointerCapture?.(e.pointerId); } catch {}
+  };
+  handleEl.addEventListener('pointerup', stop);
+  handleEl.addEventListener('pointercancel', stop);
+}
+
+function setupDraggablePanels() {
+  const researcherPanel = document.getElementById('researcher-panel');
+  const researcherHandle = researcherPanel ? researcherPanel.querySelector('.researcher-panel-header') : null;
+  makePanelDraggable(researcherPanel, researcherHandle);
+
+  const chartPanel = document.getElementById('platform-chart-panel');
+  const chartHandle = chartPanel ? chartPanel.querySelector('.platform-chart-header') : null;
+  makePanelDraggable(chartPanel, chartHandle);
+}
+
 function getResearcherFilters() {
   const platformAlignmentEl = document.getElementById('platform-alignment-filter');
+  const platformAlignmentSubEl = document.getElementById('platform-alignment-sub-filter');
   const institutionEl = document.getElementById('institution-filter');
   const funderCategoryEl = document.getElementById('funder-category-filter');
 
@@ -1531,7 +1306,15 @@ function getResearcherFilters() {
   };
 
   return {
-    platformAlignment: platformAlignmentEl ? normalizePlatformSelection(platformAlignmentEl.value) : '',
+    platformAlignment: (() => {
+      const main = platformAlignmentEl ? normalizePlatformSelection(platformAlignmentEl.value) : '';
+      // If main platform is P1 and a sub-platform is selected, use the sub-platform for filtering
+      if (main === 'P1' && platformAlignmentSubEl) {
+        const sub = String(platformAlignmentSubEl.value || '').trim();
+        if (sub) return sub;
+      }
+      return main;
+    })(),
     institution: institutionEl ? String(institutionEl.value || '').trim() : '',
     funderCategory: funderCategoryEl ? String(funderCategoryEl.value || '').trim() : ''
   };
@@ -1552,15 +1335,19 @@ async function loadResearcherFilterOptions() {
     if (!json.success) return;
 
     const platformSelect = document.getElementById('platform-alignment-filter');
+    const platformSubSelect = document.getElementById('platform-alignment-sub-filter');
+    const platformSubContainer = document.getElementById('platform-sub-container');
     const institutionSelect = document.getElementById('institution-filter');
     const funderCategorySelect = document.getElementById('funder-category-filter');
-    if (!platformSelect || !institutionSelect || !funderCategorySelect) return;
+    if (!platformSelect || !platformSubSelect || !platformSubContainer || !institutionSelect || !funderCategorySelect) return;
 
     const prevPlatform = platformSelect.value;
+    const prevPlatformSub = platformSubSelect.value;
     const prevInstitution = institutionSelect.value;
     const prevFunder = funderCategorySelect.value;
 
     platformSelect.innerHTML = '';
+    platformSubSelect.innerHTML = '';
     institutionSelect.innerHTML = '';
     funderCategorySelect.innerHTML = '';
 
@@ -1572,6 +1359,7 @@ async function loadResearcherFilterOptions() {
       selectEl.appendChild(opt);
     };
     addShowAll(platformSelect);
+    addShowAll(platformSubSelect);
     addShowAll(institutionSelect);
     addShowAll(funderCategorySelect);
 
@@ -1590,6 +1378,14 @@ async function loadResearcherFilterOptions() {
       opt.textContent = platformLabels[v] || v;
       platformSelect.appendChild(opt);
     });
+
+    // P1 sub-platform options (hidden unless P1 selected)
+    (json.platform_p1_sub_alignments || []).forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      opt.textContent = v;
+      platformSubSelect.appendChild(opt);
+    });
     (json.institutions || []).forEach(v => {
       const opt = document.createElement('option');
       opt.value = v;
@@ -1605,8 +1401,14 @@ async function loadResearcherFilterOptions() {
 
     // Restore previous selections when possible; otherwise default to Show all
     platformSelect.value = prevPlatform;
+    platformSubSelect.value = prevPlatformSub;
     institutionSelect.value = prevInstitution;
     funderCategorySelect.value = prevFunder;
+
+    // Ensure correct visibility after restoring selection
+    const main = String(platformSelect.value || '').trim().toUpperCase();
+    if (main === 'P1') platformSubContainer.classList.add('show');
+    else platformSubContainer.classList.remove('show');
   } catch (e) {
     console.error('Failed to load researcher filter options', e);
   }
@@ -1614,9 +1416,11 @@ async function loadResearcherFilterOptions() {
 
 function setupResearcherFilters() {
   const platformAlignmentEl = document.getElementById('platform-alignment-filter');
+  const platformAlignmentSubEl = document.getElementById('platform-alignment-sub-filter');
+  const platformSubContainer = document.getElementById('platform-sub-container');
   const institutionEl = document.getElementById('institution-filter');
   const funderCategoryEl = document.getElementById('funder-category-filter');
-  if (!platformAlignmentEl || !institutionEl || !funderCategoryEl) return;
+  if (!platformAlignmentEl || !platformAlignmentSubEl || !platformSubContainer || !institutionEl || !funderCategoryEl) return;
 
   const onChange = debounce(() => {
     initFactorBubbles();
@@ -1630,7 +1434,17 @@ function setupResearcherFilters() {
     }
   }, 300);
 
-  platformAlignmentEl.addEventListener('change', onChange);
+  platformAlignmentEl.addEventListener('change', () => {
+    const main = String(platformAlignmentEl.value || '').trim().toUpperCase();
+    if (main === 'P1') {
+      platformSubContainer.classList.add('show');
+    } else {
+      platformSubContainer.classList.remove('show');
+      platformAlignmentSubEl.value = '';
+    }
+    onChange();
+  });
+  platformAlignmentSubEl.addEventListener('change', onChange);
   institutionEl.addEventListener('change', onChange);
   funderCategoryEl.addEventListener('change', onChange);
 }
@@ -1641,9 +1455,11 @@ function setupShowAllResearchersButton() {
   btn.addEventListener('click', () => {
     // Clear filters (Show all by default)
     const platformAlignmentEl = document.getElementById('platform-alignment-filter');
+    const platformAlignmentSubEl = document.getElementById('platform-alignment-sub-filter');
     const institutionEl = document.getElementById('institution-filter');
     const funderCategoryEl = document.getElementById('funder-category-filter');
     if (platformAlignmentEl) platformAlignmentEl.value = '';
+    if (platformAlignmentSubEl) platformAlignmentSubEl.value = '';
     if (institutionEl) institutionEl.value = '';
     if (funderCategoryEl) funderCategoryEl.value = '';
 
@@ -1697,7 +1513,7 @@ async function loadAllResearchers() {
         <div class="researcher-item">
           <div class="researcher-name">${name || '(No Name)'}</div>
           <div class="researcher-meta">
-            <div><strong>Funder Category:</strong> ${funderCat || '-'}</div>
+            <div><strong>Career Stage:</strong> ${funderCat || '-'}</div>
             <div><strong>Institution:</strong> ${inst || '-'}</div>
             <div><strong>Email (as per SESAME):</strong> ${email || '-'}</div>
             <div><strong>Platform Alignment:</strong> ${platAlign || '-'}</div>
@@ -1759,7 +1575,7 @@ async function loadResearchersForFactor(factorName, factorKey = '') {
         <div class="researcher-item">
           <div class="researcher-name">${name || '(No Name)'}</div>
           <div class="researcher-meta">
-            <div><strong>Funder Category:</strong> ${funderCat || '-'}</div>
+            <div><strong>Career Stage:</strong> ${funderCat || '-'}</div>
             <div><strong>Institution:</strong> ${inst || '-'}</div>
             <div><strong>Email (as per SESAME):</strong> ${email || '-'}</div>
             <div><strong>Platform Alignment:</strong> ${platAlign || '-'}</div>
@@ -1782,6 +1598,26 @@ function bubbleRadiusScale(values) {
     .range([6, 22]);
 }
 
+function getActivePlatformBubbleStyle() {
+  const platformColors = {
+    P1: '#9FBE5C', // olive green (lighter)
+    P2: '#49B3AD', // teal
+    P3: '#B17C25',
+    P4: '#AC2C2C', // brick red
+    P5: '#7D6EA3'  // muted purple
+  };
+  let active = (getResearcherFilters()?.platformAlignment || '').toUpperCase();
+  // If a P1 sub-platform is selected (e.g. P1.1), keep the bubble color consistent with P1
+  if (/^P1\.\d+$/i.test(active)) active = 'P1';
+  // Default (Show all): keep CSS default (white)
+  const fill = platformColors[active] || '';
+  return {
+    fill,
+    fillOpacity: fill ? 0.92 : null,
+    textFill: fill ? '#fff' : null
+  };
+}
+
 function drawFactorBubblesOutside(factors, outerRingRadius = 400, offset = 34) {
   const nonZeroFactors = factors.filter(d => (d.count || 0) > 0);
   const values = nonZeroFactors.map(d => d.count || 0);
@@ -1797,6 +1633,7 @@ function drawFactorBubblesOutside(factors, outerRingRadius = 400, offset = 34) {
   }
 
   const g = svg.append('g').attr('class', 'count-bubbles-layer');
+  const bubbleStyle = getActivePlatformBubbleStyle();
 
   const bubbles = g.selectAll(null)
     .data(nonZeroFactors)
@@ -1810,15 +1647,23 @@ function drawFactorBubblesOutside(factors, outerRingRadius = 400, offset = 34) {
       return `translate(${x},${y})`;
     });
 
-  bubbles.append('circle')
+  const circles = bubbles.append('circle')
     .attr('r', d => rScale(d.count || 0));
+  if (bubbleStyle.fill) {
+    circles
+      .style('fill', bubbleStyle.fill)
+      .style('fill-opacity', bubbleStyle.fillOpacity ?? 1);
+  }
 
-  bubbles.append('text')
+  const texts = bubbles.append('text')
     .text(d => (d.count || 0))
     .style('font-size', d => {
       const r = rScale(d.count || 0);
       return `${Math.max(9, Math.min(14, r))}px`;
     });
+  if (bubbleStyle.textFill) {
+    texts.style('fill', bubbleStyle.textFill);
+  }
 
   // Clickable bubbles: load researcher list for that factor
   bubbles
@@ -1827,10 +1672,16 @@ function drawFactorBubblesOutside(factors, outerRingRadius = 400, offset = 34) {
       event.stopPropagation();
       const factorKey = d.factorKey || (factorKeyByName ? factorKeyByName[String(d.name || '').trim().toLowerCase()] : '') || d.name;
       loadResearchersForFactor(d.name, factorKey);
+      openPlatformChartForSelection({ scope: 'factor', factorKey, label: d.name });
     });
 }
 
 async function initFactorBubbles() {
+  if (!researcherInfoVisible) {
+    svg.selectAll('.count-bubbles-layer').remove();
+    svg.selectAll('.allfactor-bubble-layer').remove();
+    return;
+  }
   const { counts: factorCounts, key_map: keyMap, all_factor_count: allFactorCount } = await loadFactorCounts();
   const factors = data.flatMap(d => d.children.flatMap(s => s.children));
   // Punctuation-insensitive lookup so names with/without commas match (e.g. "A, B" vs "A B")
@@ -1841,7 +1692,8 @@ async function initFactorBubbles() {
     s = s.replace(/contaminents/g, 'contaminants');
     // Step 1: drop punctuation/symbols, KEEP spaces
     return s
-      .replace(/[^\p{L}\p{N}\s]+/gu, '')
+      // Avoid Unicode property escapes (\p{...}) for broader browser compatibility
+      .replace(/[^0-9a-z\\s]+/g, '')
       .replace(/\s+/g, ' ')
       .trim();
   };
@@ -1894,15 +1746,179 @@ async function initFactorBubbles() {
   drawCenterAllFactorBubble(allFactorCount);
 }
 
+function setResearcherInfoVisible(visible) {
+  researcherInfoVisible = Boolean(visible);
+  const filterBar = document.getElementById('researcher-filter-bar');
+  const toggleBtn = document.getElementById('researcher-info-toggle-btn');
+  const researcherPanel = document.getElementById('researcher-panel');
+  const platformChartPanel = document.getElementById('platform-chart-panel');
+  if (filterBar) {
+    filterBar.style.display = researcherInfoVisible ? 'block' : 'none';
+  }
+  if (toggleBtn) {
+    toggleBtn.setAttribute('aria-expanded', researcherInfoVisible ? 'true' : 'false');
+  }
+  if (researcherInfoVisible) {
+    setResearcherFiltersExpanded(false);
+    initFactorBubbles();
+    return;
+  }
+
+  svg.selectAll('.count-bubbles-layer').remove();
+  svg.selectAll('.allfactor-bubble-layer').remove();
+  if (researcherPanel) researcherPanel.style.display = 'none';
+  if (platformChartPanel) platformChartPanel.style.display = 'none';
+}
+
+function setResearcherFiltersExpanded(expanded) {
+  researcherFiltersExpanded = Boolean(expanded);
+  const collapseToggle = document.getElementById('researcher-filter-collapse-toggle');
+  const collapseContent = document.getElementById('researcher-filter-collapse-content');
+  if (collapseToggle) {
+    collapseToggle.setAttribute('aria-expanded', researcherFiltersExpanded ? 'true' : 'false');
+  }
+  if (collapseContent) {
+    collapseContent.classList.toggle('show', researcherFiltersExpanded);
+  }
+}
+
+function setupResearcherFiltersCollapse() {
+  const collapseToggle = document.getElementById('researcher-filter-collapse-toggle');
+  if (!collapseToggle) return;
+  collapseToggle.addEventListener('click', () => {
+    setResearcherFiltersExpanded(!researcherFiltersExpanded);
+  });
+}
+
+function setHeaderActionActive(activeKey) {
+  const actionMap = {
+    introduction: document.getElementById('header-btn-introduction'),
+    interactive: document.getElementById('header-btn-interactive'),
+    dataSearch: document.getElementById('header-btn-data-search')
+  };
+  Object.entries(actionMap).forEach(([key, el]) => {
+    if (!el) return;
+    el.classList.toggle('active', key === activeKey);
+  });
+}
+
+function setupHeaderActionButtons() {
+  const interactiveBtn = document.getElementById('header-btn-interactive');
+  const dataSearchBtn = document.getElementById('header-btn-data-search');
+  const definitionsBtn = document.getElementById('header-btn-definitions');
+  const researchOutcomesBtn = document.getElementById('header-btn-research-outcomes');
+  const interactiveSubactions = document.getElementById('interactive-subactions');
+  const definitionsHint = document.getElementById('definitions-hint');
+  const introPanel = document.getElementById('intro-panel');
+  const compassWrap = document.querySelector('.compass-container');
+  const filterBar = document.getElementById('researcher-filter-bar');
+  const headerBelowMount = document.getElementById('header-below');
+  const subactionButtons = [definitionsBtn, researchOutcomesBtn].filter(Boolean);
+  const headerContent = document.querySelector('.header-content');
+  const headerTitle = headerContent ? headerContent.querySelector('h1') : null;
+
+  function setActiveSubaction(activeBtn) {
+    subactionButtons.forEach((btn) => {
+      btn.classList.toggle('active-sub', btn === activeBtn);
+    });
+  }
+
+  if (!interactiveBtn || !dataSearchBtn) return;
+
+  const definitionsHintText = 'Hover over terms to see a brief definition; click to open the full definition. Click on any third-ring food system outcome to explore datasets identified for Northern Ireland and/or the Republic of Ireland.';
+  const researchOutcomesHintText = 'This page shows where Co-Centre research effort is focused. Each researcher was asked to select up to three food system outcomes in the third ring of the Compass. Use the drop-down arrows to filter your search:';
+
+  function lockHeaderHintWidthToTitle() {
+    // Previously we locked the hint strip to the title width.
+    // Now we keep it responsive (grows with the window).
+    if (!headerContent) return;
+    headerContent.style.width = '';
+  }
+
+  function showDefinitionsHint(text) {
+    if (!definitionsHint) return;
+    definitionsHint.textContent = text;
+    definitionsHint.classList.add('show');
+    lockHeaderHintWidthToTitle();
+  }
+
+  function hideDefinitionsHint() {
+    if (!definitionsHint) return;
+    definitionsHint.classList.remove('show');
+  }
+
+  function activateDefinitionsMode() {
+    setHeaderActionActive('interactive');
+    setActiveSubaction(definitionsBtn);
+    if (interactiveSubactions) interactiveSubactions.classList.add('show');
+    interactiveBtn.setAttribute('aria-expanded', 'true');
+    showDefinitionsHint(definitionsHintText);
+    if (introPanel) introPanel.style.display = 'none';
+    // Keep this view clean — the "Researcher's Information" tab is where the researcher info lives
+    setResearcherInfoVisible(false);
+    setResearcherFiltersExpanded(false);
+  }
+
+  interactiveBtn.addEventListener('click', () => {
+    // When user clicks "Interactive", default to "Definitions"
+    activateDefinitionsMode();
+    if (compassWrap) compassWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  dataSearchBtn.addEventListener('click', () => {
+    // Data Search now goes directly to the table page
+    const href = dataSearchBtn.getAttribute('href');
+    if (href) {
+      window.location.assign(href);
+    }
+  });
+
+  definitionsBtn?.addEventListener('click', () => {
+    activateDefinitionsMode();
+  });
+
+  researchOutcomesBtn?.addEventListener('click', () => {
+    setHeaderActionActive('interactive');
+    setActiveSubaction(researchOutcomesBtn);
+    if (interactiveSubactions) interactiveSubactions.classList.add('show');
+    interactiveBtn.setAttribute('aria-expanded', 'true');
+    showDefinitionsHint(researchOutcomesHintText);
+    if (introPanel) introPanel.style.display = 'none';
+    // Research outcomes view focuses on researchers + filters
+    setResearcherInfoVisible(true);
+    setResearcherFiltersExpanded(true);
+  });
+
+  // Default state on page load: Interactive → Definitions (hint shown under title)
+  activateDefinitionsMode();
+
+  // Mount the researcher filters under the entire header (buttons + hint strip).
+  if (headerBelowMount && filterBar && filterBar.parentNode !== headerBelowMount) {
+    headerBelowMount.appendChild(filterBar);
+  }
+
+  // Keep the hint width locked to the title width on resize/font load
+  lockHeaderHintWidthToTitle();
+  window.addEventListener('resize', () => {
+    lockHeaderHintWidthToTitle();
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => lockHeaderHintWidthToTitle()).catch(() => {});
+  }
+}
+
 // Initialize tooltip and load descriptions
 initTooltip();
 initDetailPanel();
 loadDescriptions();
 initResearcherPanel();
+setupDraggablePanels();
 loadResearcherFilterOptions();
 setupResearcherFilters();
 setupShowAllResearchersButton();
-initFactorBubbles();
+setupResearcherFiltersCollapse();
+setupHeaderActionButtons();
+setResearcherInfoVisible(false);
 
 </script>
 
