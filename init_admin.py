@@ -5,12 +5,15 @@ Run this script to create a default admin user for testing
 """
 
 from pymongo import MongoClient
+import os
 import sys
+
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://127.0.0.1:27017/")
 
 def init_admin_user():
     try:
         # Connect to MongoDB
-        client = MongoClient('mongodb://127.0.0.1:27017/')
+        client = MongoClient(MONGO_URI)
         db = client['local']
         manage_collection = db['Manager']
         

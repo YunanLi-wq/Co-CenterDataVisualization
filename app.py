@@ -13,8 +13,9 @@ from datetime import datetime
 app = Flask(__name__)
 
 # MongoDB Connection
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://127.0.0.1:27017/')
 try:
-    client = MongoClient('mongodb://127.0.0.1:27017/')
+    client = MongoClient(MONGO_URI)
     db = client['local']
     collection = db['rolNLDraft']
     researcher_collection = db['Researcher']  # Collection for researcher profiles linked to Factor
@@ -2876,8 +2877,12 @@ if __name__ == '__main__':
     os.makedirs('templates', exist_ok=True)
     os.makedirs('static', exist_ok=True)
     
+    host = os.environ.get('FLASK_HOST', '127.0.0.1')
+    port = int(os.environ.get('FLASK_PORT', '5001'))
+    debug = os.environ.get('FLASK_DEBUG', 'true').lower() in ('1', 'true', 'yes')
+
     print("Starting Flask application...")
-    print("Open your browser and go to: http://127.0.0.1:5001")
+    print(f"Open your browser and go to: http://{host}:{port}")
     print("Press Ctrl+C to stop the server")
-    
-    app.run(debug=True, host='127.0.0.1', port=5001, use_reloader=False)
+
+    app.run(debug=debug, host=host, port=port, use_reloader=False)

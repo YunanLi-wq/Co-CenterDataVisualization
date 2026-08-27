@@ -1,6 +1,6 @@
 [
   {
-    "Quadrant": "Safe and healthy diets for all",
+    "Quadrant": "Safe & healthy diets for all",
     "children": [
       {
         "Segment": "Food intake",
@@ -37,9 +37,9 @@
     "Quadrant": "Economically thriving, robust food value chains",
     "children": [
       {
-        "Segment": "Innovative and transformative businesses",
+        "Segment": "Innovative and transformative initiatives",
         "Factor": [
-          "Agrifood investment",
+          "Agrifood investment (public investment)",
           "Knowledge and skills",
           "Business practices and technology"
         ]
@@ -47,7 +47,7 @@
       {
         "Segment": "Economic development",
         "Factor": [
-          "Investment attractiveness",
+          "Investment attractiveness (private investment)",
           "Profit",
           "Revenue",
           "Yield"
@@ -57,7 +57,6 @@
         "Segment": "Value chain configuration",
         "Factor": [
           "Consumer habits",
-          "Degree of structural reconfiguration",
           "Food loss",
           "Packaging",
           "Responsible sourcing"
@@ -74,19 +73,13 @@
     ]
   },
   {
-    "Quadrant": "Clean and healthy planet",
+    "Quadrant": "Clean & healthy planet",
     "children": [
       {
         "Segment": "Atmosphere",
         "Factor": [
           "Air quality",
           "Greenhouse gas emissions",
-          "Water vapour"
-        ]
-      },
-      {
-        "Segment": "Biosphere",
-        "Factor": [
           "Biomass",
           "Functional biodiversity",
           "Genetic diversity",
@@ -115,7 +108,7 @@
     ]
   },
   {
-    "Quadrant": "Just, ethical, fair and culturally meaningful food system",
+    "Quadrant": "Just, ethical, fair & culturally meaningful food system",
     "children": [
       {
         "Segment": "Right to food",
@@ -145,7 +138,7 @@
         "Segment": "Environmental justice",
         "Factor": [
           "Environmental externalities",
-          "Recognition of nature\u2019s contribution to human wellbeing"
+          "Recognition of nature’s contribution to human wellbeing"
         ]
       },
       {

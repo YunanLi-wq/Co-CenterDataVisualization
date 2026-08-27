@@ -1,0 +1,33 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/
+      FLASK_HOST: 0.0.0.0
+      FLASK_PORT: "5001"
+      FLASK_DEBUG: "false"
+      # Set to a folder path inside the container to auto-import on first start
+      DATASET_IMPORT_PATH: exports/local_20260622_161257
+      DATASET_IMPORT_REPLACE: "true"
+      INIT_ADMIN: "true"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+volumes:
+  mongo_data:

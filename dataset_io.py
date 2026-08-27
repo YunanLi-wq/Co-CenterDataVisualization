@@ -15,6 +15,7 @@ Examples:
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -23,7 +24,7 @@ from typing import Optional
 from bson import json_util
 from pymongo import MongoClient
 
-MONGO_URI = "mongodb://127.0.0.1:27017/"
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://127.0.0.1:27017/")
 DB_NAME = "local"
 
 COLLECTIONS = [

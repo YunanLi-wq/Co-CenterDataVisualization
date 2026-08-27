@@ -269,12 +269,14 @@
                 'Datatype'
             ];
             
+            // Hide internal ids from the table display (still used in JS for ranking)
+            const hiddenFields = ['_id', 'id'];
             // Fields to move to the end
-            const endFields = ['_id', '_created', '_updated', 'id'];
+            const endFields = ['_created', '_updated'];
             
             // Reorder headers according to priority
             const orderedHeaders = [];
-            const remainingKeys = Array.from(allKeys);
+            const remainingKeys = Array.from(allKeys).filter(key => !hiddenFields.includes(key));
             
             for (const field of priorityFields) {
                 if (remainingKeys.includes(field)) {
