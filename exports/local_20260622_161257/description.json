@@ -3,8 +3,18 @@
     "_id": {
       "$oid": "690b8f556b29f838d750a68b"
     },
-    "module": "Safe and healthy diets for all",
+    "module": "Safe & healthy diets for all",
     "keywords": [
+      {
+        "name": "Safe & healthy diets for all",
+        "definition": "Compass quadrant: Safe & healthy diets for all.",
+        "short_description": "Compass quadrant: Safe & healthy diets for all"
+      },
+      {
+        "name": "Safe and healthy diets for all",
+        "definition": "Compass quadrant: Safe and healthy diets for all.",
+        "short_description": "Compass quadrant: Safe and healthy diets for all"
+      },
       {
         "name": "Food intake",
         "definition": "The act of consuming food.",
@@ -79,9 +89,24 @@
     "module": "Economically thriving, robust food value chains",
     "keywords": [
       {
+        "name": "Economically thriving, robust food value chains",
+        "definition": "Compass quadrant: Economically thriving, robust food value chains.",
+        "short_description": "Compass quadrant: Economically thriving, robust food value chains"
+      },
+      {
+        "name": "Innovative and transformative initiatives",
+        "definition": "Organisations that introduce new products or make changes to their processes, technologies, culture and strategy.",
+        "short_description": "New solutions and modern processes"
+      },
+      {
         "name": "Innovative and transformative businesses",
         "definition": "Organisations that introduce new products or make changes to their processes, technologies, culture and strategy.",
         "short_description": "New solutions and modern processes"
+      },
+      {
+        "name": "Agrifood investment (public investment)",
+        "definition": "The allocation of capital to support food system core activities, such as production, processing, retailing and managing waste.",
+        "short_description": "Money provided for core food system activities"
       },
       {
         "name": "Agrifood investment",
@@ -102,6 +127,11 @@
         "name": "Economic development",
         "definition": "The process of improving the economic, political, and social well-being of people by increasing quality of life.",
         "short_description": "Improving living standards"
+      },
+      {
+        "name": "Investment attractiveness (private investment)",
+        "definition": "How appealing a company, industry or location is for investment, based on profitability and risk assessment.",
+        "short_description": "Involves assessment of risk and potential profitability"
       },
       {
         "name": "Investment attractiveness",
@@ -179,8 +209,18 @@
     "_id": {
       "$oid": "690b8f556b29f838d750a68d"
     },
-    "module": "Clean and healthy planet",
+    "module": "Clean & healthy planet",
     "keywords": [
+      {
+        "name": "Clean & healthy planet",
+        "definition": "Compass quadrant: Clean & healthy planet.",
+        "short_description": "Compass quadrant: Clean & healthy planet"
+      },
+      {
+        "name": "Clean and healthy planet",
+        "definition": "Compass quadrant: Clean and healthy planet.",
+        "short_description": "Compass quadrant: Clean and healthy planet"
+      },
       {
         "name": "Atmosphere",
         "definition": "A layer of gas and suspended solids surrounding Earth’s surface.",
@@ -287,8 +327,18 @@
     "_id": {
       "$oid": "690b8f556b29f838d750a68e"
     },
-    "module": "Just, ethical, fair and culturally meaningful food system",
+    "module": "Just, ethical, fair & culturally meaningful food system",
     "keywords": [
+      {
+        "name": "Just, ethical, fair & culturally meaningful food system",
+        "definition": "Compass quadrant: Just, ethical, fair & culturally meaningful food system.",
+        "short_description": "Compass quadrant: Just, ethical, fair & culturally meaningful food system"
+      },
+      {
+        "name": "Just, ethical, fair and culturally meaningful food system",
+        "definition": "Compass quadrant: Just, ethical, fair and culturally meaningful food system.",
+        "short_description": "Compass quadrant: Just, ethical, fair and culturally meaningful food system"
+      },
       {
         "name": "Right to food",
         "definition": "Food security exists when all people have physical and economic access to sufficient, safe and nutritious food at all times.",

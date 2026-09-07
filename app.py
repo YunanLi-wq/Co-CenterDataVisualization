@@ -12,22 +12,520 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# MongoDB Connection
+# MongoDB Connection (lazy + fail-fast so the app can still serve local JSON fallbacks)
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://127.0.0.1:27017/')
-try:
-    client = MongoClient(MONGO_URI)
-    db = client['local']
-    collection = db['rolNLDraft']
-    researcher_collection = db['Researcher']  # Collection for researcher profiles linked to Factor
-    manage_collection = db['Manager']  # Collection for user authentication
-    pending_collection = db['PendingItems']  # Collection for pending items awaiting approval
-    higher_manager_collection = db['HigherManager']  # Collection for higher manager authentication
-    description_collection = db['description']  # Collection for module descriptions
-    compass_collection = db['Compass']  # Collection for Compass structure (Quadrant, Segment, Factor)
-    mongo_connected = True
-except Exception as e:
-    print(f"MongoDB connection failed: {e}")
-    mongo_connected = False
+client = None
+db = None
+collection = None
+researcher_collection = None
+manage_collection = None
+pending_collection = None
+higher_manager_collection = None
+description_collection = None
+compass_collection = None
+mongo_connected = False
+
+
+def init_mongo(force=False):
+    """Connect to MongoDB once. Never block the process for long if Mongo is down."""
+    global client, db, collection, researcher_collection, manage_collection
+    global pending_collection, higher_manager_collection, description_collection
+    global compass_collection, mongo_connected
+
+    if mongo_connected and not force:
+        return True
+
+    try:
+        maybe_client = MongoClient(
+            MONGO_URI,
+            serverSelectionTimeoutMS=1000,
+            connectTimeoutMS=1000,
+            socketTimeoutMS=2000,
+        )
+        maybe_client.admin.command('ping')
+        client = maybe_client
+        db = client['local']
+        collection = db['rolNLDraft']
+        researcher_collection = db['Researcher']
+        manage_collection = db['Manager']
+        pending_collection = db['PendingItems']
+        higher_manager_collection = db['HigherManager']
+        description_collection = db['description']
+        compass_collection = db['Compass']
+        mongo_connected = True
+        print('MongoDB connected')
+        return True
+    except Exception as e:
+        print(f"MongoDB connection failed: {e}")
+        mongo_connected = False
+        client = None
+        db = None
+        collection = None
+        researcher_collection = None
+        manage_collection = None
+        pending_collection = None
+        higher_manager_collection = None
+        description_collection = None
+        compass_collection = None
+        return False
+
+
+# Best-effort connect at startup (does not prevent local JSON fallbacks if this fails)
+init_mongo()
+
+
+def _as_factor_list(value):
+    """Normalize Factor field to a list of non-empty strings."""
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return [str(v).strip() for v in value if str(v).strip()]
+    text = str(value).strip()
+    return [text] if text else []
+
+
+def build_compass_structure_maps(compass_docs):
+    """
+    Build filter maps from Compass documents.
+
+    Supports both formats:
+      1) Tree docs: {Quadrant, children: [{Segment, Factor: [..]}]}
+      2) Flat data-item docs: {Quadrant, Segment, Factor, ...}
+    """
+    quadrants = []
+    segments = []
+    factors = []
+    quadrant_segment_map = {}
+    segment_factor_map = {}
+    segment_quadrant_map = {}
+    factor_segment_map = {}
+    factor_quadrant_map = {}
+
+    def add_link(quadrant, segment, factor):
+        if not quadrant or not segment:
+            return
+        quadrants.append(quadrant)
+        segments.append(segment)
+        if quadrant not in quadrant_segment_map:
+            quadrant_segment_map[quadrant] = []
+        if segment not in quadrant_segment_map[quadrant]:
+            quadrant_segment_map[quadrant].append(segment)
+
+        if segment not in segment_quadrant_map:
+            segment_quadrant_map[segment] = []
+        if quadrant not in segment_quadrant_map[segment]:
+            segment_quadrant_map[segment].append(quadrant)
+
+        if segment not in segment_factor_map:
+            segment_factor_map[segment] = []
+
+        for fac in _as_factor_list(factor):
+            factors.append(fac)
+            if fac not in segment_factor_map[segment]:
+                segment_factor_map[segment].append(fac)
+
+            if fac not in factor_segment_map:
+                factor_segment_map[fac] = []
+            if segment not in factor_segment_map[fac]:
+                factor_segment_map[fac].append(segment)
+
+            if fac not in factor_quadrant_map:
+                factor_quadrant_map[fac] = []
+            if quadrant not in factor_quadrant_map[fac]:
+                factor_quadrant_map[fac].append(quadrant)
+
+    for doc in compass_docs or []:
+        if not isinstance(doc, dict):
+            continue
+        quadrant = doc.get('Quadrant')
+        if not quadrant:
+            continue
+        children = doc.get('children')
+        if isinstance(children, list) and children:
+            for child in children:
+                if not isinstance(child, dict):
+                    continue
+                add_link(quadrant, child.get('Segment'), child.get('Factor'))
+        else:
+            # Flat row format used by exports/compass_dataitems_v2_final.json
+            add_link(quadrant, doc.get('Segment'), doc.get('Factor'))
+
+    return {
+        'quadrants': sorted(set(quadrants)),
+        'segments': sorted(set(segments)),
+        'factors': sorted(set(factors)),
+        'mappings': {
+            'quadrant_segment': {k: sorted(set(v)) for k, v in quadrant_segment_map.items()},
+            'segment_factor': {k: sorted(set(v)) for k, v in segment_factor_map.items()},
+            'segment_quadrant': {k: sorted(set(v)) for k, v in segment_quadrant_map.items()},
+            'factor_segment': {k: sorted(set(v)) for k, v in factor_segment_map.items()},
+            'factor_quadrant': {k: sorted(set(v)) for k, v in factor_quadrant_map.items()},
+        },
+    }
+
+
+def list_compass_factor_names(compass_docs=None):
+    """Return unique Factor display names from Compass (tree or flat)."""
+    docs = compass_docs
+    if docs is None:
+        docs = load_compass_documents()
+    return build_compass_structure_maps(docs).get('factors', [])
+
+
+def name_variants(value):
+    """Generate equivalent labels for &/and and trailing parenthetical differences."""
+    v = str(value or '').strip()
+    if not v:
+        return []
+    variants = {v}
+    variants.add(v.replace('&', 'and'))
+    variants.add(re.sub(r'\band\b', '&', v, flags=re.IGNORECASE))
+    bare = re.sub(r'\s*\([^)]*\)\s*$', '', v).strip()
+    if bare:
+        variants.add(bare)
+        variants.add(bare.replace('&', 'and'))
+        variants.add(re.sub(r'\band\b', '&', bare, flags=re.IGNORECASE))
+    return [x for x in variants if x]
+
+
+def values_match(doc_value, query_value):
+    """True if doc_value matches query_value under name_variants normalization."""
+    if doc_value is None or query_value is None:
+        return False
+    left = {re.sub(r'\s+', ' ', str(x).strip().lower()) for x in name_variants(doc_value)}
+    right = {re.sub(r'\s+', ' ', str(x).strip().lower()) for x in name_variants(query_value)}
+    return bool(left & right)
+
+
+def field_match_clause(field, value):
+    """Mongo clause that matches any &/and / parenthetical variant of value."""
+    variants = name_variants(value)
+    if not variants:
+        return None
+    if len(variants) == 1:
+        return {field: {"$regex": rf'^\s*{re.escape(variants[0])}\s*$', "$options": "i"}}
+    return {
+        '$or': [
+            {field: {"$regex": rf'^\s*{re.escape(v)}\s*$', "$options": "i"}}
+            for v in variants
+        ]
+    }
+
+
+def load_compass_documents():
+    """Load Compass docs from Mongo if available, else from local JSON exports."""
+    docs = []
+    if mongo_connected and compass_collection is not None:
+        try:
+            docs = list(compass_collection.find({}))
+        except Exception as e:
+            print(f"Warning: failed reading Compass collection: {e}")
+            docs = []
+    if docs:
+        return docs
+
+    candidates = [
+        os.path.join(os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'Compass.json'),
+        os.path.join(os.path.dirname(__file__), 'compass.json'),
+    ]
+    for path in candidates:
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, list) and data:
+                return data
+        except Exception as e:
+            print(f"Warning: failed reading Compass file {path}: {e}")
+    return []
+
+
+def load_table_documents():
+    """Load table rows from Mongo rolNLDraft if available, else from local JSON."""
+    docs = []
+    if mongo_connected and collection is not None:
+        try:
+            docs = list(collection.find({}))
+        except Exception as e:
+            print(f"Warning: failed reading rolNLDraft collection: {e}")
+            docs = []
+    if docs:
+        out = []
+        for doc in docs:
+            d = dict(doc)
+            if '_id' in d:
+                d['_id'] = str(d['_id'])
+            out.append(d)
+        return out, 'mongo'
+
+    candidates = [
+        os.path.join(os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'rolNLDraft.json'),
+        os.path.join(os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'Compass.json'),
+    ]
+    for path in candidates:
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, list) and data and isinstance(data[0], dict) and 'Segment' in data[0]:
+                return data, f'file:{path}'
+        except Exception as e:
+            print(f"Warning: failed reading table file {path}: {e}")
+    return [], 'none'
+
+
+def load_researcher_documents():
+    """Load Researcher docs from Mongo if available, else from local JSON exports."""
+    docs = []
+    if mongo_connected and researcher_collection is not None:
+        try:
+            docs = list(researcher_collection.find({}))
+        except Exception as e:
+            print(f"Warning: failed reading Researcher collection: {e}")
+            docs = []
+    if docs:
+        out = []
+        for doc in docs:
+            d = dict(doc)
+            if '_id' in d:
+                d['_id'] = str(d['_id'])
+            out.append(d)
+        return out, 'mongo'
+
+    candidates = [
+        os.path.join(os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'Researcher.json'),
+        os.path.join(os.path.dirname(__file__), 'local.Researcher.json'),
+        os.path.join(os.path.dirname(__file__), 'x3_outcomes.json'),
+    ]
+    for path in candidates:
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, list) and data and isinstance(data[0], dict):
+                return data, f'file:{path}'
+        except Exception as e:
+            print(f"Warning: failed reading researcher file {path}: {e}")
+    return [], 'none'
+
+
+MEMBERSHIP_VALUES = {1, 1.0, '1', '1.0', True}
+
+
+def _is_membership(value):
+    return value in MEMBERSHIP_VALUES
+
+
+def resolve_researcher_factor_column(display_name, available_columns):
+    """Map a Compass Factor display name to a Researcher one-hot column name."""
+    cols = [str(c).strip() for c in (available_columns or []) if str(c).strip()]
+    if not cols:
+        return None
+    base = str(display_name or '').strip()
+    if not base:
+        return None
+
+    # Exact
+    if base in cols:
+        return base
+
+    # Known renames / aliases (Compass display -> Researcher historical columns)
+    alias_pairs = [
+        ('Agrifood investment (public investment)', 'Agrifood investment'),
+        ('Investment attractiveness (private investment)', 'Investment attractiveness'),
+        ('Healthy diets', 'Healthy Diets'),
+        ('Foodborne microbiological, physical and chemical contaminants',
+         'Foodborne microbiological physical and chemical contaminents'),
+        ('Transparency of production of products deriving from animals',
+         'Transparency  of production of products deriving from animals'),
+        ("Recognition of nature’s contribution to human wellbeing",
+         "Recognition of nature's contribution to human wellbeing"),
+    ]
+    for a, b in alias_pairs:
+        if values_match(base, a) and b in cols:
+            return b
+        if values_match(base, b) and a in cols:
+            return a
+
+    # Strip trailing parentheticals then match
+    bare = re.sub(r'\s*\([^)]*\)\s*$', '', base).strip()
+    candidates = name_variants(base) + name_variants(bare)
+    # also punctuation-insensitive forms
+    def compact(s):
+        s2 = unicodedata.normalize('NFKC', str(s or '')).lower()
+        return re.sub(r'[^0-9a-z]+', '', s2)
+
+    col_by_compact = {compact(c): c for c in cols}
+    for cand in candidates:
+        if cand in cols:
+            return cand
+        for c in cols:
+            if values_match(c, cand):
+                return c
+        cc = compact(cand)
+        if cc and cc in col_by_compact:
+            return col_by_compact[cc]
+    return None
+
+
+def researcher_passes_filters(doc, platform_alignment='', institution='', funder_category=''):
+    """Apply optional researcher filters in-memory."""
+    if platform_alignment:
+        raw = str(doc.get('Platform Alignment') or '')
+        # token-ish match similar to API regex
+        tokens = [t.strip().lower() for t in raw.split(',') if t.strip()]
+        want = platform_alignment.strip().lower()
+        ok = False
+        for t in tokens:
+            if t == want or t.startswith(want + '.') or t.startswith(want):
+                ok = True
+                break
+        if not ok:
+            return False
+    if institution:
+        inst = (
+            doc.get('Institution')
+            or doc.get('Institution ')
+            or doc.get('University')
+            or doc.get('University ')
+            or ''
+        )
+        if not values_match(inst, institution):
+            return False
+    if funder_category:
+        fc = (
+            doc.get('Column1')
+            or doc.get('Column1 ')
+            or doc.get('Funder Category')
+            or doc.get('Funder Category ')
+            or ''
+        )
+        if not values_match(fc, funder_category):
+            return False
+    return True
+
+
+def compute_researcher_factor_counts(docs, display_factors=None, platform_alignment='', institution='', funder_category=''):
+    """In-memory researcher factor bubble counts (wide one-hot schema)."""
+    docs = [
+        d for d in (docs or [])
+        if researcher_passes_filters(d, platform_alignment, institution, funder_category)
+    ]
+    if not docs:
+        return {}, {}, 0
+
+    exclude = {
+        'Name', 'Institution', 'Institution ', 'University', 'University ',
+        'Funder Category', 'Funder Category ', 'Column1', 'Column1 ',
+        'Platform Alignment', 'Email (as per SESAME)', 'Email', 'emailLower',
+        'Co-Centre Role', 'Brief description of intervention(s) they are working on',
+        'Brief Description', 'Factor', 'AllFactor', 'Actions', 'Contacted?',
+        'Completed survey to some extent', 'updatedAt', '_id',
+    }
+    # Infer factor columns
+    sample = docs[0]
+    factor_columns = []
+    for k, v in sample.items():
+        if not k or k.startswith('_') or k in exclude:
+            continue
+        if v in (0, 1, '0', '1', True, False, None, '', 0.0, 1.0):
+            factor_columns.append(str(k).strip())
+
+    if display_factors is None:
+        display_factors = list_compass_factor_names(load_compass_documents()) or factor_columns
+
+    counts = {}
+    key_map = {}
+    for f in display_factors:
+        col = resolve_researcher_factor_column(f, factor_columns)
+        if not col:
+            continue
+        c = 0
+        for doc in docs:
+            if _is_membership(doc.get(col)) and not _is_membership(doc.get('AllFactor')):
+                c += 1
+        if c > 0:
+            counts[f] = c
+            key_map[f] = col
+
+    all_factor_count = sum(1 for d in docs if _is_membership(d.get('AllFactor')))
+    return counts, key_map, all_factor_count
+
+
+def filter_table_documents(documents, goal='', keyword='', field='', quadrant='', segment='', factor=''):
+    """In-memory filter used when Mongo is unavailable (or as shared logic)."""
+    docs = list(documents or [])
+    available_fields = set()
+    for doc in docs[:5]:
+        available_fields.update(doc.keys())
+    available_fields.discard('_id')
+    available_fields.discard('_created')
+    available_fields.discard('_updated')
+    available_fields.discard('id')
+
+    def keep(doc):
+        if quadrant and not values_match(doc.get('Quadrant'), quadrant):
+            return False
+        if segment and not values_match(doc.get('Segment'), segment):
+            return False
+        if factor and not values_match(doc.get('Factor'), factor):
+            return False
+        if goal and field in {'Quadrant', 'Segment', 'Factor', 'Location'}:
+            if field == 'Location':
+                g = goal.lower().strip()
+                loc = str(doc.get('Location') or '').strip().lower()
+                if g == 'ireland' and loc != 'ireland':
+                    return False
+                if ('northern ireland' in g or g in {'n. ireland', 'n ireland'}) and loc not in {
+                    'northern ireland', 'n. ireland', 'n ireland', 'northen ireland'
+                }:
+                    return False
+                if g in {'united kingdom', 'uk'} and loc not in {'united kingdom', 'uk'}:
+                    return False
+                if g not in {'ireland', 'united kingdom', 'uk'} and 'northern ireland' not in g and g not in {
+                    'n. ireland', 'n ireland'
+                }:
+                    if not values_match(doc.get('Location'), goal):
+                        return False
+            elif not values_match(doc.get(field), goal):
+                return False
+        elif goal and not field:
+            # Legacy: match goal against Quadrant/Segment/Factor
+            if not (
+                values_match(doc.get('Quadrant'), goal)
+                or values_match(doc.get('Segment'), goal)
+                or values_match(doc.get('Factor'), goal)
+            ):
+                return False
+        if keyword:
+            text_parts = []
+            for fname in available_fields:
+                if fname not in doc:
+                    continue
+                v = doc.get(fname)
+                if v is None:
+                    continue
+                if isinstance(v, (dict, list)):
+                    try:
+                        text_parts.append(json.dumps(v, ensure_ascii=False))
+                    except Exception:
+                        text_parts.append(str(v))
+                else:
+                    text_parts.append(str(v))
+            text = '\n'.join(text_parts).lower()
+            # support comma-separated multi keywords: keep docs matching at least one
+            raw = keyword.replace('，', ',').replace('；', ',').replace(';', ',')
+            kws = [p.strip().lower() for p in (raw.split(',') if ',' in raw else re.split(r'\s+', raw)) if p.strip()]
+            if kws and not any(kw in text for kw in kws):
+                return False
+        return True
+
+    out = [d for d in docs if keep(d)]
+    return out, sorted(available_fields)
+
 
 @app.route('/')
 def index():
@@ -90,14 +588,32 @@ def get_module_counts():
 def get_researcher_factor_counts():
     """Return researcher counts grouped by Factor (for d3viz2 outer bubbles)."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-
-        # Optional filters (Researcher collection schema)
-        # - Platform Alignment may contain multiple comma-separated values, e.g. "P1.1, P3"
         platform_alignment = request.args.get('platform_alignment', '').strip()
         institution = request.args.get('institution', '').strip()
         funder_category = request.args.get('funder_category', '').strip()
+
+        # Local JSON fallback when Mongo is unavailable
+        if not mongo_connected or researcher_collection is None:
+            docs, source = load_researcher_documents()
+            if not docs:
+                return jsonify({'success': False, 'error': 'MongoDB not connected and no local Researcher JSON found'})
+            counts, key_map, all_factor_count = compute_researcher_factor_counts(
+                docs,
+                display_factors=list_compass_factor_names(load_compass_documents()),
+                platform_alignment=platform_alignment,
+                institution=institution,
+                funder_category=funder_category,
+            )
+            return jsonify({
+                'success': True,
+                'counts': counts,
+                'key_map': key_map,
+                'all_factor_count': all_factor_count,
+                'source': source,
+            })
+
+        # Optional filters (Researcher collection schema)
+        # - Platform Alignment may contain multiple comma-separated values, e.g. "P1.1, P3"
 
         def exact_value_regex(value: str):
             """Case-insensitive exact match, tolerant of leading/trailing whitespace in stored values."""
@@ -210,6 +726,10 @@ def get_researcher_factor_counts():
             s2 = s2.replace('phosphorus', 'phosphorous')
             # Common misspelling in datasets
             s2 = s2.replace('contaminents', 'contaminants')
+            # Strip trailing parenthetical clarifications used in Compass v2 labels
+            s2 = re.sub(r'\s*\([^)]*\)\s*$', '', s2).strip()
+            s2 = s2.replace('agrifood investment public investment', 'agrifood investment')
+            s2 = s2.replace('investment attractiveness private investment', 'investment attractiveness')
             return s2
 
         def normalize_factor_keep_spaces(s: str) -> str:
@@ -266,9 +786,10 @@ def get_researcher_factor_counts():
             return clean_list(candidates)
 
         # Prefer Compass collection as authoritative list of *display* factor names
+        # (supports both tree docs and flat data-item docs)
         display_factors = []
         try:
-            display_factors = clean_list(compass_collection.distinct('Factor'))
+            display_factors = clean_list(list_compass_factor_names())
         except Exception:
             display_factors = []
 
@@ -348,6 +869,13 @@ def get_researcher_factor_counts():
                 return ' '.join(''.join(out).split())
 
             add(base)
+            # Strip trailing parentheticals (Compass v2 clarifications)
+            add(re.sub(r'\s*\([^)]*\)\s*$', '', base).strip())
+            # Known historical Researcher column names
+            add(base.replace('Agrifood investment (public investment)', 'Agrifood investment'))
+            add(base.replace('Investment attractiveness (private investment)', 'Investment attractiveness'))
+            add(base.replace('Healthy diets', 'Healthy Diets'))
+            add(base.replace('Healthy Diets', 'Healthy diets'))
             # Apostrophe variants
             add(base.replace('’', "'"))
             add(base.replace("'", "’"))
@@ -431,9 +959,6 @@ def get_researcher_factor_counts():
 def get_researchers_by_factor():
     """Return researchers for a given Factor (Name, Institution, Funder Category, Platform Alignment)."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-
         factor = request.args.get('factor', '').strip()
         if not factor:
             return jsonify({'success': False, 'error': 'No factor parameter provided'})
@@ -444,6 +969,32 @@ def get_researchers_by_factor():
         platform_alignment = request.args.get('platform_alignment', '').strip()
         institution = request.args.get('institution', '').strip()
         funder_category = request.args.get('funder_category', '').strip()
+
+        # Local JSON fallback
+        if not mongo_connected or researcher_collection is None:
+            docs, source = load_researcher_documents()
+            if not docs:
+                return jsonify({'success': False, 'error': 'MongoDB not connected and no local Researcher JSON found'})
+            sample_keys = list(docs[0].keys()) if docs else []
+            key = factor_key or resolve_researcher_factor_column(factor, sample_keys) or factor
+            rows = []
+            for doc in docs:
+                if not researcher_passes_filters(doc, platform_alignment, institution, funder_category):
+                    continue
+                if not _is_membership(doc.get(key)):
+                    continue
+                if _is_membership(doc.get('AllFactor')):
+                    continue
+                rows.append({
+                    'Name': doc.get('Name'),
+                    'Institution': doc.get('Institution') or doc.get('University'),
+                    'Funder Category': doc.get('Column1') or doc.get('Funder Category'),
+                    'Platform Alignment': doc.get('Platform Alignment'),
+                    'Email (as per SESAME)': doc.get('Email (as per SESAME)') or doc.get('Email'),
+                    'Brief description of intervention(s) they are working on':
+                        doc.get('Brief description of intervention(s) they are working on'),
+                })
+            return jsonify({'success': True, 'researchers': rows, 'count': len(rows), 'factor_key': key, 'source': source})
 
         def exact_value_regex(value: str):
             v = (value or '').strip()
@@ -701,12 +1252,26 @@ def get_researchers_allfactor():
 def get_researchers_all():
     """Return all researchers (respects optional filters)."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-
         platform_alignment = request.args.get('platform_alignment', '').strip()
         institution = request.args.get('institution', '').strip()
         funder_category = request.args.get('funder_category', '').strip()
+
+        if not mongo_connected or researcher_collection is None:
+            docs, source = load_researcher_documents()
+            if not docs:
+                return jsonify({'success': False, 'error': 'MongoDB not connected and no local Researcher JSON found'})
+            rows = []
+            for doc in docs:
+                if not researcher_passes_filters(doc, platform_alignment, institution, funder_category):
+                    continue
+                rows.append({
+                    'Name': doc.get('Name'),
+                    'Institution': doc.get('Institution') or doc.get('University'),
+                    'Funder Category': doc.get('Column1') or doc.get('Funder Category'),
+                    'Platform Alignment': doc.get('Platform Alignment'),
+                    'Email (as per SESAME)': doc.get('Email (as per SESAME)') or doc.get('Email'),
+                })
+            return jsonify({'success': True, 'researchers': rows, 'count': len(rows), 'source': source})
 
         def exact_value_regex(value: str):
             v = (value or '').strip()
@@ -794,9 +1359,6 @@ def get_researcher_platform_summary():
     - Platform counts are NOT mutually exclusive (a person can be counted in multiple platforms).
     """
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-
         scope = request.args.get('scope', 'all').strip().lower()  # all | factor | allfactor
         factor_key = request.args.get('factor_key', '').strip()
 
@@ -804,62 +1366,25 @@ def get_researcher_platform_summary():
         institution = request.args.get('institution', '').strip()
         funder_category = request.args.get('funder_category', '').strip()
 
-        def exact_value_regex(value: str):
-            v = (value or '').strip()
-            if not v:
-                return None
-            return {"$regex": rf'^\s*{re.escape(v)}\s*$', "$options": "i"}
+        docs, source = load_researcher_documents()
+        if not docs:
+            return jsonify({'success': False, 'error': 'MongoDB not connected and no local Researcher JSON found'})
 
-        def platform_alignment_regex(value: str):
-            v = (value or '').strip()
-            if not v:
-                return None
-            return {"$regex": rf'(^|,)\s*{re.escape(v)}(\b|[.\d])', "$options": "i"}
-
-        membership_values = [1, 1.0, '1', '1.0', True]
-        and_clauses = []
-
-        # Scope filter
-        if scope == 'allfactor':
-            and_clauses.append({'AllFactor': {'$in': membership_values}})
-        elif scope == 'factor':
-            if not factor_key:
-                return jsonify({'success': False, 'error': 'factor_key is required when scope=factor'})
-            and_clauses.append({factor_key: {'$in': membership_values}})
-            # Factor bubbles exclude AllFactor researchers
-            and_clauses.append({'AllFactor': {'$nin': membership_values}})
-        else:
-            # all researchers (no scope clause)
-            pass
-
-        # Optional filters
-        if platform_alignment:
-            rx = platform_alignment_regex(platform_alignment)
-            if rx:
-                and_clauses.append({'Platform Alignment': rx})
-        if institution:
-            rx = exact_value_regex(institution)
-            if rx:
-                and_clauses.append({'$or': [
-                    {'Institution': rx},
-                    {'Institution ': rx},
-                    {'University': rx},
-                    {'University ': rx},
-                ]})
-        if funder_category:
-            rx = exact_value_regex(funder_category)
-            if rx:
-                and_clauses.append({'$or': [
-                    {'Column1': rx},
-                    {'Column1 ': rx},
-                    {'Funder Category': rx},
-                    {'Funder Category ': rx},
-                ]})
-
-        query = {'$and': and_clauses} if and_clauses else {}
-
-        # Only need Platform Alignment for counting
-        docs = list(researcher_collection.find(query, {'_id': 0, 'Platform Alignment': 1}))
+        filtered = []
+        for doc in docs:
+            if not researcher_passes_filters(doc, platform_alignment, institution, funder_category):
+                continue
+            if scope == 'allfactor':
+                if not _is_membership(doc.get('AllFactor')):
+                    continue
+            elif scope == 'factor':
+                if not factor_key:
+                    return jsonify({'success': False, 'error': 'factor_key is required when scope=factor'})
+                if not _is_membership(doc.get(factor_key)):
+                    continue
+                if _is_membership(doc.get('AllFactor')):
+                    continue
+            filtered.append(doc)
 
         def platforms_for_doc(doc):
             raw = doc.get('Platform Alignment')
@@ -876,9 +1401,9 @@ def get_researcher_platform_summary():
                     out.add(m.group(1).upper())
             return out
 
-        total = len(docs)
+        total = len(filtered)
         platform_counts = {f'P{i}': 0 for i in range(1, 6)}
-        for d in docs:
+        for d in filtered:
             for p in platforms_for_doc(d):
                 if p in platform_counts:
                     platform_counts[p] += 1
@@ -886,7 +1411,8 @@ def get_researcher_platform_summary():
         return jsonify({
             'success': True,
             'total': total,
-            'platform_counts': platform_counts
+            'platform_counts': platform_counts,
+            'source': source,
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
@@ -895,8 +1421,9 @@ def get_researcher_platform_summary():
 def get_researcher_unique_values():
     """Return unique Platform Alignment / Institution / Funder Category values for filter dropdowns in d3viz2."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
+        docs, source = load_researcher_documents()
+        if not docs:
+            return jsonify({'success': False, 'error': 'MongoDB not connected and no local Researcher JSON found'})
 
         def clean(values):
             out = []
@@ -915,12 +1442,7 @@ def get_researcher_unique_values():
             out.sort()
             return out
 
-        # Only include Platform Alignment / Institution / Career Stage values for researchers
-        # that actually have at least one *real Factor* membership (one-hot column == 1).
-        #
-        # Important: the Researcher dataset may contain other 0/1 fields like
-        # "Completed survey to some extent" or "Contacted?" which must NOT be treated as Factor membership.
-        # We therefore gate membership by checking keys against the Compass Factor list.
+        # Only include values for researchers that have at least one real Factor membership.
         membership_values = {1, 1.0, '1', '1.0', True}
         exclude_fields = {
             'Name',
@@ -934,20 +1456,26 @@ def get_researcher_unique_values():
             'Column1 ',
             'Platform Alignment',
             'Email (as per SESAME)',
+            'Email',
+            'emailLower',
             'Co-Centre Role',
             'Brief description of intervention(s) they are working on',
             'Brief Description',
-            'Factor'
+            'Factor',
+            'AllFactor',
+            'Actions',
+            'Contacted?',
+            'Completed survey to some extent',
+            'updatedAt',
         }
 
-        # Build a normalized set of known Factor names from Compass collection
         def norm_factor_key(s: str) -> str:
             # Lowercase, remove punctuation/symbols, collapse spaces
-            s2 = re.sub(r'[^0-9a-zA-Z\\s]+', ' ', str(s or '')).lower()
+            s2 = re.sub(r'[^0-9a-zA-Z\s]+', ' ', str(s or '')).lower()
             return ' '.join(s2.split())
 
         try:
-            compass_factors = [f for f in compass_collection.distinct('Factor') if f]
+            compass_factors = [f for f in list_compass_factor_names() if f]
         except Exception:
             compass_factors = []
         factor_norm_set = {norm_factor_key(f) for f in compass_factors if norm_factor_key(f)}
@@ -960,7 +1488,6 @@ def get_researcher_unique_values():
         seen_fc = set()
 
         def has_factor_membership(doc: dict) -> bool:
-            # If we have a Compass factor list, only count membership on those keys
             if factor_norm_set:
                 for k, v in (doc or {}).items():
                     if not k or k in exclude_fields or str(k).startswith('_'):
@@ -971,7 +1498,6 @@ def get_researcher_unique_values():
                         return True
                 return False
 
-            # Fallback (if Compass factors not available): previous heuristic, plus exclude common non-factor fields
             non_factor_like = {
                 'Actions',
                 'Contacted?',
@@ -984,30 +1510,26 @@ def get_researcher_unique_values():
                     return True
             return False
 
-        for doc in researcher_collection.find({}, {'_id': 0}):
+        for doc in docs:
             if not has_factor_membership(doc):
                 continue
 
-            # Platform Alignment: may store multiple values like "P1.1, P3"
             pa = doc.get('Platform Alignment')
             if pa is not None:
                 s = str(pa).strip()
                 if s:
                     parts = [p.strip() for p in s.split(',') if p.strip()]
                     for p in parts:
-                        # Top-level platform prefix, e.g. P1 from P1.1
                         m = re.match(r'^(P\d+)', p, flags=re.IGNORECASE)
                         if m:
                             platform_tokens.append(m.group(1).upper())
                         else:
                             platform_tokens.append(p)
 
-                        # Collect P1 sub-platforms (e.g. P1.1, P1.2 ...)
                         msub = re.match(r'^(P1)\.(\d+)$', p, flags=re.IGNORECASE)
                         if msub:
                             p1_sub_tokens.append(f"P1.{int(msub.group(2))}")
 
-            # Institution: support legacy fields + trailing-space variants
             for field in ('Institution', 'Institution ', 'University', 'University '):
                 v = doc.get(field)
                 if v is None:
@@ -1021,7 +1543,6 @@ def get_researcher_unique_values():
                 seen_inst.add(key)
                 institutions_with_factors.append(s)
 
-            # Career Stage (stored in "Column1"; fallback to old "Funder Category")
             v = doc.get('Column1')
             if v is None:
                 v = doc.get('Column1 ')
@@ -1039,7 +1560,6 @@ def get_researcher_unique_values():
 
         platform_alignments = clean(platform_tokens)
 
-        # Sort P1 sub-options numerically by suffix
         def sort_p1_sub(values):
             uniq = clean(values)
 
@@ -1058,7 +1578,8 @@ def get_researcher_unique_values():
             'platform_alignments': platform_alignments,
             'platform_p1_sub_alignments': platform_p1_sub_alignments,
             'institutions': institutions,
-            'funder_categories': funder_categories
+            'funder_categories': funder_categories,
+            'source': source,
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
@@ -1103,13 +1624,17 @@ def figure_files(filename):
 
 @app.route('/api/dataset/status')
 def dataset_status():
-    """Check database connection status"""
+    """Check database connection status (Mongo or local JSON fallback)."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-        
-        count = collection.count_documents({})
-        return jsonify({'success': True, 'count': count})
+        docs, source = load_table_documents()
+        if source == 'none':
+            return jsonify({'success': False, 'error': 'MongoDB not connected and no local dataset JSON found'})
+        return jsonify({
+            'success': True,
+            'count': len(docs),
+            'source': source,
+            'mongo_connected': bool(mongo_connected),
+        })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
@@ -1554,9 +2079,6 @@ def _build_global_or_query_multi(keywords, available_fields):
 def filter_data():
     """Filter data: goal-only (global or scoped), or keyword-only (global), or keyword scoped to Quadrant/Segment/Factor."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-
         goal = request.args.get('goal', '').strip()
         keyword = request.args.get('keyword', '').strip()
         field = request.args.get('field', '').strip()
@@ -1570,6 +2092,28 @@ def filter_data():
         has_scope_only = bool(quadrant or segment or factor)
         if not goal and not keyword and not has_scope_only:
             return jsonify({'success': False, 'error': 'No goal, keyword, or scope filters provided'})
+
+        # Prefer Mongo when available; otherwise filter local JSON in memory.
+        if not mongo_connected or collection is None:
+            docs, source = load_table_documents()
+            if not docs:
+                return jsonify({'success': False, 'error': 'MongoDB not connected and no local dataset JSON found'})
+            filtered, available_fields = filter_table_documents(
+                docs,
+                goal=goal,
+                keyword=keyword,
+                field=field,
+                quadrant=quadrant,
+                segment=segment,
+                factor=factor,
+            )
+            return jsonify({
+                'success': True,
+                'records': filtered,
+                'count': len(filtered),
+                'available_fields': available_fields,
+                'source': source,
+            })
 
         def exact_value_regex(value: str):
             v = (value or '').strip()
@@ -1590,17 +2134,17 @@ def filter_data():
         if not goal and not keyword and has_scope_only:
             scope_parts = []
             if quadrant and 'Quadrant' in available_fields:
-                rx = exact_value_regex(quadrant)
-                if rx:
-                    scope_parts.append({'Quadrant': rx})
+                clause = field_match_clause('Quadrant', quadrant)
+                if clause:
+                    scope_parts.append(clause)
             if segment and 'Segment' in available_fields:
-                rx = exact_value_regex(segment)
-                if rx:
-                    scope_parts.append({'Segment': rx})
+                clause = field_match_clause('Segment', segment)
+                if clause:
+                    scope_parts.append(clause)
             if factor and 'Factor' in available_fields:
-                rx = exact_value_regex(factor)
-                if rx:
-                    scope_parts.append({'Factor': rx})
+                clause = field_match_clause('Factor', factor)
+                if clause:
+                    scope_parts.append(clause)
 
             query = {'$and': scope_parts} if len(scope_parts) > 1 else (scope_parts[0] if scope_parts else {})
             documents = list(collection.find(query))
@@ -1685,17 +2229,21 @@ def filter_data():
                         else:
                             scope_parts.append({'Location': {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}})
                     else:
-                        scope_parts.append({field: {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}})
+                        clause = field_match_clause(field, goal)
+                        if clause:
+                            scope_parts.append(clause)
                 if quadrant:
-                    rx = exact_value_regex(quadrant)
-                    scope_parts.append({'Quadrant': rx} if rx else {'Quadrant': quadrant})
+                    clause = field_match_clause('Quadrant', quadrant)
+                    if clause:
+                        scope_parts.append(clause)
                 if segment:
-                    rx = exact_value_regex(segment)
-                    scope_parts.append({'Segment': rx} if rx else {'Segment': segment})
+                    clause = field_match_clause('Segment', segment)
+                    if clause:
+                        scope_parts.append(clause)
                 if factor:
-                    rx = exact_value_regex(factor)
-                    scope_parts.append({'Factor': rx} if rx else {'Factor': factor})
-
+                    clause = field_match_clause('Factor', factor)
+                    if clause:
+                        scope_parts.append(clause)
                 if not scope_parts:
                     query = keyword_query
                 elif len(scope_parts) == 1:
@@ -1806,7 +2354,8 @@ def filter_data():
                 else:
                     query = {'Location': {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
             else:
-                query = {field: {"$regex": f'^{re.escape(goal.strip())}$', "$options": "i"}}
+                clause = field_match_clause(field, goal)
+                query = clause or {field: goal}
 
         elif is_location_search and 'Location' in available_fields:
             if goal_lower == 'ireland':
@@ -1837,19 +2386,26 @@ def filter_data():
                 })
             query = {"$or": or_conditions}
 
-        additional_filters = {}
+        additional_filters = []
         if quadrant:
-            additional_filters['Quadrant'] = quadrant
+            clause = field_match_clause('Quadrant', quadrant)
+            if clause:
+                additional_filters.append(clause)
         if segment:
-            additional_filters['Segment'] = segment
+            clause = field_match_clause('Segment', segment)
+            if clause:
+                additional_filters.append(clause)
         if factor:
-            additional_filters['Factor'] = factor
+            clause = field_match_clause('Factor', factor)
+            if clause:
+                additional_filters.append(clause)
 
         if additional_filters:
-            if isinstance(query, dict) and '$or' in query:
-                query = {"$and": [query, additional_filters]}
+            scope = additional_filters[0] if len(additional_filters) == 1 else {'$and': additional_filters}
+            if isinstance(query, dict) and ('$or' in query or '$and' in query):
+                query = {"$and": [query, scope]}
             else:
-                query = {**query, **additional_filters}
+                query = {"$and": [query, scope]} if query else scope
 
         documents = list(collection.find(query))
         for doc in documents:
@@ -1865,32 +2421,148 @@ def filter_data():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
+def load_description_documents():
+    """Load description docs from Mongo if available, else from export JSON."""
+    documents = []
+    if mongo_connected:
+        try:
+            documents = list(description_collection.find({}, {'_id': 0}))
+        except Exception as e:
+            print(f"Warning: failed reading description collection: {e}")
+            documents = []
+
+    if documents:
+        return documents
+
+    candidates = [
+        os.path.join(os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'description.json'),
+        os.path.join(os.path.dirname(__file__), 'description.json'),
+        os.path.join(os.path.dirname(__file__), 'food_system_full.json'),
+    ]
+    for path in candidates:
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, list) and data:
+                # Root description.json is a name/description tree — convert if needed
+                if 'module' in data[0] or 'keywords' in data[0]:
+                    return data
+                # hierarchical fallback
+                converted = []
+                for node in data:
+                    if not isinstance(node, dict):
+                        continue
+                    module = node.get('name')
+                    keywords = []
+                    if module:
+                        keywords.append({
+                            'name': module,
+                            'short_description': node.get('description', ''),
+                            'definition': node.get('description', ''),
+                        })
+                    for seg in node.get('children') or []:
+                        if not isinstance(seg, dict):
+                            continue
+                        if seg.get('name'):
+                            keywords.append({
+                                'name': seg['name'],
+                                'short_description': seg.get('description', ''),
+                                'definition': seg.get('description', ''),
+                            })
+                        for fac in seg.get('children') or []:
+                            if isinstance(fac, dict) and fac.get('name'):
+                                keywords.append({
+                                    'name': fac['name'],
+                                    'short_description': fac.get('description', ''),
+                                    'definition': fac.get('description', ''),
+                                })
+                    if module:
+                        converted.append({'module': module, 'keywords': keywords})
+                if converted:
+                    return converted
+        except Exception as e:
+            print(f"Warning: failed reading description file {path}: {e}")
+    return []
+
+
+def build_descriptions_lookup(documents):
+    """Flatten description docs into name -> {short_description, definition}."""
+    descriptions_dict = {}
+
+    def store(name, payload):
+        if not name:
+            return
+        name = str(name).strip()
+        if not name:
+            return
+        entry = {
+            'short_description': (payload or {}).get('short_description', '') or '',
+            'definition': (payload or {}).get('definition', '') or '',
+        }
+        descriptions_dict.setdefault(name, entry)
+        and_name = name.replace('&', 'and')
+        amp_name = name.replace(' and ', ' & ')
+        descriptions_dict.setdefault(and_name, entry)
+        descriptions_dict.setdefault(amp_name, entry)
+        bare = re.sub(r'\s*\([^)]*\)\s*$', '', name).strip()
+        if bare and bare != name:
+            descriptions_dict.setdefault(bare, entry)
+
+    for doc in documents or []:
+        if not isinstance(doc, dict):
+            continue
+        module = doc.get('module')
+        if module:
+            store(module, {
+                'short_description': doc.get('short_description')
+                    or doc.get('description')
+                    or f'Compass quadrant: {module}',
+                'definition': doc.get('definition') or doc.get('description') or '',
+            })
+        keywords = doc.get('keywords')
+        if isinstance(keywords, list):
+            for keyword in keywords:
+                if not isinstance(keyword, dict) or 'name' not in keyword:
+                    continue
+                store(keyword.get('name'), keyword)
+
+    alias_map = {
+        'Safe & healthy diets for all': 'Safe and healthy diets for all',
+        'Clean & healthy planet': 'Clean and healthy planet',
+        'Just, ethical, fair & culturally meaningful food system':
+            'Just, ethical, fair and culturally meaningful food system',
+        'Innovative and transformative initiatives':
+            'Innovative and transformative businesses',
+        'Agrifood investment (public investment)': 'Agrifood investment',
+        'Investment attractiveness (private investment)': 'Investment attractiveness',
+        'Nitrogen and phosphorous loading': 'Nitrogen and phosphorus loading',
+    }
+    for new_name, old_name in alias_map.items():
+        if old_name in descriptions_dict and new_name not in descriptions_dict:
+            descriptions_dict[new_name] = descriptions_dict[old_name]
+        if new_name in descriptions_dict and old_name not in descriptions_dict:
+            descriptions_dict[old_name] = descriptions_dict[new_name]
+
+    return descriptions_dict
+
+
 @app.route('/api/descriptions')
 def get_descriptions():
-    """Get module descriptions from database for tooltips"""
+    """Get module descriptions for tooltips from Mongo or local JSON files."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-        
-        # Fetch all documents from description collection
-        # Structure: { keywords: [{ name: string, short_description: string, definition: string }] }
-        documents = list(description_collection.find({}, {'_id': 0}))
-        
-        # Convert to dictionary for easy lookup by name
-        # Extract all keywords from all documents and flatten into a single dictionary
-        descriptions_dict = {}
-        for doc in documents:
-            if 'keywords' in doc and isinstance(doc['keywords'], list):
-                for keyword in doc['keywords']:
-                    if 'name' in keyword:
-                        descriptions_dict[keyword['name']] = {
-                            'short_description': keyword.get('short_description', ''),
-                            'definition': keyword.get('definition', '')
-                        }
-        
+        documents = load_description_documents()
+        descriptions_dict = build_descriptions_lookup(documents)
+        if not descriptions_dict:
+            return jsonify({
+                'success': False,
+                'error': 'No descriptions found in MongoDB or local JSON files',
+                'descriptions': {},
+            })
         return jsonify({'success': True, 'descriptions': descriptions_dict})
     except Exception as e:
-        return jsonify({'success': False, 'error': str(e)})
+        return jsonify({'success': False, 'error': str(e), 'descriptions': {}})
 
 @app.route('/api/dataset/export-filtered')
 def export_filtered_data():
@@ -2364,25 +3036,18 @@ def manager():
 
 @app.route('/api/dataset/all')
 def get_all_data():
-    """Get all data from the main collection"""
+    """Get all data from the main collection (Mongo or local JSON fallback)."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-        
-        documents = list(collection.find())
+        documents, source = load_table_documents()
         
         if not documents:
-            return jsonify({'success': False, 'error': 'No data found in database'})
-        
-        # Convert ObjectId to string for JSON serialization
-        for doc in documents:
-            if '_id' in doc:
-                doc['_id'] = str(doc['_id'])
+            return jsonify({'success': False, 'error': 'No data found in database or local JSON'})
         
         return jsonify({
             'success': True,
             'records': documents,
-            'count': len(documents)
+            'count': len(documents),
+            'source': source,
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
@@ -2636,210 +3301,78 @@ def get_location_counts():
 def get_unique_values():
     """Get unique values for Quadrant, Segment, Factor for cascading dropdowns"""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-        
-        # Get unique values for each field
-        quadrants_raw = list(collection.distinct('Quadrant'))
-        segments_raw = list(collection.distinct('Segment'))
-        factors_raw = list(collection.distinct('Factor'))
-        locations_raw = list(collection.distinct('Location'))
-        
-        # Normalize and deduplicate values
-        # For Quadrant, Segment, Factor: strip whitespace, normalize case, remove duplicates
+        documents, source = load_table_documents()
+        if not documents:
+            return jsonify({'success': False, 'error': 'MongoDB not connected and no local dataset JSON found'})
+
+        compass_docs = load_compass_documents()
+        structure = build_compass_structure_maps(compass_docs if compass_docs else documents)
+
         def normalize_and_deduplicate(values):
-            # First, normalize each value (strip whitespace, but keep original case for display)
-            normalized_map = {}  # Maps normalized value to original value
+            normalized_map = {}
             for v in values:
-                if v:  # Skip None/empty values
-                    # Strip leading/trailing whitespace
+                if v:
                     v_stripped = str(v).strip()
                     if v_stripped:
-                        # Use lowercase for comparison, but keep original for display
                         v_normalized = v_stripped.lower()
-                        # If we haven't seen this normalized value, or if the current one is shorter (prefer shorter)
                         if v_normalized not in normalized_map or len(v_stripped) < len(normalized_map[v_normalized]):
                             normalized_map[v_normalized] = v_stripped
-            # Return sorted unique values (using original case)
             return sorted(set(normalized_map.values()))
-        
-        quadrants = normalize_and_deduplicate(quadrants_raw)
-        segments = normalize_and_deduplicate(segments_raw)
-        factors = normalize_and_deduplicate(factors_raw)
-        locations = normalize_and_deduplicate(locations_raw)
-        
-        # Debug: Log the values to help identify duplicates
-        print(f"DEBUG: Raw Quadrants ({len(quadrants_raw)}): {quadrants_raw}")
-        print(f"DEBUG: Normalized Quadrants ({len(quadrants)}): {quadrants}")
-        
-        # Create mapping for reverse lookup
-        quadrant_segment_map = {}
-        segment_factor_map = {}
-        factor_segment_map = {}
-        factor_quadrant_map = {}
-        segment_quadrant_map = {}  # Add segment to quadrant mapping
-        
-        # Build mappings
-        for doc in collection.find({}, {'Quadrant': 1, 'Segment': 1, 'Factor': 1}):
-            quadrant = doc.get('Quadrant')
-            segment = doc.get('Segment')
-            factor = doc.get('Factor')
-            
-            if quadrant and segment:
-                if quadrant not in quadrant_segment_map:
-                    quadrant_segment_map[quadrant] = set()
-                quadrant_segment_map[quadrant].add(segment)
-                
-                # Add reverse mapping: segment to quadrant
-                if segment not in segment_quadrant_map:
-                    segment_quadrant_map[segment] = set()
-                segment_quadrant_map[segment].add(quadrant)
-            
-            if segment and factor:
-                if segment not in segment_factor_map:
-                    segment_factor_map[segment] = set()
-                segment_factor_map[segment].add(factor)
-            
-            if factor and segment:
-                if factor not in factor_segment_map:
-                    factor_segment_map[factor] = set()
-                factor_segment_map[factor].add(segment)
-            
-            if factor and quadrant:
-                if factor not in factor_quadrant_map:
-                    factor_quadrant_map[factor] = set()
-                factor_quadrant_map[factor].add(quadrant)
-        
-        # Convert sets to sorted lists
-        for key in quadrant_segment_map:
-            quadrant_segment_map[key] = sorted(list(quadrant_segment_map[key]))
-        for key in segment_factor_map:
-            segment_factor_map[key] = sorted(list(segment_factor_map[key]))
-        for key in factor_segment_map:
-            factor_segment_map[key] = sorted(list(factor_segment_map[key]))
-        for key in factor_quadrant_map:
-            factor_quadrant_map[key] = sorted(list(factor_quadrant_map[key]))
-        for key in segment_quadrant_map:
-            segment_quadrant_map[key] = sorted(list(segment_quadrant_map[key]))
-        
+
+        locations = normalize_and_deduplicate([d.get('Location') for d in documents if d.get('Location')])
         return jsonify({
             'success': True,
             'data': {
-                'quadrants': quadrants,
-                'segments': segments,
-                'factors': factors,
+                'quadrants': structure['quadrants'],
+                'segments': structure['segments'],
+                'factors': structure['factors'],
                 'locations': locations,
-                'mappings': {
-                    'quadrant_segment': quadrant_segment_map,
-                    'segment_factor': segment_factor_map,
-                    'factor_segment': factor_segment_map,
-                    'factor_quadrant': factor_quadrant_map,
-                    'segment_quadrant': segment_quadrant_map
-                }
-            }
+                'mappings': structure['mappings'],
+            },
+            'source': source,
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/api/compass/structure')
 def get_compass_structure():
-    """Get Compass structure (Quadrant, Segment, Factor) from Compass collection"""
+    """Get Compass structure (Quadrant, Segment, Factor) from Compass collection or local JSON.
+
+    Accepts tree docs ({Quadrant, children:[...]}) and flat data-item docs
+    ({Quadrant, Segment, Factor, ...}) such as compass_dataitems_v2_final.json.
+    """
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-        
-        # Get all documents from Compass collection
-        compass_docs = list(compass_collection.find({}))
-        
+        compass_docs = load_compass_documents()
         if not compass_docs:
-            # If collection is empty, try to load from compass.json file
-            compass_file_path = os.path.join(os.path.dirname(__file__), 'compass.json')
-            if os.path.exists(compass_file_path):
-                with open(compass_file_path, 'r', encoding='utf-8') as f:
-                    compass_data = json.load(f)
-                    # Insert into collection if empty
-                    if compass_data:
-                        compass_collection.insert_many(compass_data)
-                        compass_docs = list(compass_collection.find({}))
-        
-        # Build structure from Compass collection
-        quadrants = []
-        segments = []
-        factors = []
-        
-        # Mappings for cascading filters
-        quadrant_segment_map = {}
-        segment_factor_map = {}
-        # Reverse mappings for auto-fill
-        segment_quadrant_map = {}
-        factor_segment_map = {}
-        factor_quadrant_map = {}
-        
-        for doc in compass_docs:
-            quadrant = doc.get('Quadrant')
-            if not quadrant:
-                continue
-            
-            quadrants.append(quadrant)
-            children = doc.get('children', [])
-            
-            if quadrant not in quadrant_segment_map:
-                quadrant_segment_map[quadrant] = []
-            
-            for child in children:
-                segment = child.get('Segment')
-                if not segment:
-                    continue
-                
-                segments.append(segment)
-                quadrant_segment_map[quadrant].append(segment)
-                
-                # Reverse mapping: segment to quadrant
-                if segment not in segment_quadrant_map:
-                    segment_quadrant_map[segment] = []
-                if quadrant not in segment_quadrant_map[segment]:
-                    segment_quadrant_map[segment].append(quadrant)
-                
-                factor_list = child.get('Factor', [])
-                if segment not in segment_factor_map:
-                    segment_factor_map[segment] = []
-                
-                for factor in factor_list:
-                    if factor:
-                        factors.append(factor)
-                        segment_factor_map[segment].append(factor)
-                        
-                        # Reverse mapping: factor to segment
-                        if factor not in factor_segment_map:
-                            factor_segment_map[factor] = []
-                        if segment not in factor_segment_map[factor]:
-                            factor_segment_map[factor].append(segment)
-                        
-                        # Reverse mapping: factor to quadrant
-                        if factor not in factor_quadrant_map:
-                            factor_quadrant_map[factor] = []
-                        if quadrant not in factor_quadrant_map[factor]:
-                            factor_quadrant_map[factor].append(quadrant)
-        
-        # Remove duplicates and sort
-        quadrants = sorted(list(set(quadrants)))
-        segments = sorted(list(set(segments)))
-        factors = sorted(list(set(factors)))
-        
-        # Sort mappings
-        for key in quadrant_segment_map:
-            quadrant_segment_map[key] = sorted(list(set(quadrant_segment_map[key])))
-        for key in segment_factor_map:
-            segment_factor_map[key] = sorted(list(set(segment_factor_map[key])))
-        for key in segment_quadrant_map:
-            segment_quadrant_map[key] = sorted(list(set(segment_quadrant_map[key])))
-        for key in factor_segment_map:
-            factor_segment_map[key] = sorted(list(set(factor_segment_map[key])))
-        for key in factor_quadrant_map:
-            factor_quadrant_map[key] = sorted(list(set(factor_quadrant_map[key])))
-        
-        # Also get locations from the main dataset
-        locations_raw = list(collection.distinct('Location'))
+            return jsonify({'success': False, 'error': 'No Compass data in MongoDB or local JSON'})
+
+        # If Mongo is empty but files exist, optionally seed Mongo for later writes
+        if mongo_connected and compass_collection is not None:
+            try:
+                if compass_collection.count_documents({}) == 0:
+                    clean = []
+                    for doc in compass_docs:
+                        d = {k: v for k, v in doc.items() if k != '_id'}
+                        clean.append(d)
+                    if clean:
+                        compass_collection.insert_many(clean)
+            except Exception as e:
+                print(f"Warning: could not seed Compass collection: {e}")
+
+        structure = build_compass_structure_maps(compass_docs)
+
+        # Locations: prefer main dataset, fall back to Compass flat rows
+        locations_raw = []
+        table_docs, _src = load_table_documents()
+        for d in table_docs:
+            if d.get('Location'):
+                locations_raw.append(d.get('Location'))
+        if not locations_raw:
+            locations_raw = [
+                d.get('Location') for d in compass_docs
+                if isinstance(d, dict) and d.get('Location')
+            ]
+
         def normalize_and_deduplicate(values):
             normalized_map = {}
             for v in values:
@@ -2856,17 +3389,11 @@ def get_compass_structure():
         return jsonify({
             'success': True,
             'data': {
-                'quadrants': quadrants,
-                'segments': segments,
-                'factors': factors,
+                'quadrants': structure['quadrants'],
+                'segments': structure['segments'],
+                'factors': structure['factors'],
                 'locations': locations,
-                'mappings': {
-                    'quadrant_segment': quadrant_segment_map,
-                    'segment_factor': segment_factor_map,
-                    'segment_quadrant': segment_quadrant_map,  # For auto-fill: segment -> quadrant
-                    'factor_segment': factor_segment_map,  # For auto-fill: factor -> segment
-                    'factor_quadrant': factor_quadrant_map  # For auto-fill: factor -> quadrant
-                }
+                'mappings': structure['mappings'],
             }
         })
     except Exception as e:

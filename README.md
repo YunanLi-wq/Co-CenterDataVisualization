@@ -1,275 +1,294 @@
 # Co-Centre Interface
 
-A Flask web application for the Food Co-Centre Sustainability Compass. It provides data tables, visualizations, manager workflows, and MongoDB-backed dataset management.
-
-## Features
-
-- Sustainability Compass visualization (`/d3viz`, `/d3viz2`)
-- Searchable data tables with Excel export
-- Manager and higher-manager dashboards
-- MongoDB dataset storage (`local` database)
-- Dataset import/export utilities
-
-## Prerequisites
-
-- Python 3.7 or higher
-- pip (Python package installer)
-- MongoDB Community Edition (runs locally on `127.0.0.1:27017`)
+Flask web app for the **Food Co-Centre Sustainability Compass**: interactive visualization, searchable data tables, researcher overlays, and manager workflows.
 
 ---
 
-## Install Python
+## Two ways to run
 
-### Windows
+| Method | Best for | Needs |
+|---|---|---|
+| **A. Docker Compose** | Local demo / server with Docker permission | Docker Desktop or Docker Engine |
+| **B. Python (`app.py`)** | School server without Docker sudo | Python 3.10+, optional MongoDB |
 
-1. Download the latest Python 3 installer from [python.org/downloads](https://www.python.org/downloads/windows/).
-2. Run the installer.
-3. On the first screen, check **Add python.exe to PATH**.
-4. Click **Install Now**.
-5. Open **Command Prompt** or **PowerShell** and verify:
-
-```bash
-python --version
-pip --version
-```
-
-If `python` is not found, try:
-
-```bash
-py --version
-py -m pip --version
-```
-
-### macOS
-
-**Option A — Official installer (recommended for beginners)**
-
-1. Download Python 3 from [python.org/downloads/macos](https://www.python.org/downloads/macos/).
-2. Open the `.pkg` file and follow the installer.
-3. Open **Terminal** and verify:
-
-```bash
-python3 --version
-pip3 --version
-```
-
-**Option B — Homebrew**
-
-```bash
-brew install python
-python3 --version
-pip3 --version
-```
-
-On macOS, use `python3` and `pip3` in the commands below unless your system maps `python` to Python 3.
+If MongoDB is unavailable, the app still starts and falls back to local JSON under `exports/local_20260622_161257/` for browsing, filters, and researcher views. Persistent writes work best with MongoDB.
 
 ---
 
-## Install MongoDB
+## Method A — Docker Compose
 
-The app connects to MongoDB at `mongodb://127.0.0.1:27017/` and uses the `local` database.
+### 1. Install Docker
 
-### Windows
+- macOS/Windows: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Linux: Docker Engine + Compose plugin
 
-1. Download **MongoDB Community Server** from [mongodb.com/try/download/community](https://www.mongodb.com/try/download/community).
-2. Choose:
-   - Version: latest stable (e.g. 7.0 or 8.0)
-   - Platform: Windows
-   - Package: MSI
-3. Run the installer and choose **Complete** setup.
-4. When prompted, install **MongoDB as a Service** so it starts automatically.
-5. Optionally install **MongoDB Compass** (GUI) when offered.
-6. Verify MongoDB is running:
+### 2. Start
 
 ```bash
-mongosh
+cd /path/to/interface
+
+# free port 5001 if needed
+# lsof -t -iTCP:5001 -sTCP:LISTEN | xargs kill 2>/dev/null
+
+docker compose up --build -d
+docker compose ps
+docker compose logs -f web
 ```
 
-If `mongosh` is not recognized, MongoDB may still be running as a Windows service. Open Compass or check **Services** for `MongoDB`.
+Open: **http://localhost:5001**
 
-### macOS
+Compass UI: **http://localhost:5001/d3viz**
 
-**Option A — Homebrew (recommended)**
+### 3. Stop
 
 ```bash
-brew tap mongodb/brew
-brew install mongodb-community
-brew services start mongodb-community
-mongosh
+docker compose down
 ```
 
-**Option B — Official installer**
+### Docker notes
 
-1. Download MongoDB Community Server from [mongodb.com/try/download/community](https://www.mongodb.com/try/download/community).
-2. Choose macOS and follow the installation guide in the MongoDB documentation.
+- `web` + `mongo` start together; web waits for Mongo, then can import `exports/local_20260622_161257`.
+- Default admin (first start, if `INIT_ADMIN=true`): `admin` / `admin123`
+- After the first successful import, set in `docker-compose.yml`:
+  - `DATASET_IMPORT_REPLACE: "false"` (or clear `DATASET_IMPORT_PATH`)
+  - so restarts do not wipe edited data
 
-Verify the server is running:
+### Docker permission denied on a shared server
+
+```text
+permission denied ... /var/run/docker.sock
+```
+
+Means your user is not in the `docker` group and has no `sudo`. Ask an admin:
 
 ```bash
-mongosh
+sudo usermod -aG docker YOUR_USERNAME
 ```
+
+Then log out/in and retry `docker compose up --build -d`.  
+If you cannot get Docker access, use **Method B** below.
 
 ---
 
-## Project Setup
+## Method B — Python (`python app.py`)
 
-### 1. Clone or download this repository
+### 1. Create a virtualenv and install deps
 
 ```bash
-cd interface
+cd /path/to/interface
+
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-### 2. Create a virtual environment (recommended)
+Use `python3 -m pip` / `python -m pip`. Avoid bare `pip` if the system `command-not-found` helper is broken.
 
-**Windows:**
+### 2. (Optional) MongoDB
+
+If MongoDB is running locally:
 
 ```bash
-python -m venv venv
-venv\Scripts\activate
+export MONGO_URI=mongodb://127.0.0.1:27017/
 ```
 
-**macOS:**
+If Mongo is missing, you will see a short “MongoDB connection failed …” message, then Flask still starts and uses JSON fallbacks.
+
+### 3. Run
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+export FLASK_HOST=0.0.0.0
+export FLASK_PORT=5001
+export FLASK_DEBUG=false
 
-### 3. Install Python dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-On macOS, you may need `pip3` instead of `pip`.
-
----
-
-## Import the Dataset
-
-Dataset files are stored as JSON and imported into MongoDB using `dataset_io.py`.
-
-### Import from a folder (recommended)
-
-If you have a folder with one JSON file per collection (for example `exports/local_20260622_161228/`):
-
-```bash
-python dataset_io.py import exports/local_20260622_161228 --folder --replace
-```
-
-On macOS:
-
-```bash
-python3 dataset_io.py import exports/local_20260622_161228 --folder --replace
-```
-
-This imports all collections:
-
-| Collection     | Description                          |
-|----------------|--------------------------------------|
-| `rolNLDraft`   | Main compass dataset                 |
-| `Researcher`   | Researcher profiles                  |
-| `Compass`      | Compass structure (Quadrant/Segment) |
-| `Manager`      | Manager login accounts               |
-| `HigherManager`| Higher manager accounts              |
-| `PendingItems` | Items awaiting approval              |
-| `description`  | Module descriptions                  |
-
-- `--replace` clears each collection before import (use for a fresh setup).
-- Omit `--replace` to merge data (update existing documents by `_id`, insert new ones).
-
-### Import a single collection
-
-```bash
-python dataset_io.py import local.rolNLDraft.json
-python dataset_io.py import local.rolNLDraft.json --collection rolNLDraft --replace
-```
-
-### Initialize admin user (optional)
-
-If the `Manager` collection is empty and you need a default login:
-
-```bash
-python init_admin.py
-```
-
-Default credentials:
-
-- Username: `admin`
-- Password: `admin123`
-
-Change this password before any production use.
-
----
-
-## Run the Application
-
-1. Make sure MongoDB is running.
-2. Start the Flask server:
-
-```bash
 python app.py
 ```
 
-3. Open your browser:
+Open:
 
-- [http://127.0.0.1:5000](http://127.0.0.1:5000)
-- Compass visualization: [http://127.0.0.1:5000/d3viz2](http://127.0.0.1:5000/d3viz2)
-- Manager login: [http://127.0.0.1:5000/manager](http://127.0.0.1:5000/manager)
+- Local machine: **http://127.0.0.1:5001**
+- Same server LAN/public IP (if firewall allows): **http://SERVER_IP:5001**
 
-Press `Ctrl+C` in the terminal to stop the server.
+### 4. Keep it running after SSH disconnect (server)
+
+```bash
+cd ~/path/to/interface
+source .venv/bin/activate
+export FLASK_HOST=0.0.0.0 FLASK_PORT=5001 FLASK_DEBUG=false
+nohup python app.py > app.log 2>&1 &
+
+curl -I http://127.0.0.1:5001/
+tail -n 50 app.log
+```
+
+If `Address already in use`, something is already on that port:
+
+```bash
+lsof -iTCP:5001 -sTCP:LISTEN    # or: ss -lntp | grep 5001
+kill PID
+```
+
+Or use another port:
+
+```bash
+export FLASK_PORT=5002
+python app.py
+```
+
+### 5. Access from your laptop when the firewall blocks the server IP
+
+On your laptop:
+
+```bash
+ssh -N -L 5002:127.0.0.1:5001 yunan@aginsight.ucd.ie
+```
+
+Keep that window open, then browse **http://127.0.0.1:5002**  
+(If the app listens on 5002 on the server, forward `5002:127.0.0.1:5002` instead.)
+
+`http://127.0.0.1:5001` in your laptop browser only works if the app runs on the laptop, or an SSH tunnel is active.
 
 ---
 
-## Export the Dataset
+## Deploy on a school server (summary)
 
-Export the entire `local` database to a folder:
+1. Upload code (from your laptop):
+
+```bash
+rsync -avz --exclude '.git' --exclude '__pycache__' --exclude '.venv' --exclude '*.bak' \
+  /path/to/interface/ \
+  USER@SERVER:~/co-centre-interface/
+```
+
+2. Prefer **Method A** if you have Docker permission; otherwise **Method B**.
+3. Ask IT to reverse-proxy (recommended for others):
+
+```text
+https://aginsight.ucd.ie  →  http://127.0.0.1:5001
+```
+
+4. Share the public URL (or `http://SERVER_IP:PORT` if the firewall allows it).
+
+---
+
+## Main URLs
+
+| Path | Purpose |
+|---|---|
+| `/` | Home / dataset entry |
+| `/d3viz` or `/d3viz2` | Sustainability Compass (current UI) |
+| `/intro` | Compass introduction |
+| `/table/__ALL__` | Full data table + filters |
+| `/table/<module>?field=Factor` | Table scoped to a module |
+| `/manager` | Manager tools |
+| `/map` | Location map |
+
+---
+
+## What the important files are
+
+### Application
+
+| File / folder | Role |
+|---|---|
+| `app.py` | Main Flask app, APIs, Mongo/JSON fallbacks |
+| `templates/` | HTML pages (`d3viz2.html`, `table.html`, …) |
+| `static/` | CSS/JS/assets |
+| `requirements.txt` | Python dependencies |
+| `dataset_io.py` | Export/import Mongo collections ↔ JSON |
+| `init_admin.py` | Create default admin user |
+| `scripts/build_compass_from_v2.py` | Build Compass tree JSON from flat data items |
+
+### Docker
+
+| File | Role |
+|---|---|
+| `Dockerfile` | Image build (Python 3.11, deps, port 5001) |
+| `docker-compose.yml` | `mongo` + `web`, env, import path, ports |
+| `docker-entrypoint.sh` | Wait for Mongo → import → init admin → `app.py` |
+| `.dockerignore` | Files excluded from the image |
+
+### Data (Mongo collections ↔ JSON)
+
+Imported from `exports/local_20260622_161257/` when using Docker import:
+
+| File | Collection / use |
+|---|---|
+| `Compass.json` | Compass labels / structure (flat Q/S/F rows in current pack) |
+| `rolNLDraft.json` | Main table dataset |
+| `Researcher.json` | Researcher one-hot Factor columns + filters |
+| `description.json` | Hover / definition text for Compass modules |
+| `_manifest.json` | Export metadata / counts |
+| `Manager.json`, `HigherManager.json`, … | Auth / workflow collections |
+
+Root helpers / fallbacks:
+
+| File | Role |
+|---|---|
+| `compass.json` | Tree-shaped Compass fallback |
+| `description.json` / `food_system_full.json` | Description fallbacks |
+| `local.Researcher.json` | Alternate researcher dump |
+| `exports/compass_dataitems_v2_final.json` | Source flat data items used to rebuild Compass |
+
+### Environment variables
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `MONGO_URI` | `mongodb://127.0.0.1:27017/` | Mongo connection |
+| `FLASK_HOST` | `127.0.0.1` (Docker sets `0.0.0.0`) | Bind address |
+| `FLASK_PORT` | `5001` | HTTP port |
+| `FLASK_DEBUG` | `true` locally / `false` in Docker | Debug mode |
+| `DATASET_IMPORT_PATH` | (Docker) export folder | Auto-import on container start |
+| `DATASET_IMPORT_REPLACE` | `true` in compose | Wipe target collections before import |
+| `INIT_ADMIN` | `true` in compose | Ensure default admin exists |
+
+---
+
+## Data model (how pieces link)
+
+- **Compass / table rows**: `Quadrant` → `Segment` → `Factor` (+ `Location`, `Title`, `Url`, …)
+- **Descriptions**: names in `description.json` must match Compass labels (`&` / `and` aliases supported in code)
+- **Researchers**: one-hot columns named after Factors; Platform Alignment / Institution / Career Stage drive the Research Outcomes filters
+
+Rebuild Compass tree from flat v2 items (optional):
+
+```bash
+python3 scripts/build_compass_from_v2.py
+# optional: python3 scripts/build_compass_from_v2.py --mongo
+```
+
+Import/export with Mongo running:
 
 ```bash
 python dataset_io.py export --folder
-```
-
-Output is saved under `exports/local_YYYYMMDD_HHMMSS/` with one `.json` file per collection.
-
-Other useful commands:
-
-```bash
-# Export a single collection
-python dataset_io.py export --collection rolNLDraft
-
-# Export all collections into one JSON file
-python dataset_io.py export --all -o exports/full_backup.json
+python dataset_io.py import exports/local_20260622_161257 --folder --replace
 ```
 
 ---
 
-## Project Structure
-
-```
-interface/
-├── app.py                 # Flask application
-├── dataset_io.py          # MongoDB import/export utility
-├── init_admin.py          # Create default manager account
-├── requirements.txt       # Python dependencies
-├── exports/               # Exported dataset folders
-├── templates/             # HTML templates
-├── static/                # CSS and assets
-└── README.md
-```
-
 ## Troubleshooting
 
-| Problem | What to check |
-|---------|----------------|
-| `MongoDB not connected` | Is MongoDB running? Try `mongosh` |
-| `python` not found (Windows) | Reinstall Python with **Add to PATH**, or use `py` |
-| `pip` not found (macOS) | Use `pip3` and `python3` |
-| Import fails | Confirm the JSON folder path exists and MongoDB is running |
-| Port 5000 in use | Stop other apps on port 5000 or change the port in `app.py` |
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `MongoDB connection failed` then app starts | No local Mongo | OK for read-only JSON mode; install Mongo for full writes |
+| `Address already in use` / port busy | Old `app.py` still running | `lsof`/`ss` + `kill`, or change `FLASK_PORT` |
+| `permission denied ... docker.sock` | Not in `docker` group | Ask admin, or use Method B |
+| `yunan is not in the sudoers file` | No admin rights | Cannot self-install Docker; use Python mode or ask IT |
+| Browser `127.0.0.1:5001` fails on your laptop | App runs on the server, not your PC | Use `http://SERVER_IP:PORT` or SSH tunnel |
+| Page spins forever from off-campus | Firewall blocks the port | Use SSH tunnel or ask IT for reverse proxy / VPN |
 
-## Development
+---
 
-The Flask application runs in debug mode by default:
+## Development notes
 
-- Automatic reload when code changes
-- Detailed error messages in the browser
+- Primary Compass UI is `templates/d3viz2.html` (served by `/d3viz` and `/d3viz2`).
+- Table filters use `/api/compass/structure` and `/api/dataset/filter` (Mongo or JSON).
+- Researcher bubbles/filters use `/api/researchers/*` (Mongo or `Researcher.json`).
+
+---
+
+## License / project
+
+Internal Co-Centre tooling for Ireland / UK food-system sustainability outcomes visualization and data search.

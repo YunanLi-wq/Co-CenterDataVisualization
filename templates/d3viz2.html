@@ -23,7 +23,7 @@
 <div id="researcher-panel" class="researcher-panel" style="display:none;">
   <div class="researcher-panel-header">
     <h3 class="researcher-panel-title">Researcher List</h3>
-    <button class="researcher-panel-close" id="researcher-panel-close">×</button>
+    <button type="button" class="researcher-panel-close" id="researcher-panel-close" aria-label="Close">×</button>
   </div>
   <p class="researcher-panel-subtitle" id="researcher-panel-subtitle">Click a Factor bubble to load researchers.</p>
   <div class="researcher-panel-content" id="researcher-panel-content"></div>
@@ -33,7 +33,7 @@
 <div id="platform-chart-panel" class="platform-chart-panel">
   <div class="platform-chart-header">
     <h4 class="platform-chart-title" id="platform-chart-title">Platform distribution</h4>
-    <button class="platform-chart-close" id="platform-chart-close" aria-label="Close">×</button>
+    <button type="button" class="platform-chart-close" id="platform-chart-close" aria-label="Close">×</button>
   </div>
   <p class="platform-chart-subtitle" id="platform-chart-subtitle"></p>
   <svg id="platform-chart-svg" width="332" height="260"></svg>
@@ -42,7 +42,7 @@
 <div id="detail-panel" class="detail-panel">
   <div class="detail-panel-header">
     <h3 class="detail-panel-title" id="detail-title"></h3>
-    <button class="detail-panel-close" id="detail-close">×</button>
+    <button type="button" class="detail-panel-close" id="detail-close" aria-label="Close">×</button>
   </div>
   <div class="detail-panel-color-bar" id="detail-color-bar"></div>
   <div class="detail-panel-content">
@@ -172,7 +172,11 @@ function openPlatformChartWindow({ title, subtitle, total, platformCounts }) {
   subtitleEl.textContent = subtitle || `Total researchers: ${total}`;
   panel.style.display = 'block';
 
-  closeBtn.onclick = () => { panel.style.display = 'none'; };
+  closeBtn.onclick = (e) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    panel.style.display = 'none';
+  };
 
   // Draw pie chart.
   // Platform counts can overlap, so we compute percentages over total platform affiliations
@@ -631,21 +635,39 @@ function initDetailPanel() {
 // Find description for a given name from database (flat dictionary structure)
 // data format: { "Module Name": { "short_description": "...", "definition": "..." } }
 function findDescription(name, data) {
-  if (!data || typeof data !== 'object') return null;
-  
-  // Direct lookup by name
-  if (data[name]) {
-    return data[name];
+  if (!data || typeof data !== 'object' || !name) return null;
+
+  const candidates = [];
+  const push = (v) => {
+    const s = String(v || '').trim();
+    if (s && !candidates.includes(s)) candidates.push(s);
+  };
+
+  push(name);
+  push(name.replace(/&/g, 'and'));
+  push(name.replace(/\band\b/gi, '&'));
+  push(name.replace(/\s*\([^)]*\)\s*$/, '').trim());
+
+  for (const candidate of candidates) {
+    if (data[candidate]) return data[candidate];
   }
-  
-  // Try case-insensitive lookup
-  const lowerName = name.toLowerCase();
+
+  // Case-insensitive / normalized lookup
+  const normalize = (s) => String(s || '')
+    .replace(/&/g, 'and')
+    .replace(/['’]/g, "'")
+    .replace(/\s*\([^)]*\)\s*$/, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const wanted = new Set(candidates.map(normalize));
   for (const key in data) {
-    if (key.toLowerCase() === lowerName) {
+    if (wanted.has(normalize(key))) {
       return data[key];
     }
   }
-  
+
   return null;
 }
 
@@ -1211,9 +1233,18 @@ function initResearcherPanel() {
   const panel = document.getElementById('researcher-panel');
   const closeBtn = document.getElementById('researcher-panel-close');
   if (!panel || !closeBtn) return;
-  closeBtn.addEventListener('click', () => {
+  const closePanel = (e) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
     panel.style.display = 'none';
+  };
+  // Use pointerup + click so drag handlers on the header cannot swallow the close action.
+  closeBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   });
+  closeBtn.addEventListener('pointerup', closePanel);
+  closeBtn.addEventListener('click', closePanel);
 }
 
 function makePanelDraggable(panelEl, handleEl) {

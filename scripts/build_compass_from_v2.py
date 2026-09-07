@@ -17,11 +17,13 @@ Writes (same schema the app expects):
   ]
 
 Targets:
-  - compass.json                          (project root; app fallback)
-  - exports/local_20260622_161257/Compass.json  (docker import folder)
+  - compass.json                               (project root; app fallback)
+  - exports/local_20260622_161257/Compass.json (docker import folder)
+  - exports/local_20260622_161257/rolNLDraft.json  (table data; full flat rows)
+  - exports/local_20260622_161257/_manifest.json
 
 Optional:
-  --mongo   also replace the Compass collection in MongoDB
+  --mongo   also replace Compass (+ optionally rolNLDraft) in MongoDB
 """
 
 from __future__ import annotations
@@ -36,8 +38,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUT = ROOT / "exports" / "compass_dataitems_v2_final.json"
-DEFAULT_EXPORT_OUT = ROOT / "exports" / "local_20260622_161257" / "Compass.json"
+DEFAULT_EXPORT_DIR = ROOT / "exports" / "local_20260622_161257"
+DEFAULT_EXPORT_OUT = DEFAULT_EXPORT_DIR / "Compass.json"
+DEFAULT_ROL_OUT = DEFAULT_EXPORT_DIR / "rolNLDraft.json"
+DEFAULT_MANIFEST = DEFAULT_EXPORT_DIR / "_manifest.json"
 DEFAULT_ROOT_OUT = ROOT / "compass.json"
+DEFAULT_LOCAL_COMPASS = ROOT / "local.Compass.json"
 
 
 def load_json(path: Path):
@@ -137,28 +143,53 @@ def validate(docs: list) -> None:
                 raise SystemExit(f"ERROR: doc[{i}].children[{j}].Factor must be non-empty list")
 
 
-def push_mongo(docs: list, mongo_uri: str) -> None:
+def push_mongo(compass_docs: list, rol_docs: list | None, mongo_uri: str) -> None:
     try:
         from pymongo import MongoClient
     except ImportError:
         raise SystemExit("ERROR: pymongo not installed. pip install pymongo")
 
-    # Mongo cannot store Extended JSON {"$oid": "..."} directly; strip _id and let Mongo create new ones,
-    # or convert $oid if present.
-    clean = []
-    for doc in docs:
-        d = {k: v for k, v in doc.items() if k != "_id"}
-        clean.append(d)
-
     client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
     client.admin.command("ping")
     db = client["local"]
-    col = db["Compass"]
-    deleted = col.delete_many({})
-    if clean:
-        col.insert_many(clean)
-    print(f"MongoDB: deleted {deleted.deleted_count}, inserted {len(clean)} into local.Compass")
+
+    compass_clean = [{k: v for k, v in d.items() if k != "_id"} for d in compass_docs]
+    deleted = db["Compass"].delete_many({})
+    if compass_clean:
+        db["Compass"].insert_many(compass_clean)
+    print(f"MongoDB: deleted {deleted.deleted_count}, inserted {len(compass_clean)} into local.Compass")
+
+    if rol_docs is not None:
+        rol_clean = [{k: v for k, v in d.items() if k != "_id"} for d in rol_docs]
+        deleted_r = db["rolNLDraft"].delete_many({})
+        if rol_clean:
+            db["rolNLDraft"].insert_many(rol_clean)
+        print(
+            f"MongoDB: deleted {deleted_r.deleted_count}, inserted {len(rol_clean)} into local.rolNLDraft"
+        )
+
     client.close()
+
+
+def build_flat_rows(rows: list) -> list:
+    flat = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        doc = dict(row)
+        for key in [
+            "Quadrant",
+            "Segment",
+            "Factor",
+            "Location",
+            "Indicator",
+            "Title",
+            "Url",
+            "Datatype",
+        ]:
+            doc.setdefault(key, "")
+        flat.append(doc)
+    return flat
 
 
 def main() -> None:

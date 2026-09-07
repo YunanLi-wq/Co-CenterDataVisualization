@@ -11,3 +11,9 @@ terminals/
 node_modules/
 dist/
 build/
+.venv/
+venv/
+*.bak
+*.pre_v2_*
+*.pre_rename_*
+*.pre_namefix_*

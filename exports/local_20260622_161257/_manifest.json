@@ -1,13 +1,14 @@
 {
   "database": "local",
-  "exported_at": "2026-06-22T16:12:57",
+  "exported_at": "2026-08-27T17:19:42",
   "collections": {
-    "rolNLDraft": 125,
+    "rolNLDraft": 328,
     "Researcher": 130,
-    "Compass": 4,
+    "Compass": 328,
     "Manager": 1,
     "HigherManager": 1,
     "PendingItems": 2,
     "description": 4
-  }
+  },
+  "note": "Compass.json is flat data-items. App builds structure maps from flat or tree."
 }
