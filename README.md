@@ -37,7 +37,7 @@ docker compose logs -f web
 
 Open: **http://localhost:5001**
 
-Compass UI: **http://localhost:5001/d3viz**
+Compass UI: **http://localhost:5001/d3viz2**
 
 ### 3. Stop
 
