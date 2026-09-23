@@ -465,6 +465,13 @@
         }
         
         // Keyword search: scoped to current Quadrant/Segment/Factor when URL has those filters; otherwise global
+        document.getElementById('keyword-search').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' && !event.isComposing) {
+                event.preventDefault();
+                searchKeyword();
+            }
+        });
+
         async function searchKeyword() {
             const keyword = document.getElementById('keyword-search').value.trim();
             if (!keyword) {
@@ -473,7 +480,7 @@
             }
             
             try {
-                const searchButton = document.querySelector('.search-button');
+                const searchButton = document.querySelector('#keyword-search + .search-button');
                 searchButton.disabled = true;
                 searchButton.textContent = '🔍 Searching...';
                 
@@ -525,7 +532,7 @@
                 console.error('Error:', error);
                 showError('Failed to search database');
             } finally {
-                const searchButton = document.querySelector('.search-button');
+                const searchButton = document.querySelector('#keyword-search + .search-button');
                 searchButton.disabled = false;
                 searchButton.textContent = '🔍 Search';
             }

@@ -276,6 +276,13 @@
         }
 
         // Keyword search functionality
+        document.getElementById('keyword-search').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' && !event.isComposing) {
+                event.preventDefault();
+                searchKeyword();
+            }
+        });
+
         async function searchKeyword() {
             const keyword = document.getElementById('keyword-search').value.trim();
             if (!keyword) {
