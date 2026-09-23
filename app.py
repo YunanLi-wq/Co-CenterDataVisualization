@@ -1,4 +1,5 @@
 from flask import Flask, render_template, send_from_directory, jsonify, Response, request, redirect, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 from pymongo import MongoClient
 from bson import ObjectId
@@ -11,6 +12,16 @@ import io
 from datetime import datetime
 
 app = Flask(__name__)
+
+# Trust one reverse proxy so url_for() (CSS, images, links) uses the
+# public host, scheme, and path prefix from X-Forwarded-* headers.
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=1,
+    x_proto=1,
+    x_host=1,
+    x_prefix=1,
+)
 
 # MongoDB Connection (lazy + fail-fast so the app can still serve local JSON fallbacks)
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://127.0.0.1:27017/')
