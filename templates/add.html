@@ -543,7 +543,7 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    successMessage.textContent = 'Item submitted successfully! It will be reviewed before being added to the database.';
+                    successMessage.textContent = result.message || 'Item added to the local dataset.';
                     successMessage.style.display = 'block';
                     document.getElementById('addForm').reset();
                     

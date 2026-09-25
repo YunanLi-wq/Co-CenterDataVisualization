@@ -9,6 +9,7 @@ import unicodedata
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 import io
+import threading
 from datetime import datetime
 
 app = Flask(__name__)
@@ -252,6 +253,32 @@ def load_compass_documents():
     return []
 
 
+TABLE_JSON_PATH = os.path.join(
+    os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'rolNLDraft.json'
+)
+_table_json_lock = threading.Lock()
+
+
+def append_local_table_record(record):
+    """Append one table row to the local rolNLDraft JSON file."""
+    os.makedirs(os.path.dirname(TABLE_JSON_PATH), exist_ok=True)
+    with _table_json_lock:
+        records = []
+        if os.path.exists(TABLE_JSON_PATH):
+            with open(TABLE_JSON_PATH, 'r', encoding='utf-8') as f:
+                loaded = json.load(f)
+            if not isinstance(loaded, list):
+                raise ValueError('Local dataset JSON is not a list')
+            records = loaded
+        records.append(record)
+        tmp_path = TABLE_JSON_PATH + '.tmp'
+        with open(tmp_path, 'w', encoding='utf-8') as f:
+            json.dump(records, f, ensure_ascii=False, indent=2)
+            f.write('\n')
+        os.replace(tmp_path, TABLE_JSON_PATH)
+    return TABLE_JSON_PATH
+
+
 def load_table_documents():
     """Load table rows from Mongo rolNLDraft if available, else from local JSON."""
     docs = []
@@ -271,7 +298,7 @@ def load_table_documents():
         return out, 'mongo'
 
     candidates = [
-        os.path.join(os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'rolNLDraft.json'),
+        TABLE_JSON_PATH,
         os.path.join(os.path.dirname(__file__), 'exports', 'local_20260622_161257', 'Compass.json'),
     ]
     for path in candidates:
@@ -1829,30 +1856,44 @@ def excel_preview():
 
 @app.route('/api/dataset/submit', methods=['POST'])
 def submit_record():
-    """Submit a new record to pending collection for review"""
+    """Add a record directly to the local JSON file, and to MongoDB when it is available."""
     try:
-        if not mongo_connected:
-            return jsonify({'success': False, 'error': 'MongoDB not connected'})
-        
         data = request.get_json()
         if not data:
             return jsonify({'success': False, 'error': 'No data provided'})
-        
-        # Add submission timestamp
-        data['submitted_at'] = str(datetime.now())
-        
-        # Insert the new document to pending collection
-        result = pending_collection.insert_one(data)
-        
-        if result.inserted_id:
-            return jsonify({
-                'success': True, 
-                'message': 'Record submitted for review',
-                'inserted_id': str(result.inserted_id)
-            })
+
+        allowed = ('Quadrant', 'Segment', 'Factor', 'Location', 'Indicator', 'Title', 'Url', 'Datatype')
+        record = {}
+        for key in allowed:
+            value = data.get(key)
+            if value is None:
+                continue
+            text = str(value).strip()
+            if text:
+                record[key] = text
+
+        if not record.get('Quadrant') or not record.get('Segment'):
+            return jsonify({'success': False, 'error': 'Quadrant and Segment are required'})
+
+        append_local_table_record(record)
+        saved_to = ['json']
+        if mongo_connected and collection is not None:
+            try:
+                result = collection.insert_one(dict(record))
+                if result.inserted_id:
+                    saved_to.append('mongo')
+            except Exception as e:
+                print(f"MongoDB insert skipped: {e}")
+
+        if 'mongo' in saved_to:
+            message = 'Item added to the local dataset and MongoDB.'
         else:
-            return jsonify({'success': False, 'error': 'Failed to submit record'})
-            
+            message = 'Item added to the local dataset. MongoDB was not available.'
+        return jsonify({
+            'success': True,
+            'message': message,
+            'saved_to': saved_to,
+        })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
