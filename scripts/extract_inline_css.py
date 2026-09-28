@@ -1,3 +1,4 @@
+# This interface was developed by Dr. Yunan Li (School of Computer Science, University College Dublin), in collaboration with Dr. Hung Ngo, Prof. Tahar Kechadi, Prof. Michela Bertolotto and University of Oxford.
 import hashlib
 import os
 import re

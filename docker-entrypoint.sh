@@ -1,4 +1,5 @@
 #!/bin/sh
+# This interface was developed by Dr. Yunan Li (School of Computer Science, University College Dublin), in collaboration with Dr. Hung Ngo, Prof. Tahar Kechadi, Prof. Michela Bertolotto and University of Oxford.
 set -e
 
 MONGO_URI="${MONGO_URI:-mongodb://mongo:27017/}"

@@ -1,3 +1,4 @@
+# This interface was developed by Dr. Yunan Li (School of Computer Science, University College Dublin), in collaboration with Dr. Hung Ngo, Prof. Tahar Kechadi, Prof. Michela Bertolotto and University of Oxford.
 from flask import Flask, render_template, send_from_directory, jsonify, Response, request, redirect, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os

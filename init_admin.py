@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# This interface was developed by Dr. Yunan Li (School of Computer Science, University College Dublin), in collaboration with Dr. Hung Ngo, Prof. Tahar Kechadi, Prof. Michela Bertolotto and University of Oxford.
 """
 Initialize default admin user in MongoDB Manage collection
 Run this script to create a default admin user for testing
