@@ -2,6 +2,8 @@
 
 Flask web app for the **Food Co-Centre Sustainability Compass**: interactive visualization, searchable data tables, researcher overlays, and manager workflows.
 
+This interface was developed by Dr. Yunan Li (School of Computer Science, University College Dublin), in collaboration with Dr. Hung Ngo, Prof. Tahar Kechadi, Prof. Michela Bertolotto and University of Oxford.
+
 ---
 
 ## Two ways to run
